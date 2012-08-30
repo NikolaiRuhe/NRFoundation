@@ -1,0 +1,429 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		919C2EA215EB6C1E00C834A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 919C2EA115EB6C1E00C834A6 /* Foundation.framework */; };
+		919C2EA715EB6C1E00C834A6 /* NRFoundation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EA615EB6C1E00C834A6 /* NRFoundation.h */; };
+		919C2EB215EB6CA400C834A6 /* NRAlertViewAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 919C2EB115EB6CA300C834A6 /* NRAlertViewAdditions.m */; };
+		919C2EB515EB709000C834A6 /* NRObjectAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 919C2EB415EB709000C834A6 /* NRObjectAdditions.m */; };
+		91C7919315EB84DE00D01DD0 /* NRAlertViewAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EB015EB6CA300C834A6 /* NRAlertViewAdditions.h */; };
+		91C7919415EB84DE00D01DD0 /* NRObjectAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EB315EB709000C834A6 /* NRObjectAdditions.h */; };
+		91C791C115EB925E00D01DD0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91C7919B15EB893E00D01DD0 /* UIKit.framework */; };
+		91C791C215EB925E00D01DD0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 919C2EA115EB6C1E00C834A6 /* Foundation.framework */; };
+		91C791C315EB925E00D01DD0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91C7919E15EB893E00D01DD0 /* CoreGraphics.framework */; };
+		91C791CB15EB925E00D01DD0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C791CA15EB925E00D01DD0 /* main.m */; };
+		91C791CF15EB925E00D01DD0 /* NRAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C791CE15EB925E00D01DD0 /* NRAppDelegate.m */; };
+		91C791D515EB925E00D01DD0 /* NRMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C791D415EB925E00D01DD0 /* NRMasterViewController.m */; };
+		91C791D815EB925E00D01DD0 /* NRDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C791D715EB925E00D01DD0 /* NRDetailViewController.m */; };
+		91C791DC15EB973700D01DD0 /* libNRFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 919C2E9E15EB6C1E00C834A6 /* libNRFoundation.a */; };
+		91C791E515EBA5E700D01DD0 /* NRActionSheetAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C791E415EBA5E700D01DD0 /* NRActionSheetAdditions.m */; };
+		91C791E915EBB5D100D01DD0 /* NRGestureRecognizerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C791E815EBB5D100D01DD0 /* NRGestureRecognizerAdditions.m */; };
+		91C791EC15EBC29800D01DD0 /* NRControlAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 91C791EB15EBC29800D01DD0 /* NRControlAdditions.m */; };
+		91C791ED15EBC7D100D01DD0 /* NRControlAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91C791EA15EBC29800D01DD0 /* NRControlAdditions.h */; };
+		91C791EE15EBC7D600D01DD0 /* NRGestureRecognizerAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91C791E715EBB5D100D01DD0 /* NRGestureRecognizerAdditions.h */; };
+		91C791EF15EBC7E000D01DD0 /* NRActionSheetAdditions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91C791E315EBA5E700D01DD0 /* NRActionSheetAdditions.h */; };
+		91C791F615EBC8C600D01DD0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91C791F515EBC8C600D01DD0 /* MainStoryboard.storyboard */; };
+		91F92D2D15F0CC61008CA16C /* NRUtilities.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91F92D2C15F0CC1E008CA16C /* NRUtilities.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		91C791DD15EB974000D01DD0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 919C2E9515EB6C1E00C834A6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 919C2E9D15EB6C1E00C834A6;
+			remoteInfo = NRFoundation;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		919C2E9C15EB6C1E00C834A6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/${PRODUCT_NAME}";
+			dstSubfolderSpec = 16;
+			files = (
+				91C791EF15EBC7E000D01DD0 /* NRActionSheetAdditions.h in CopyFiles */,
+				91F92D2D15F0CC61008CA16C /* NRUtilities.h in CopyFiles */,
+				91C791EE15EBC7D600D01DD0 /* NRGestureRecognizerAdditions.h in CopyFiles */,
+				91C7919315EB84DE00D01DD0 /* NRAlertViewAdditions.h in CopyFiles */,
+				91C7919415EB84DE00D01DD0 /* NRObjectAdditions.h in CopyFiles */,
+				91C791ED15EBC7D100D01DD0 /* NRControlAdditions.h in CopyFiles */,
+				919C2EA715EB6C1E00C834A6 /* NRFoundation.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		919C2E9E15EB6C1E00C834A6 /* libNRFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNRFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		919C2EA115EB6C1E00C834A6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		919C2EA615EB6C1E00C834A6 /* NRFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NRFoundation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		919C2EB015EB6CA300C834A6 /* NRAlertViewAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRAlertViewAdditions.h; sourceTree = "<group>"; };
+		919C2EB115EB6CA300C834A6 /* NRAlertViewAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRAlertViewAdditions.m; sourceTree = "<group>"; wrapsLines = 0; };
+		919C2EB315EB709000C834A6 /* NRObjectAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRObjectAdditions.h; sourceTree = "<group>"; };
+		919C2EB415EB709000C834A6 /* NRObjectAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRObjectAdditions.m; sourceTree = "<group>"; wrapsLines = 0; };
+		91C7919B15EB893E00D01DD0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		91C7919E15EB893E00D01DD0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		91C791BF15EB925E00D01DD0 /* NRFoundationDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NRFoundationDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		91C791C615EB925E00D01DD0 /* NRFoundationDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NRFoundationDemo-Info.plist"; sourceTree = "<group>"; };
+		91C791CA15EB925E00D01DD0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		91C791CD15EB925E00D01DD0 /* NRAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NRAppDelegate.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		91C791CE15EB925E00D01DD0 /* NRAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NRAppDelegate.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		91C791D315EB925E00D01DD0 /* NRMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NRMasterViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		91C791D415EB925E00D01DD0 /* NRMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NRMasterViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		91C791D615EB925E00D01DD0 /* NRDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NRDetailViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		91C791D715EB925E00D01DD0 /* NRDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NRDetailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		91C791E315EBA5E700D01DD0 /* NRActionSheetAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRActionSheetAdditions.h; sourceTree = "<group>"; };
+		91C791E415EBA5E700D01DD0 /* NRActionSheetAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRActionSheetAdditions.m; sourceTree = "<group>"; };
+		91C791E715EBB5D100D01DD0 /* NRGestureRecognizerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRGestureRecognizerAdditions.h; sourceTree = "<group>"; };
+		91C791E815EBB5D100D01DD0 /* NRGestureRecognizerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRGestureRecognizerAdditions.m; sourceTree = "<group>"; };
+		91C791EA15EBC29800D01DD0 /* NRControlAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRControlAdditions.h; sourceTree = "<group>"; };
+		91C791EB15EBC29800D01DD0 /* NRControlAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRControlAdditions.m; sourceTree = "<group>"; };
+		91C791F515EBC8C600D01DD0 /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		91F92D2C15F0CC1E008CA16C /* NRUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRUtilities.h; sourceTree = "<group>"; };
+		91F92D3215F0D02F008CA16C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		919C2E9B15EB6C1E00C834A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				919C2EA215EB6C1E00C834A6 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91C791BC15EB925E00D01DD0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91C791DC15EB973700D01DD0 /* libNRFoundation.a in Frameworks */,
+				91C791C115EB925E00D01DD0 /* UIKit.framework in Frameworks */,
+				91C791C215EB925E00D01DD0 /* Foundation.framework in Frameworks */,
+				91C791C315EB925E00D01DD0 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		919C2E9315EB6C1E00C834A6 = {
+			isa = PBXGroup;
+			children = (
+				91F92D3215F0D02F008CA16C /* README.md */,
+				919C2EA315EB6C1E00C834A6 /* NRFoundation */,
+				91C791C415EB925E00D01DD0 /* NRFoundationDemo */,
+				919C2EA015EB6C1E00C834A6 /* Frameworks */,
+				919C2E9F15EB6C1E00C834A6 /* Products */,
+			);
+			sourceTree = "<group>";
+			wrapsLines = 0;
+		};
+		919C2E9F15EB6C1E00C834A6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				919C2E9E15EB6C1E00C834A6 /* libNRFoundation.a */,
+				91C791BF15EB925E00D01DD0 /* NRFoundationDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		919C2EA015EB6C1E00C834A6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				919C2EA115EB6C1E00C834A6 /* Foundation.framework */,
+				91C7919B15EB893E00D01DD0 /* UIKit.framework */,
+				91C7919E15EB893E00D01DD0 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		919C2EA315EB6C1E00C834A6 /* NRFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				919C2EA615EB6C1E00C834A6 /* NRFoundation.h */,
+				91F92D2C15F0CC1E008CA16C /* NRUtilities.h */,
+				919C2EB315EB709000C834A6 /* NRObjectAdditions.h */,
+				919C2EB415EB709000C834A6 /* NRObjectAdditions.m */,
+				91C791EA15EBC29800D01DD0 /* NRControlAdditions.h */,
+				91C791EB15EBC29800D01DD0 /* NRControlAdditions.m */,
+				91C791E715EBB5D100D01DD0 /* NRGestureRecognizerAdditions.h */,
+				91C791E815EBB5D100D01DD0 /* NRGestureRecognizerAdditions.m */,
+				91C791E315EBA5E700D01DD0 /* NRActionSheetAdditions.h */,
+				91C791E415EBA5E700D01DD0 /* NRActionSheetAdditions.m */,
+				919C2EB015EB6CA300C834A6 /* NRAlertViewAdditions.h */,
+				919C2EB115EB6CA300C834A6 /* NRAlertViewAdditions.m */,
+			);
+			path = NRFoundation;
+			sourceTree = "<group>";
+		};
+		91C791C415EB925E00D01DD0 /* NRFoundationDemo */ = {
+			isa = PBXGroup;
+			children = (
+				91C791CD15EB925E00D01DD0 /* NRAppDelegate.h */,
+				91C791CE15EB925E00D01DD0 /* NRAppDelegate.m */,
+				91C791F515EBC8C600D01DD0 /* MainStoryboard.storyboard */,
+				91C791D315EB925E00D01DD0 /* NRMasterViewController.h */,
+				91C791D415EB925E00D01DD0 /* NRMasterViewController.m */,
+				91C791D615EB925E00D01DD0 /* NRDetailViewController.h */,
+				91C791D715EB925E00D01DD0 /* NRDetailViewController.m */,
+				91C791C515EB925E00D01DD0 /* Supporting Files */,
+			);
+			path = NRFoundationDemo;
+			sourceTree = "<group>";
+		};
+		91C791C515EB925E00D01DD0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				91C791C615EB925E00D01DD0 /* NRFoundationDemo-Info.plist */,
+				91C791CA15EB925E00D01DD0 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		919C2E9D15EB6C1E00C834A6 /* NRFoundation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 919C2EAC15EB6C1E00C834A6 /* Build configuration list for PBXNativeTarget "NRFoundation" */;
+			buildPhases = (
+				919C2E9A15EB6C1E00C834A6 /* Sources */,
+				919C2E9B15EB6C1E00C834A6 /* Frameworks */,
+				919C2E9C15EB6C1E00C834A6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NRFoundation;
+			productName = NRFoundation;
+			productReference = 919C2E9E15EB6C1E00C834A6 /* libNRFoundation.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		91C791BE15EB925E00D01DD0 /* NRFoundationDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 91C791D915EB925E00D01DD0 /* Build configuration list for PBXNativeTarget "NRFoundationDemo" */;
+			buildPhases = (
+				91C791BB15EB925E00D01DD0 /* Sources */,
+				91C791BC15EB925E00D01DD0 /* Frameworks */,
+				91C791BD15EB925E00D01DD0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				91C791DE15EB974000D01DD0 /* PBXTargetDependency */,
+			);
+			name = NRFoundationDemo;
+			productName = NRFoundationDemo;
+			productReference = 91C791BF15EB925E00D01DD0 /* NRFoundationDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		919C2E9515EB6C1E00C834A6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Nikolai Ruhe";
+			};
+			buildConfigurationList = 919C2E9815EB6C1E00C834A6 /* Build configuration list for PBXProject "NRFoundation" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 919C2E9315EB6C1E00C834A6;
+			productRefGroup = 919C2E9F15EB6C1E00C834A6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				919C2E9D15EB6C1E00C834A6 /* NRFoundation */,
+				91C791BE15EB925E00D01DD0 /* NRFoundationDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		91C791BD15EB925E00D01DD0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91C791F615EBC8C600D01DD0 /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		919C2E9A15EB6C1E00C834A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				919C2EB215EB6CA400C834A6 /* NRAlertViewAdditions.m in Sources */,
+				919C2EB515EB709000C834A6 /* NRObjectAdditions.m in Sources */,
+				91C791E515EBA5E700D01DD0 /* NRActionSheetAdditions.m in Sources */,
+				91C791E915EBB5D100D01DD0 /* NRGestureRecognizerAdditions.m in Sources */,
+				91C791EC15EBC29800D01DD0 /* NRControlAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		91C791BB15EB925E00D01DD0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				91C791CB15EB925E00D01DD0 /* main.m in Sources */,
+				91C791CF15EB925E00D01DD0 /* NRAppDelegate.m in Sources */,
+				91C791D515EB925E00D01DD0 /* NRMasterViewController.m in Sources */,
+				91C791D815EB925E00D01DD0 /* NRDetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		91C791DE15EB974000D01DD0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 919C2E9D15EB6C1E00C834A6 /* NRFoundation */;
+			targetProxy = 91C791DD15EB974000D01DD0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		919C2EAA15EB6C1E00C834A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				WARNING_LDFLAGS = "-Weverything";
+			};
+			name = Debug;
+		};
+		919C2EAB15EB6C1E00C834A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				WARNING_LDFLAGS = "-Weverything";
+			};
+			name = Release;
+		};
+		919C2EAD15EB6C1E00C834A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = NRFoundation.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = NRFoundation;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		919C2EAE15EB6C1E00C834A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DSTROOT = NRFoundation.dst;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = NRFoundation;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		91C791DA15EB925E00D01DD0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = "NRFoundationDemo/NRFoundationDemo-Info.plist";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = NRFoundationDemo;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		91C791DB15EB925E00D01DD0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				INFOPLIST_FILE = "NRFoundationDemo/NRFoundationDemo-Info.plist";
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = NRFoundationDemo;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		919C2E9815EB6C1E00C834A6 /* Build configuration list for PBXProject "NRFoundation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				919C2EAA15EB6C1E00C834A6 /* Debug */,
+				919C2EAB15EB6C1E00C834A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		919C2EAC15EB6C1E00C834A6 /* Build configuration list for PBXNativeTarget "NRFoundation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				919C2EAD15EB6C1E00C834A6 /* Debug */,
+				919C2EAE15EB6C1E00C834A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		91C791D915EB925E00D01DD0 /* Build configuration list for PBXNativeTarget "NRFoundationDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				91C791DA15EB925E00D01DD0 /* Debug */,
+				91C791DB15EB925E00D01DD0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 919C2E9515EB6C1E00C834A6 /* Project object */;
+}
