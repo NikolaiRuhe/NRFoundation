@@ -1,5 +1,5 @@
 //
-//  NRActionSheetAdditions.m
+//  NRActionSheet.m
 //  NRFoundation
 //
 //  Created by Nikolai Ruhe on 2012-08-27.
@@ -8,7 +8,7 @@
 
 #import "NRFoundation.h"
 
-static NSString *NRActionSheetAdditionsCompletionBlocksKey = @"NRActionSheetAdditionsCompletionBlocksKey";
+static NSString *NRActionSheetCompletionBlocksKey = @"NRActionSheetCompletionBlocksKey";
 
 @interface NRActionSheetTrampoline : NSObject <UIActionSheetDelegate>
 @property (nonatomic, retain) NSMutableDictionary *actions;
@@ -30,20 +30,20 @@ static NSString *NRActionSheetAdditionsCompletionBlocksKey = @"NRActionSheetAddi
 	if ([self.actions count] <= buttonIndex)
 		return;
 
-	NRActionSheetActionBlock action = [self.actions objectForKey:@(buttonIndex)];
+	NRActionSheetAction action = [self.actions objectForKey:@(buttonIndex)];
 	if (action != nil)
 		action(actionSheet, buttonIndex);
 	actionSheet.delegate = nil;
-	[actionSheet nr_removeObjectsForKey:NRActionSheetAdditionsCompletionBlocksKey];
+	[actionSheet nr_removeObjectsForKey:NRActionSheetCompletionBlocksKey];
 }
 
 @end
 
 
 
-@implementation UIActionSheet (NRActionSheetAdditions)
+@implementation UIActionSheet (NRActionSheet)
 
-- (id)nr_initWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelButtonTitle action:(NRActionSheetActionBlock)cancelAction destructiveButtonTitle:(NSString *)destructiveButtonTitle action:(NRActionSheetActionBlock)destructiveAction otherButtonTitle:(NSString *)otherButtonTitle action:(NRActionSheetActionBlock)otherAction;
+- (id)nr_initWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelButtonTitle action:(NRActionSheetAction)cancelAction destructiveButtonTitle:(NSString *)destructiveButtonTitle action:(NRActionSheetAction)destructiveAction otherButtonTitle:(NSString *)otherButtonTitle action:(NRActionSheetAction)otherAction;
 {
 	self = [self initWithTitle:title delegate:nil cancelButtonTitle:cancelButtonTitle destructiveButtonTitle:destructiveButtonTitle otherButtonTitles:otherButtonTitle, nil];
 	if (cancelAction != nil)
@@ -55,20 +55,20 @@ static NSString *NRActionSheetAdditionsCompletionBlocksKey = @"NRActionSheetAddi
 	return self;
 }
 
-- (NSInteger)nr_addButtonWithTitle:(NSString *)title action:(NRActionSheetActionBlock)action
+- (NSInteger)nr_addButtonWithTitle:(NSString *)title action:(NRActionSheetAction)action
 {
 	NSUInteger buttonIndex = [self addButtonWithTitle:title];
 	[self nr_setAction:action forButtonAtIndex:buttonIndex];
 	return buttonIndex;
 }
 
-- (void)nr_setAction:(NRActionSheetActionBlock)action forButtonAtIndex:(NSUInteger)buttonIndex
+- (void)nr_setAction:(NRActionSheetAction)action forButtonAtIndex:(NSUInteger)buttonIndex
 {
 	NRActionSheetTrampoline *trampoline = self.delegate;
 	if (trampoline == nil) {
 		trampoline = [[NRActionSheetTrampoline alloc] init];
 		self.delegate = trampoline;
-		[self nr_addObject:trampoline forKey:NRActionSheetAdditionsCompletionBlocksKey];
+		[self nr_addObject:trampoline forKey:NRActionSheetCompletionBlocksKey];
 	} else if (! [trampoline isKindOfClass:[NRActionSheetTrampoline class]]) {
 		NSLog(@"could not set action: other delegate already set");
 		return;

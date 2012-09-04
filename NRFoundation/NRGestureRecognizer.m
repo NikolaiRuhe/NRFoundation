@@ -1,5 +1,5 @@
 //
-//  NRGestureRecognizerAdditions.m
+//  NRGestureRecognizer.m
 //  NRFoundation
 //
 //  Created by Nikolai Ruhe on 2012-08-27.
@@ -9,21 +9,21 @@
 #import "NRFoundation.h"
 
 
-static NSString *NRGestureRecognizerAdditionsBlockActionKey = @"NRGestureRecognizerAdditionsBlockActionKey";
-static NSString *NRAlertViewAdditionsShouldBeginBlockKey = @"NRAlertViewAdditionsShouldBeginBlockKey";
+static NSString *NRGestureRecognizerActionKey = @"NRGestureRecognizerActionKey";
+static NSString *NRGestureRecognizerShouldBeginBlockKey = @"NRGestureRecognizerShouldBeginBlockKey";
 
 @interface NRGestureRecognizerTrampoline : NSObject <UIGestureRecognizerDelegate>
-@property (nonatomic, copy) NRGestureRecognizerBlockAction blockAction;
+@property (nonatomic, copy) NRGestureRecognizerAction action;
 @property (nonatomic, copy) NRGestureRecognizerShouldBeginBlock shouldBeginBlock;
 @end
 
 @implementation NRGestureRecognizerTrampoline
-@synthesize blockAction = _blockAction;
+@synthesize action = _action;
 @synthesize shouldBeginBlock = _shouldBeginBlock;
 
 - (void)handleGesture:(UIGestureRecognizer *)gestureRecognizer
 {
-	self.blockAction(gestureRecognizer);
+	self.action(gestureRecognizer);
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
@@ -34,33 +34,33 @@ static NSString *NRAlertViewAdditionsShouldBeginBlockKey = @"NRAlertViewAddition
 
 
 
-@implementation UIGestureRecognizer (NRGestureRecognizerAdditions)
+@implementation UIGestureRecognizer (NRGestureRecognizer)
 
-- (id)nr_initWithBlockAction:(NRGestureRecognizerBlockAction)blockAction
+- (id)nr_initWithAction:(NRGestureRecognizerAction)action
 {
 	self = [self init];
-	[self nr_addBlockAction:blockAction];
+	[self nr_addAction:action];
 	return self;
 }
 
-- (void)nr_addBlockAction:(NRGestureRecognizerBlockAction)blockAction
+- (void)nr_addAction:(NRGestureRecognizerAction)action
 {
-	if (blockAction == nil) {
+	if (action == nil) {
 		NSLog(@"could not add block action: block is nil");
 		return;
 	}
 
 	NRGestureRecognizerTrampoline *trampoline = [[NRGestureRecognizerTrampoline alloc] init];
-	trampoline.blockAction = blockAction;
+	trampoline.action = action;
 	[self addTarget:trampoline action:@selector(handleGesture:)];
-	[self nr_addObject:trampoline forKey:NRGestureRecognizerAdditionsBlockActionKey];
+	[self nr_addObject:trampoline forKey:NRGestureRecognizerActionKey];
 }
 
-- (void)nr_removeBlockActions
+- (void)nr_removeAllBlockActions
 {
-	for (NRGestureRecognizerTrampoline *trampoline in [self nr_objectsForKey:NRGestureRecognizerAdditionsBlockActionKey])
+	for (NRGestureRecognizerTrampoline *trampoline in [self nr_objectsForKey:NRGestureRecognizerActionKey])
 		[self removeTarget:trampoline action:@selector(handleGesture:)];
-	[self nr_removeObjectsForKey:NRGestureRecognizerAdditionsBlockActionKey];
+	[self nr_removeObjectsForKey:NRGestureRecognizerActionKey];
 }
 
 - (void)nr_setShouldBeginBlock:(NRGestureRecognizerShouldBeginBlock)shouldBeginBlock
@@ -70,7 +70,7 @@ static NSString *NRAlertViewAdditionsShouldBeginBlockKey = @"NRAlertViewAddition
 		return;
 	}
 
-	[self nr_removeObjectsForKey:NRAlertViewAdditionsShouldBeginBlockKey];
+	[self nr_removeObjectsForKey:NRGestureRecognizerShouldBeginBlockKey];
 	if (shouldBeginBlock == nil) {
 		self.delegate = nil;
 		return;
@@ -79,7 +79,7 @@ static NSString *NRAlertViewAdditionsShouldBeginBlockKey = @"NRAlertViewAddition
 	NRGestureRecognizerTrampoline *trampoline = [[NRGestureRecognizerTrampoline alloc] init];
 	trampoline.shouldBeginBlock = shouldBeginBlock;
 	self.delegate = trampoline;
-	[self nr_addObject:trampoline forKey:NRAlertViewAdditionsShouldBeginBlockKey];
+	[self nr_addObject:trampoline forKey:NRGestureRecognizerShouldBeginBlockKey];
 }
 
 @end

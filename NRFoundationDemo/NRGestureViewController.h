@@ -1,5 +1,5 @@
 //
-//  NRDetailViewController.h
+//  NRGestureViewController.h
 //  NRFoundationDemo
 //
 //  Created by Nikolai Ruhe on 2012-08-27.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NRDetailViewController : UIViewController
+@interface NRGestureViewController : UIViewController
 
 @end

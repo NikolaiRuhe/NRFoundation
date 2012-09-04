@@ -1,5 +1,5 @@
 //
-//  NRObjectAdditions.h
+//  NRObject.h
 //  NRFoundation
 //
 //  Created by Nikolai Ruhe on 2012-08-27.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSObject (NRObjectAdditions)
+@interface NSObject (NRObject)
 
 - (void)nr_addObject:(id)object forKey:(NSString *)key;
 - (NSArray *)nr_objectsForKey:(NSString *)key;

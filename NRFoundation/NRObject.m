@@ -1,5 +1,5 @@
 //
-//  NRObjectAdditions.m
+//  NRObject.m
 //  NRFoundation
 //
 //  Created by Nikolai Ruhe on 2012-08-27.
@@ -7,9 +7,9 @@
 //
 
 #import <objc/runtime.h>
-#import "NRObjectAdditions.h"
+#import "NRObject.h"
 
-@implementation NSObject (NRObjectAdditions)
+@implementation NSObject (NRObject)
 
 static const char *kNRAsscociatedObjectsKey = "kNRAsscociatedObjectsKey";
 

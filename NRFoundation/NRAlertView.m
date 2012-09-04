@@ -1,5 +1,5 @@
 //
-//  NRAlertViewAdditions.m
+//  NRAlertView.m
 //  NRFoundation
 //
 //  Created by Nikolai Ruhe on 2012-08-27.
@@ -8,7 +8,7 @@
 
 #import "NRFoundation.h"
 
-static NSString *NRAlertViewAdditionsCompletionBlocksKey = @"NRAlertViewAdditionsCompletionBlocksKey";
+static NSString *NRAlertViewCompletionBlocksKey = @"NRAlertViewCompletionBlocksKey";
 
 @interface NRAlertViewTrampoline : NSObject <UIAlertViewDelegate>
 @property (nonatomic, retain) NSMutableDictionary *actions;
@@ -30,20 +30,20 @@ static NSString *NRAlertViewAdditionsCompletionBlocksKey = @"NRAlertViewAddition
 	if ([self.actions count] <= buttonIndex)
 		return;
 
-	NRAlertViewActionBlock action = [self.actions objectForKey:@(buttonIndex)];
+	NRAlertViewAction action = [self.actions objectForKey:@(buttonIndex)];
 	if (action != nil)
 		action(alertView, buttonIndex);
 	alertView.delegate = nil;
-	[alertView nr_removeObjectsForKey:NRAlertViewAdditionsCompletionBlocksKey];
+	[alertView nr_removeObjectsForKey:NRAlertViewCompletionBlocksKey];
 }
 
 @end
 
 
 
-@implementation UIAlertView (NRAlertViewAdditions)
+@implementation UIAlertView (NRAlertView)
 
-- (id)nr_initWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle action:(NRAlertViewActionBlock)cancelAction otherButtonTitle:(NSString *)otherButtonTitle action:(NRAlertViewActionBlock)otherAction
+- (id)nr_initWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle action:(NRAlertViewAction)cancelAction otherButtonTitle:(NSString *)otherButtonTitle action:(NRAlertViewAction)otherAction
 {
 	self = [self initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitle, nil];
 	if (cancelAction != nil)
@@ -53,20 +53,20 @@ static NSString *NRAlertViewAdditionsCompletionBlocksKey = @"NRAlertViewAddition
 	return self;
 }
 
-- (NSInteger)nr_addButtonWithTitle:(NSString *)title action:(NRAlertViewActionBlock)action
+- (NSInteger)nr_addButtonWithTitle:(NSString *)title action:(NRAlertViewAction)action
 {
 	NSUInteger buttonIndex = [self addButtonWithTitle:title];
 	[self nr_setAction:action forButtonAtIndex:buttonIndex];
 	return buttonIndex;
 }
 
-- (void)nr_setAction:(NRAlertViewActionBlock)action forButtonAtIndex:(NSUInteger)buttonIndex
+- (void)nr_setAction:(NRAlertViewAction)action forButtonAtIndex:(NSUInteger)buttonIndex
 {
 	NRAlertViewTrampoline *trampoline = self.delegate;
 	if (trampoline == nil) {
 		trampoline = [[NRAlertViewTrampoline alloc] init];
 		self.delegate = trampoline;
-		[self nr_addObject:trampoline forKey:NRAlertViewAdditionsCompletionBlocksKey];
+		[self nr_addObject:trampoline forKey:NRAlertViewCompletionBlocksKey];
 	} else if (! [trampoline isKindOfClass:[NRAlertViewTrampoline class]]) {
 		NSLog(@"could not set action: other delegate already set");
 		return;

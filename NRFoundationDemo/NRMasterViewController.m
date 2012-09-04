@@ -7,7 +7,7 @@
 //
 
 #import "NRMasterViewController.h"
-#import "NRDetailViewController.h"
+#import "NRGestureViewController.h"
 #import "NRFoundation.h"
 
 
@@ -18,7 +18,7 @@
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-	[self.controlSlider nr_addBlockAction:^(id sender) {
+	[self.controlSlider nr_addAction:^(id sender) {
 		UISlider *slider = sender;
 		slider.thumbTintColor = [UIColor colorWithHue:((UISlider *)sender).value saturation:1 brightness:1 alpha:1];
 	} forControlEvents:UIControlEventValueChanged];
@@ -76,10 +76,25 @@
 						 cancelButtonTitle:@"Great"
 									action:^(UIAlertView *alertView, NSUInteger buttonIndex) {
 										[self logMessage:@"--- Great ---"];
-									} otherButtonTitle:@"OK"
+									}
+						  otherButtonTitle:@"OK"
 									action:^(UIAlertView *alertView, NSUInteger buttonIndex) {
 										[self logMessage:@"--- Accepted ---"];
 									}] show];
+}
+
+- (void)presentNSTimer
+{
+	[self logMessage:@"timer scheduled"];
+	__block int count = 1;
+	[NSTimer nr_scheduledTimerWithTimeInterval:1 userInfo:nil repeats:YES block:^(NSTimer *timer) {
+		if (count == 4) {
+			[self logMessage:@"done"];
+			[timer invalidate];
+			return;
+		}
+		[self logMessage:[NSString stringWithFormat:@"--- %d ---", count++]];
+	}];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -100,7 +115,7 @@
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-		((NRDetailViewController *)[segue destinationViewController]).title = cell.textLabel.text;
+		((NRGestureViewController *)[segue destinationViewController]).title = cell.textLabel.text;
     }
 }
 

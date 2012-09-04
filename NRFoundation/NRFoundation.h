@@ -7,8 +7,9 @@
 //
 
 #import "NRUtilities.h"
-#import "NRObjectAdditions.h"
-#import "NRAlertViewAdditions.h"
-#import "NRActionSheetAdditions.h"
-#import "NRControlAdditions.h"
-#import "NRGestureRecognizerAdditions.h"
+#import "NRObject.h"
+#import "NRAlertView.h"
+#import "NRActionSheet.h"
+#import "NRControl.h"
+#import "NRGestureRecognizer.h"
+#import "NRTimer.h"
