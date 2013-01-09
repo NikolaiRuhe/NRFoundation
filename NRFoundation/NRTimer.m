@@ -8,8 +8,6 @@
 
 #import "NRTimer.h"
 
-static NSString *NRTimerCompletionBlocksKey = @"NRTimerCompletionBlocksKey";
-
 @interface NRTimerTrampoline : NSObject
 @property (nonatomic, copy) NRTimerBlock block;
 @end

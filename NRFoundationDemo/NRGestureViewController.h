@@ -10,4 +10,6 @@
 
 @interface NRGestureViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIView *blockView;
+
 @end

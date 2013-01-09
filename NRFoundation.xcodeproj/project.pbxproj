@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9120BD9D161AEDC200C64339 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9120BD9C161AEDC200C64339 /* QuartzCore.framework */; };
+		91387E78166E729900A90637 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91387E77166E729900A90637 /* Default-568h@2x.png */; };
+		9142A558166DFF150089094A /* NRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9142A557166DFF150089094A /* NRViewController.m */; };
 		919C2EA215EB6C1E00C834A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 919C2EA115EB6C1E00C834A6 /* Foundation.framework */; };
 		919C2EA715EB6C1E00C834A6 /* NRFoundation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EA615EB6C1E00C834A6 /* NRFoundation.h */; };
 		919C2EB215EB6CA400C834A6 /* NRAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 919C2EB115EB6CA300C834A6 /* NRAlertView.m */; };
@@ -62,6 +65,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		9120BD9C161AEDC200C64339 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		91387E77166E729900A90637 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		9142A556166DFF150089094A /* NRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRViewController.h; sourceTree = "<group>"; };
+		9142A557166DFF150089094A /* NRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRViewController.m; sourceTree = "<group>"; };
 		919C2E9E15EB6C1E00C834A6 /* libNRFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNRFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		919C2EA115EB6C1E00C834A6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		919C2EA615EB6C1E00C834A6 /* NRFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NRFoundation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -106,6 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9120BD9D161AEDC200C64339 /* QuartzCore.framework in Frameworks */,
 				91C791DC15EB973700D01DD0 /* libNRFoundation.a in Frameworks */,
 				91C791C115EB925E00D01DD0 /* UIKit.framework in Frameworks */,
 				91C791C215EB925E00D01DD0 /* Foundation.framework in Frameworks */,
@@ -119,6 +127,7 @@
 		919C2E9315EB6C1E00C834A6 = {
 			isa = PBXGroup;
 			children = (
+				91387E77166E729900A90637 /* Default-568h@2x.png */,
 				91F92D3215F0D02F008CA16C /* README.md */,
 				919C2EA315EB6C1E00C834A6 /* NRFoundation */,
 				91C791C415EB925E00D01DD0 /* NRFoundationDemo */,
@@ -143,6 +152,7 @@
 				919C2EA115EB6C1E00C834A6 /* Foundation.framework */,
 				91C7919B15EB893E00D01DD0 /* UIKit.framework */,
 				91C7919E15EB893E00D01DD0 /* CoreGraphics.framework */,
+				9120BD9C161AEDC200C64339 /* QuartzCore.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -164,6 +174,8 @@
 				919C2EB115EB6CA300C834A6 /* NRAlertView.m */,
 				91ABC2E815F66C4300405885 /* NRTimer.h */,
 				91ABC2E915F66C4300405885 /* NRTimer.m */,
+				9142A556166DFF150089094A /* NRViewController.h */,
+				9142A557166DFF150089094A /* NRViewController.m */,
 			);
 			path = NRFoundation;
 			sourceTree = "<group>";
@@ -263,6 +275,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91C791F615EBC8C600D01DD0 /* MainStoryboard.storyboard in Resources */,
+				91387E78166E729900A90637 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,6 +292,7 @@
 				91C791E915EBB5D100D01DD0 /* NRGestureRecognizer.m in Sources */,
 				91C791EC15EBC29800D01DD0 /* NRControl.m in Sources */,
 				91ABC2EA15F66C4300405885 /* NRTimer.m in Sources */,
+				9142A558166DFF150089094A /* NRViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,6 +325,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -338,6 +355,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

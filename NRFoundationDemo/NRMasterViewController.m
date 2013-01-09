@@ -46,6 +46,17 @@
 									  }] showInView:self.view];
 }
 
+- (void)presentUIGestureRecognizer
+{
+	NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+	[self nr_performSegueWithIdentifier:@"ShowDetailSegue"
+								 sender:self
+								prepare:^(UIStoryboardSegue *segue) {
+									UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+									((NRGestureViewController *)[segue destinationViewController]).title = cell.textLabel.text;
+								}];
+}
+
 - (void)logMessage:(NSString *)message
 {
 	CGFloat ypos = 458;
@@ -102,21 +113,12 @@
 	NSString *title = [[tableView cellForRowAtIndexPath:indexPath] textLabel].text;
 	SEL selector = NSSelectorFromString([NSString stringWithFormat:@"present%@", title]);
 	if ([self respondsToSelector:selector]) {
-		[tableView deselectRowAtIndexPath:indexPath	animated:YES];
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
 		[self performSelector:selector];
 #pragma clang diagnostic pop
+		[tableView deselectRowAtIndexPath:indexPath	animated:YES];
 	}
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-		UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-		((NRGestureViewController *)[segue destinationViewController]).title = cell.textLabel.text;
-    }
 }
 
 @end
