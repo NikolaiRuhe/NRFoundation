@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		916BFBD416A5DCFD002DF3FA /* NRTimer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91ABC2E815F66C4300405885 /* NRTimer.h */; };
 		919C2EA215EB6C1E00C834A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 919C2EA115EB6C1E00C834A6 /* Foundation.framework */; };
 		919C2EA715EB6C1E00C834A6 /* NRFoundation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EA615EB6C1E00C834A6 /* NRFoundation.h */; };
 		919C2EB215EB6CA400C834A6 /* NRAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 919C2EB115EB6CA300C834A6 /* NRAlertView.m */; };
@@ -55,6 +56,7 @@
 				91C7919315EB84DE00D01DD0 /* NRAlertView.h in CopyFiles */,
 				91C7919415EB84DE00D01DD0 /* NRObject.h in CopyFiles */,
 				91C791ED15EBC7D100D01DD0 /* NRControl.h in CopyFiles */,
+				916BFBD416A5DCFD002DF3FA /* NRTimer.h in CopyFiles */,
 				919C2EA715EB6C1E00C834A6 /* NRFoundation.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
