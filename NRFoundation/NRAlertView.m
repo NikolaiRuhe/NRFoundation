@@ -27,7 +27,7 @@ static NSString *NRAlertViewCompletionBlocksKey = @"NRAlertViewCompletionBlocksK
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	// Added a button without block action?
-	if ([self.actions count] <= buttonIndex)
+	if ((NSInteger)[self.actions count] <= buttonIndex)
 		return;
 
 	NRAlertViewAction action = [self.actions objectForKey:@(buttonIndex)];

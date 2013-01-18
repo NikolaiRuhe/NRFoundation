@@ -27,7 +27,7 @@ static NSString *NRActionSheetCompletionBlocksKey = @"NRActionSheetCompletionBlo
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	// Added a button without block action?
-	if ([self.actions count] <= buttonIndex)
+	if ((NSInteger)[self.actions count] <= buttonIndex)
 		return;
 
 	NRActionSheetAction action = [self.actions objectForKey:@(buttonIndex)];
