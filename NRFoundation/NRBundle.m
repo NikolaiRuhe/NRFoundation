@@ -8,18 +8,21 @@
 
 #import "NRBundle.h"
 #import <mach-o/ldsyms.h>
+#include <dlfcn.h>
 
 
 @implementation NSBundle (NRBundle)
 
 + (NSString *)executableLinkEditorUUID
 {
-	if (&_mh_execute_header == NULL)
+	const struct mach_header *execute_header = dlsym(RTLD_MAIN_ONLY, MH_EXECUTE_SYM);
+
+	if (execute_header == NULL)
 		return @"unknown";
 
-	const uint8_t *command = (const uint8_t *)(&_mh_execute_header + 1);
+	const uint8_t *command = (const uint8_t *)(execute_header + 1);
 
-	for (uint32_t idx = 0; idx < _mh_execute_header.ncmds; ++idx) {
+	for (uint32_t idx = 0; idx < execute_header->ncmds; ++idx) {
 		if (((const struct load_command *)command)->cmd == LC_UUID) {
 			command += sizeof(struct load_command);
 
