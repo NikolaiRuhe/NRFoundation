@@ -7,6 +7,7 @@
 //
 
 #import "NRUtilities.h"
+#import "NRBundle.h"
 #import "NRObject.h"
 #import "NRAlertView.h"
 #import "NRActionSheet.h"

@@ -14,7 +14,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	NSLog(@"UIDevice hardwareIdentifier: %@", [UIDevice currentDevice].hardwareIdentifier);
-    // Override point for customization after application launch.
+	NSLog(@"NSBundle executableLinkEditorUUID: %@", [NSBundle executableLinkEditorUUID]);
+
     return YES;
 }
 							
