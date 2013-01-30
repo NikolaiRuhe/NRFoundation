@@ -7,11 +7,13 @@
 //
 
 #import "NRAppDelegate.h"
+#import "NRFoundation.h"
 
 @implementation NRAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	NSLog(@"UIDevice hardwareIdentifier: %@", [UIDevice currentDevice].hardwareIdentifier);
     // Override point for customization after application launch.
     return YES;
 }

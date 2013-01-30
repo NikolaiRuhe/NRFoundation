@@ -11,6 +11,7 @@
 #import "NRAlertView.h"
 #import "NRActionSheet.h"
 #import "NRControl.h"
+#import "NRDevice.h"
 #import "NRGestureRecognizer.h"
 #import "NRTimer.h"
 #import "NRViewController.h"
