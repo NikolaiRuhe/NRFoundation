@@ -33,6 +33,63 @@ static void NRSwizzleObject(id object);
 	[self performSegueWithIdentifier:identifier sender:segueTrampoline];
 }
 
+static int coverViewAssociatedObjectKey;
+
+- (void)nr_coverUsingColor:(UIColor *)color animated:(BOOL)animated
+{
+	if (! [self isViewLoaded])
+		return;
+
+	self.view.userInteractionEnabled = NO;
+
+	UIView *coverView = objc_getAssociatedObject(self, &coverViewAssociatedObjectKey);
+	if (coverView == nil) {
+		coverView = [[UIView alloc] initWithFrame:self.view.bounds];
+		coverView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		[self.view addSubview:coverView];
+		objc_setAssociatedObject(self, &coverViewAssociatedObjectKey, coverView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	}
+
+	coverView.frame = self.view.bounds;
+	coverView.backgroundColor = color;
+
+	if (! animated) {
+		coverView.alpha = 1;
+		return;
+	}
+
+	coverView.alpha = 0;
+	[UIView animateWithDuration:.35
+					 animations:^{
+						 coverView.alpha = 1;
+					 }];
+}
+
+- (void)nr_removeCoverAnimated:(BOOL)animated
+{
+	if ([self isViewLoaded])
+		self.view.userInteractionEnabled = YES;
+
+	UIView *coverView = objc_getAssociatedObject(self, &coverViewAssociatedObjectKey);
+	if (coverView == nil)
+		return;
+
+	objc_setAssociatedObject(self, &coverViewAssociatedObjectKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+	if (! animated) {
+		[coverView removeFromSuperview];
+		return;
+	}
+
+	[UIView animateWithDuration:.35
+					 animations:^{
+						 coverView.alpha = 0;
+					 }
+					 completion:^(BOOL finished) {
+						 [coverView removeFromSuperview];
+					 }];
+}
+
 @end
 
 

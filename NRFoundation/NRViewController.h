@@ -12,4 +12,7 @@
 
 - (void)nr_performSegueWithIdentifier:(NSString *)identifier sender:(id)sender prepare:(void(^)(UIStoryboardSegue *segue))preparationBlock;
 
+- (void)nr_coverUsingColor:(UIColor *)color animated:(BOOL)animated;
+- (void)nr_removeCoverAnimated:(BOOL)animated;
+
 @end
