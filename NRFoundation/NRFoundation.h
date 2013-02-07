@@ -16,3 +16,4 @@
 #import "NRGestureRecognizer.h"
 #import "NRTimer.h"
 #import "NRViewController.h"
+#import "NRLogger.h"

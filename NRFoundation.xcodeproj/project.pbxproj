@@ -14,6 +14,8 @@
 		9120BD9D161AEDC200C64339 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9120BD9C161AEDC200C64339 /* QuartzCore.framework */; };
 		9142A558166DFF150089094A /* NRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9142A557166DFF150089094A /* NRViewController.m */; };
 		916BFBD416A5DCFD002DF3FA /* NRTimer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91ABC2E815F66C4300405885 /* NRTimer.h */; };
+		91948CAE16C41A1B00257586 /* NRLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 91948CAD16C41A1B00257586 /* NRLogger.m */; };
+		91948CAF16C41A3300257586 /* NRLogger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91948CAC16C41A1B00257586 /* NRLogger.h */; };
 		91948CB116C4306600257586 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91948CB016C4306600257586 /* Default-568h@2x.png */; };
 		919C2EA215EB6C1E00C834A6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 919C2EA115EB6C1E00C834A6 /* Foundation.framework */; };
 		919C2EA715EB6C1E00C834A6 /* NRFoundation.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EA615EB6C1E00C834A6 /* NRFoundation.h */; };
@@ -62,6 +64,7 @@
 				9109CC2816B9B34100492321 /* NRBundle.h in CopyFiles */,
 				91F92D2D15F0CC61008CA16C /* NRUtilities.h in CopyFiles */,
 				91C791EE15EBC7D600D01DD0 /* NRGestureRecognizer.h in CopyFiles */,
+				91948CAF16C41A3300257586 /* NRLogger.h in CopyFiles */,
 				91C7919315EB84DE00D01DD0 /* NRAlertView.h in CopyFiles */,
 				91C7919415EB84DE00D01DD0 /* NRObject.h in CopyFiles */,
 				91C791ED15EBC7D100D01DD0 /* NRControl.h in CopyFiles */,
@@ -80,6 +83,8 @@
 		9120BD9C161AEDC200C64339 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		9142A556166DFF150089094A /* NRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRViewController.h; sourceTree = "<group>"; };
 		9142A557166DFF150089094A /* NRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRViewController.m; sourceTree = "<group>"; };
+		91948CAC16C41A1B00257586 /* NRLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRLogger.h; sourceTree = "<group>"; };
+		91948CAD16C41A1B00257586 /* NRLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRLogger.m; sourceTree = "<group>"; };
 		91948CB016C4306600257586 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		919C2E9E15EB6C1E00C834A6 /* libNRFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libNRFoundation.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		919C2EA115EB6C1E00C834A6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -191,6 +196,8 @@
 				91ABC2E915F66C4300405885 /* NRTimer.m */,
 				9142A556166DFF150089094A /* NRViewController.h */,
 				9142A557166DFF150089094A /* NRViewController.m */,
+				91948CAC16C41A1B00257586 /* NRLogger.h */,
+				91948CAD16C41A1B00257586 /* NRLogger.m */,
 			);
 			path = NRFoundation;
 			sourceTree = "<group>";
@@ -311,6 +318,7 @@
 				9142A558166DFF150089094A /* NRViewController.m in Sources */,
 				9109CC2216B9A8D600492321 /* NRDevice.m in Sources */,
 				9109CC2616B9B32D00492321 /* NRBundle.m in Sources */,
+				91948CAE16C41A1B00257586 /* NRLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
