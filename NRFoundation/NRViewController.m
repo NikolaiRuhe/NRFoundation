@@ -43,20 +43,17 @@ static int coverViewAssociatedObjectKey;
 	self.view.userInteractionEnabled = NO;
 
 	UIView *coverView = objc_getAssociatedObject(self, &coverViewAssociatedObjectKey);
-	if (coverView == nil) {
-		coverView = [[UIView alloc] initWithFrame:self.view.bounds];
-		coverView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-		[self.view addSubview:coverView];
-		objc_setAssociatedObject(self, &coverViewAssociatedObjectKey, coverView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-	}
-
-	coverView.frame = self.view.bounds;
-	coverView.backgroundColor = color;
-
-	if (! animated) {
-		coverView.alpha = 1;
+	if (coverView != nil)
 		return;
-	}
+
+	coverView = [[UIView alloc] initWithFrame:self.view.bounds];
+	coverView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	coverView.backgroundColor = color;
+	[self.view addSubview:coverView];
+	objc_setAssociatedObject(self, &coverViewAssociatedObjectKey, coverView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+	if (! animated)
+		return;
 
 	coverView.alpha = 0;
 	[UIView animateWithDuration:.35
