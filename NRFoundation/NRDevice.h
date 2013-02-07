@@ -15,6 +15,9 @@
 
 + (BOOL)isIPhone;
 
-@property (nonatomic, readonly) NSString *hardwareIdentifier;
+@property (nonatomic, readonly) NSString *modelID;
+@property (nonatomic, readonly) NSString *MACAddress;
+
+- (NSString *)MACAddressForInterface:(NSString *)interface;
 
 @end
