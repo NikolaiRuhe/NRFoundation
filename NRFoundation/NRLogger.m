@@ -10,6 +10,17 @@
 #import "NRBundle.h"
 #import "NRDevice.h"
 #import <unistd.h>
+#import <sys/ioctl.h>
+
+#if TARGET_IPHONE_SIMULATOR
+	#import <sys/conf.h>
+#else
+// I don't know why <sys/conf.h> is missing on the iPhoneOS.platform
+// It's there on iPhoneSimulator.platform, though. We need it for D_DISK, only:
+	#if ! defined(D_DISK)
+		#define	D_DISK	2
+	#endif
+#endif
 
 
 @implementation NRLogger
@@ -142,3 +153,21 @@
 }
 
 @end
+
+
+#if defined(NR_LOGGER_AUTOSTART) && NR_LOGGER_AUTOSTART
+static void autostart(void) __attribute__((constructor));
+static void autostart(void)
+{
+	// We use the type of the original stderr file descriptor to guess if a debugger is attached.
+	// On the device, without attached Xcode, the type is D_DISK (otherwise it's D_TTY)
+	int type;
+	BOOL stdErrIsDisk = ioctl(STDERR_FILENO, FIODTYPE, &type) != -1 && type == D_DISK;
+
+	if (stdErrIsDisk) {
+		[NRLogger sharedLogger].redirectStderr = YES;
+	}
+
+	[[NRLogger sharedLogger] logAppInfo];
+}
+#endif
