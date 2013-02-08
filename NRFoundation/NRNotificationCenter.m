@@ -17,9 +17,9 @@ static NSString *NRNotificationCenterObserverKey = @"NRNotificationCenterObserve
 
 @implementation NRObserverTrampoline
 {
-	__weak id _observer;
+	__weak id _target;
 	SEL _selector;
-	void(^_block)(id observer, NSNotification *notification);
+	void(^_ownerBlock)(id observer, NSNotification *notification);
 	void(^_noOwnerBlock)(NSNotification *notification);
 }
 
@@ -27,18 +27,18 @@ static NSString *NRNotificationCenterObserverKey = @"NRNotificationCenterObserve
 {
 	self = [self init];
 	if (self != nil) {
-		_observer = observer;
+		_target = observer;
 		_selector = selector;
 	}
 	return self;
 }
 
-- (id)initWithObserver:(id)observer block:(void(^)(id observer, NSNotification *notification))block
+- (id)initWithOwner:(id)owner block:(void(^)(id observer, NSNotification *notification))block
 {
 	self = [self init];
 	if (self != nil) {
-		_observer = observer;
-		_block = [block copy];
+		_target = owner;
+		_ownerBlock = [block copy];
 	}
 	return self;
 }
@@ -54,18 +54,22 @@ static NSString *NRNotificationCenterObserverKey = @"NRNotificationCenterObserve
 
 - (id)observer
 {
-	return _observer;
+	return _target;
 }
 
 - (void)forwardNotification:(NSNotification *)notification
 {
-	if (_noOwnerBlock != NULL)
+	if (_noOwnerBlock != NULL) {
 		_noOwnerBlock(notification);
+		return;
+	}
 
-	id strongObserver = _observer;
+	id strongObserver = _target;
 
-	if (_block != NULL)
-		_block(strongObserver, notification);
+	if (_ownerBlock != NULL) {
+		_ownerBlock(strongObserver, notification);
+		return;
+	}
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -90,10 +94,10 @@ static NSString *NRNotificationCenterObserverKey = @"NRNotificationCenterObserve
 	return trampoline;
 }
 
-- (NRObserverID)nr_addObserver:(id)observer name:(NSString *)name object:(id)object usingBlock:(void (^)(id observer, NSNotification *notification))block
+- (NRObserverID)nr_addObserverForName:(NSString *)name object:(id)object owner:(id)owner usingBlock:(void (^)(id owner, NSNotification *notification))block
 {
-	NRObserverTrampoline *trampoline = [[NRObserverTrampoline alloc] initWithObserver:observer block:block];
-	[self nr_addObserverTrampoline:trampoline owner:observer name:name object:object];
+	NRObserverTrampoline *trampoline = [[NRObserverTrampoline alloc] initWithOwner:owner block:block];
+	[self nr_addObserverTrampoline:trampoline owner:owner name:name object:object];
 	return trampoline;
 }
 

@@ -16,8 +16,10 @@ typedef id NRObserverID;
 // By using a weak referencing proxy we make sure notifications are only delivered to objects that are alive.
 - (NRObserverID)nr_addObserver:(id)observer selector:(SEL)selector name:(NSString *)name object:(id)object;
 
-- (NRObserverID)nr_addObserver:(id)observer name:(NSString *)name object:(id)object usingBlock:(void (^)(id observer, NSNotification *notification))block;
+// Observe notification using a block. Observance lifetime is constrained to NRObserverID and owner, whatever lives longer.
+- (NRObserverID)nr_addObserverForName:(NSString *)name object:(id)object owner:(id)owner usingBlock:(void (^)(id owner, NSNotification *notification))block;
 
+// Observe notification using a block. Observance lifetime is constrained to NRObserverID.
 - (NRObserverID)nr_addObserverForName:(NSString *)name object:(id)object usingBlock:(void (^)(NSNotification *notification))block;
 
 - (void)nr_removeObserver:(NRObserverID)observerID;
