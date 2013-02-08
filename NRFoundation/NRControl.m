@@ -8,6 +8,7 @@
 
 #import "NRControl.h"
 #import "NRObject.h"
+#import <objc/runtime.h>
 
 
 static NSString *NRControlActionKey = @"NRControlActionKey";
@@ -40,14 +41,20 @@ static NSString *NRControlActionKey = @"NRControlActionKey";
 	NRControlTrampoline *trampoline = [[NRControlTrampoline alloc] init];
 	trampoline.action = action;
 	[self addTarget:trampoline action:@selector(fireAction:) forControlEvents:controlEvents];
-	[self nr_addObject:trampoline forKey:NRControlActionKey];
+	NSMutableArray *trampolines = objc_getAssociatedObject(self, &NRControlActionKey);
+	if (trampolines == nil) {
+		trampolines = [NSMutableArray array];
+		objc_setAssociatedObject(self, &NRControlActionKey, trampolines, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	}
+	[trampolines addObject:trampoline];
 }
 
 - (void)nr_removeAllBlockActions
 {
-	for (NRControlTrampoline *trampoline in [self nr_objectsForKey:NRControlActionKey])
+	NSMutableArray *trampolines = objc_getAssociatedObject(self, &NRControlActionKey);
+	for (NRControlTrampoline *trampoline in trampolines)
 		[self removeTarget:trampoline action:@selector(fireAction:) forControlEvents:UIControlEventAllEvents];
-	[self nr_removeObjectsForKey:NRControlActionKey];
+	objc_setAssociatedObject(self, &NRControlActionKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

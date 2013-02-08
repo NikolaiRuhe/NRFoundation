@@ -9,10 +9,16 @@
 #import <Foundation/Foundation.h>
 
 
+typedef id NRKVObserverID;
+
 @interface NSObject (NRObject)
 
-- (void)nr_addObject:(id)object forKey:(NSString *)key;
-- (NSArray *)nr_objectsForKey:(NSString *)key;
-- (void)nr_removeObjectsForKey:(NSString *)key;
+// Lifetime observation
+- (void)nr_performAfterDealloc:(void (^)(__unsafe_unretained id object))block;
+
+// KVO
+- (NRKVObserverID)nr_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(void(^)(id observee, id observer))block;
+- (NRKVObserverID)nr_addObserverForKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(void(^)(id observee))block;
++ (void)nr_removeObservance:(NRKVObserverID)KVObserverID;
 
 @end

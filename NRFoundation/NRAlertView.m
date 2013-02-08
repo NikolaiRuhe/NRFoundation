@@ -7,6 +7,8 @@
 //
 
 #import "NRFoundation.h"
+#import <objc/runtime.h>
+
 
 static NSString *NRAlertViewCompletionBlocksKey = @"NRAlertViewCompletionBlocksKey";
 
@@ -30,7 +32,7 @@ static NSString *NRAlertViewCompletionBlocksKey = @"NRAlertViewCompletionBlocksK
 	if (action != nil)
 		action(alertView, buttonIndex);
 	alertView.delegate = nil;
-	[alertView nr_removeObjectsForKey:NRAlertViewCompletionBlocksKey];
+	objc_setAssociatedObject(self, &NRAlertViewCompletionBlocksKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
@@ -61,8 +63,8 @@ static NSString *NRAlertViewCompletionBlocksKey = @"NRAlertViewCompletionBlocksK
 	NRAlertViewTrampoline *trampoline = self.delegate;
 	if (trampoline == nil) {
 		trampoline = [[NRAlertViewTrampoline alloc] init];
+		objc_setAssociatedObject(self, &NRAlertViewCompletionBlocksKey, trampoline, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 		self.delegate = trampoline;
-		[self nr_addObject:trampoline forKey:NRAlertViewCompletionBlocksKey];
 	} else if (! [trampoline isKindOfClass:[NRAlertViewTrampoline class]]) {
 		NSLog(@"could not set action: other delegate already set");
 		return;

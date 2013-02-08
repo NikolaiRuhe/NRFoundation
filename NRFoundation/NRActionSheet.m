@@ -7,6 +7,8 @@
 //
 
 #import "NRFoundation.h"
+#import <objc/runtime.h>
+
 
 static NSString *NRActionSheetCompletionBlocksKey = @"NRActionSheetCompletionBlocksKey";
 
@@ -30,7 +32,7 @@ static NSString *NRActionSheetCompletionBlocksKey = @"NRActionSheetCompletionBlo
 	if (action != nil)
 		action(actionSheet, buttonIndex);
 	actionSheet.delegate = nil;
-	[actionSheet nr_removeObjectsForKey:NRActionSheetCompletionBlocksKey];
+	objc_setAssociatedObject(self, &NRActionSheetCompletionBlocksKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
@@ -63,8 +65,8 @@ static NSString *NRActionSheetCompletionBlocksKey = @"NRActionSheetCompletionBlo
 	NRActionSheetTrampoline *trampoline = self.delegate;
 	if (trampoline == nil) {
 		trampoline = [[NRActionSheetTrampoline alloc] init];
+		objc_setAssociatedObject(self, &NRActionSheetCompletionBlocksKey, trampoline, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 		self.delegate = trampoline;
-		[self nr_addObject:trampoline forKey:NRActionSheetCompletionBlocksKey];
 	} else if (! [trampoline isKindOfClass:[NRActionSheetTrampoline class]]) {
 		NSLog(@"could not set action: other delegate already set");
 		return;

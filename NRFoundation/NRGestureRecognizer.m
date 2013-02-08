@@ -7,6 +7,7 @@
 //
 
 #import "NRFoundation.h"
+#import <objc/runtime.h>
 
 
 static NSString *NRGestureRecognizerActionKey = @"NRGestureRecognizerActionKey";
@@ -53,14 +54,20 @@ static NSString *NRGestureRecognizerShouldBeginBlockKey = @"NRGestureRecognizerS
 	NRGestureRecognizerTrampoline *trampoline = [[NRGestureRecognizerTrampoline alloc] init];
 	trampoline.action = action;
 	[self addTarget:trampoline action:@selector(handleGesture:)];
-	[self nr_addObject:trampoline forKey:NRGestureRecognizerActionKey];
+	NSMutableArray *trampolines = objc_getAssociatedObject(self, &NRGestureRecognizerActionKey);
+	if (trampolines == nil) {
+		trampolines = [NSMutableArray array];
+		objc_setAssociatedObject(self, &NRGestureRecognizerActionKey, trampolines, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+	}
+	[trampolines addObject:trampoline];
 }
 
 - (void)nr_removeAllBlockActions
 {
-	for (NRGestureRecognizerTrampoline *trampoline in [self nr_objectsForKey:NRGestureRecognizerActionKey])
+	NSMutableArray *trampolines = objc_getAssociatedObject(self, &NRGestureRecognizerActionKey);
+	for (NRGestureRecognizerTrampoline *trampoline in trampolines)
 		[self removeTarget:trampoline action:@selector(handleGesture:)];
-	[self nr_removeObjectsForKey:NRGestureRecognizerActionKey];
+	objc_setAssociatedObject(self, &NRGestureRecognizerActionKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (void)nr_setShouldBeginBlock:(NRGestureRecognizerShouldBeginBlock)shouldBeginBlock
@@ -70,7 +77,7 @@ static NSString *NRGestureRecognizerShouldBeginBlockKey = @"NRGestureRecognizerS
 		return;
 	}
 
-	[self nr_removeObjectsForKey:NRGestureRecognizerShouldBeginBlockKey];
+	objc_setAssociatedObject(self, &NRGestureRecognizerShouldBeginBlockKey, nil, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 	if (shouldBeginBlock == nil) {
 		self.delegate = nil;
 		return;
@@ -79,7 +86,7 @@ static NSString *NRGestureRecognizerShouldBeginBlockKey = @"NRGestureRecognizerS
 	NRGestureRecognizerTrampoline *trampoline = [[NRGestureRecognizerTrampoline alloc] init];
 	trampoline.shouldBeginBlock = shouldBeginBlock;
 	self.delegate = trampoline;
-	[self nr_addObject:trampoline forKey:NRGestureRecognizerShouldBeginBlockKey];
+	objc_setAssociatedObject(self, &NRGestureRecognizerShouldBeginBlockKey, trampoline, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
