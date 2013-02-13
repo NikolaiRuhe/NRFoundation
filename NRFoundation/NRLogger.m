@@ -26,6 +26,7 @@
 @implementation NRLogger
 {
 	int _stderrFileDescriptor;
+	NSTimer *_logfileRotationTimer;
 }
 
 + (instancetype)sharedLogger
@@ -36,18 +37,176 @@
 	return sharedLogger;
 }
 
-+ (NSString *)logfileBaseDirectory
+- (NSString *)logfileDirectory
 {
-	static NSString *libraryDirectory;
-	if (libraryDirectory == nil) {
-		libraryDirectory = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
-		libraryDirectory = [libraryDirectory stringByAppendingPathComponent:@"Logs"];
-		[[NSFileManager defaultManager] createDirectoryAtPath:libraryDirectory
+	static NSString *logfileDirectory;
+	if (logfileDirectory == nil) {
+		logfileDirectory = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES)[0];
+		logfileDirectory = [logfileDirectory stringByAppendingPathComponent:@"Logs"];
+		logfileDirectory = [logfileDirectory stringByAppendingPathComponent:@"AppConsole"];
+		[[NSFileManager defaultManager] createDirectoryAtPath:logfileDirectory
 								  withIntermediateDirectories:YES
 												   attributes:nil
 														error:NULL];
 	}
-	return libraryDirectory;
+	return logfileDirectory;
+}
+
+- (NSString *)filenamePrefix
+{
+	return @"Logfile_";
+}
+
+- (NSUInteger)minumNumberOfLogfilesToKeep
+{
+	// keep a minimum of 3 logfiles before removing any
+	return 3;
+}
+
+- (NSUInteger)maximumNumberOfLogfilesToKeep
+{
+	// keep a maximum of 100 logfiles
+	return 100;
+}
+
+- (unsigned long long)maxCombinedLogfileSize
+{
+	// keep a maximum of 2 MB
+	return 1024LU * 1024LU * 2LU;
+}
+
+- (void)setLogfileRotationCheckInterval:(NSTimeInterval)logfileRotationCheckInterval
+{
+	if (_logfileRotationCheckInterval == logfileRotationCheckInterval)
+		return;
+
+	_logfileRotationCheckInterval = logfileRotationCheckInterval;
+
+	if (_logfileRotationCheckInterval <= 0) {
+		_logfileRotationCheckInterval = 0;
+		[_logfileRotationTimer invalidate];
+		_logfileRotationTimer = nil;
+	}
+
+	[_logfileRotationTimer invalidate];
+	_logfileRotationTimer = [NSTimer scheduledTimerWithTimeInterval:_logfileRotationCheckInterval
+															 target:self
+														   selector:@selector(logfileRotationTimerFired:)
+														   userInfo:nil
+															repeats:YES];
+}
+
+- (void)logfileRotationTimerFired:(NSTimer *)timer
+{
+	[self checkLogfileRotation];
+}
+
+- (unsigned long long)maximumIndividualLogfileSize
+{
+	// try to keep logfiles under around 1 MB
+	return 1024LU * 1024LU * 1LU;
+}
+
+- (NSArray *)allLogFileURLsOrderedByModificationDateReverse:(BOOL)reverse
+{
+	NSString *directory = [self logfileDirectory];
+	NSArray *fileURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:directory isDirectory:YES]
+													  includingPropertiesForKeys:@[NSURLIsRegularFileKey, NSURLContentModificationDateKey]
+																		 options:NSDirectoryEnumerationSkipsHiddenFiles
+																		   error:NULL];
+
+	// filter proper logfiles
+	NSMutableArray *files = [NSMutableArray array];
+	for (NSURL *fileURL in fileURLs) {
+		if (! [[fileURL lastPathComponent] hasPrefix:[self filenamePrefix]])
+			continue;
+
+		NSNumber *isFile;
+		[fileURL getResourceValue:&isFile
+						   forKey:NSURLIsRegularFileKey
+							error:NULL];
+		if (! [isFile boolValue])
+			continue;
+
+		[files addObject:fileURL];
+	}
+
+	// sort files by modification date
+	[files sortUsingComparator:^NSComparisonResult(NSURL *file1, NSURL *file2) {
+		NSDate *date1;
+		[file1 getResourceValue:&date1
+						 forKey:NSURLContentModificationDateKey
+						  error:NULL];
+		NSDate *date2;
+		[file2 getResourceValue:&date2
+						 forKey:NSURLContentModificationDateKey
+						  error:NULL];
+		return reverse ? [date2 compare:date1] : [date1 compare:date2];
+	}];
+
+	return files;
+}
+
+- (unsigned long long)removeOldLogfiles
+{
+	unsigned long long combinedSize = 0;
+	NSUInteger logfileCount = 0;
+
+	// iterate over existing logfiles, newest first
+	for (NSURL *fileURL in [self allLogFileURLsOrderedByModificationDateReverse:YES]) {
+
+		logfileCount += 1;
+
+		BOOL canRemoveLogfiles    = logfileCount > [self minumNumberOfLogfilesToKeep];
+		BOOL shouldRemoveLogfiles = combinedSize > [self maxCombinedLogfileSize];
+		BOOL mustRemoveLogfiles   = logfileCount > [self maximumNumberOfLogfilesToKeep];
+
+		if ((canRemoveLogfiles && shouldRemoveLogfiles) || mustRemoveLogfiles) {
+			NSLog(@"removing old logfile: %@", [fileURL lastPathComponent]);
+			[[NSFileManager defaultManager] removeItemAtURL:fileURL
+													  error:NULL];
+		} else {
+			NSNumber *fileSize;
+			[fileURL getResourceValue:&fileSize
+							   forKey:NSURLFileSizeKey
+								error:NULL];
+
+			combinedSize += [fileSize unsignedLongLongValue];
+		}
+	}
+
+	return combinedSize;
+}
+
+- (NSString *)newLogFilename
+{
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:@"yyyy-MM-dd_HH-mm-ss"];
+	[formatter setLocale:nil];
+
+	NSString *filename = [NSString stringWithFormat:@"%@%@.log", [self filenamePrefix], [formatter stringFromDate:[NSDate date]]];
+
+	NSString *path = [[self logfileDirectory] stringByAppendingPathComponent:filename];
+
+	return path;
+}
+
+- (void)checkLogfileRotation
+{
+	// de we redirect at the moment?
+	if (_stderrFileDescriptor < 0)
+		return;
+
+	// STDERR_FILENO is the file descriptor of our logfile
+	off_t offset = lseek(STDERR_FILENO, 0, SEEK_CUR);
+	if (offset < 0)
+		return;
+
+	if (offset < (off_t)[self maximumIndividualLogfileSize])
+		return;
+
+	// create new logfile and remove old files
+	[self redirectStderrIntoNewLogfile];
 }
 
 - (id)init
@@ -61,20 +220,29 @@
 
 - (void)logAppInfo
 {
-	NSLog(@"Launching: \"%@\" version=\"%@\" bundleIdentifier=\"%@\" UUID=\"%@\"",
+	NSLog(@"\n"
+		  @"name=\"%@\"\n"
+		  @"version=\"%@\"\n"
+		  @"bundleIdentifier=\"%@\"\n"
+		  @"path=\"%@\"\nUUID=\"%@\"\n"
+		  @"device=\"%@\"\n"
+		  @"model=\"%@\"\n"
+		  @"modelID=\"%@\"\n"
+		  @"MACAddress=\"%@\"\n"
+		  @"OS=\"%@ %@\"\n\n",
 		  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
 		  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
 		  [[NSBundle mainBundle] bundleIdentifier],
-		  [NSBundle executableLinkEditorUUID]
+		  [[NSBundle mainBundle] executablePath],
+		  [NSBundle executableLinkEditorUUID],
+		  [UIDevice currentDevice].name,
+		  [UIDevice currentDevice].model,
+		  [UIDevice currentDevice].modelID,
+		  [UIDevice currentDevice].MACAddress,
+		  [UIDevice currentDevice].systemName,
+		  [UIDevice currentDevice].systemVersion
 		  );
 
-	NSString *deviceName = [UIDevice currentDevice].name;
-	NSString *model = [UIDevice currentDevice].model;
-	NSString *modelID = [UIDevice currentDevice].modelID;
-	NSString *MACAddress = [UIDevice currentDevice].MACAddress;
-	NSLog(@"Device: \"%@\" model=\"%@\" modelID=\"%@\" MACAddress=\"%@\"", deviceName, model, modelID, MACAddress);
-
-	NSLog(@"OS: \"%@\" version=\"%@\"", [UIDevice currentDevice].systemName, [UIDevice currentDevice].systemVersion);
 }
 
 - (BOOL)redirectStderr
@@ -99,31 +267,36 @@
 	if (_stderrFileDescriptor >= 0)
 		return;
 
+	// make a copy of stderr
 	_stderrFileDescriptor = dup(STDERR_FILENO);
 	if (_stderrFileDescriptor < 0) {
 		NSLog(@"could not dup stderr: %d", errno);
 		return;
 	}
 
-	NSString *path = [[self class] logfileBaseDirectory];
-	path = [path stringByAppendingPathComponent:@"logfile.txt"];
-	const char *logfile = [[NSFileManager defaultManager] fileSystemRepresentationWithPath:path];
-
-	int fd = open(logfile, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	if (fd < 0) {
-		NSLog(@"could not open logfile: %d", errno);
+	if (! [self redirectStderrIntoNewLogfile]) {
 		close(_stderrFileDescriptor);
 		_stderrFileDescriptor = -1;
-		return;
+	}
+}
+
+- (BOOL)redirectStderrIntoNewLogfile
+{
+	NSString *path = [self newLogFilename];
+	const char *logfilename = [[NSFileManager defaultManager] fileSystemRepresentationWithPath:path];
+
+	int fd = open(logfilename, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	if (fd < 0) {
+		NSLog(@"could not open logfile: %d", errno);
+		return NO;
 	}
 
 	// duplicate the logfile's descriptor over stderr
 	int result = dup2(fd, STDERR_FILENO);
 	if (result < 0) {
 		NSLog(@"could not duplicate logfile descriptor over stderr: %d", errno);
-		close(_stderrFileDescriptor);
-		_stderrFileDescriptor = -1;
-		return;
+		close(fd);
+		return NO;
 	}
 
 	// we don't need the original fd of the logfile any more.
@@ -131,7 +304,11 @@
 	close(fd);
 
 	// print message to original stderr
-	dprintf(_stderrFileDescriptor, "redirecting stderr to \"%s\"\n", logfile);
+	dprintf(_stderrFileDescriptor, "redirecting stderr to \"%s\"\n", logfilename);
+
+	[self removeOldLogfiles];
+
+	return YES;
 }
 
 - (void)stopRedirectingStderr
@@ -150,6 +327,40 @@
 
 	// print message to original stderr
 	dprintf(_stderrFileDescriptor, "stopped redirecting stderr\n");
+}
+
+- (BOOL)writeLogFilesToPath:(NSString *)path
+{
+	if (! [[NSFileManager defaultManager] createFileAtPath:path contents:[NSData data] attributes:nil]) {
+		NSLog(@"could not create archive at path: %@", path);
+		return NO;
+	}
+
+	NSFileHandle *outFile = [NSFileHandle fileHandleForWritingAtPath:path];
+	if (outFile == nil) {
+		NSLog(@"could not create file handle for writing at path: %@", path);
+		return NO;
+	}
+
+	for (NSURL *fileURL in [self allLogFileURLsOrderedByModificationDateReverse:NO]) {
+		@autoreleasepool {
+			NSString *message = [NSString stringWithFormat:
+								 @"--------------------------------------------------------------------------------\n"
+								 @"%@\n"
+								 @"--------------------------------------------------------------------------------\n",
+								 [fileURL lastPathComponent]];
+			NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
+			[outFile writeData:data];
+
+			NSData *inData = [NSData dataWithContentsOfURL:fileURL
+												   options:NSDataReadingMappedIfSafe
+													 error:NULL];
+			[outFile writeData:inData];
+			[outFile writeData:[NSData dataWithBytes:"\n\n\n" length:3]];
+		}
+	}
+
+	return YES;
 }
 
 @end
