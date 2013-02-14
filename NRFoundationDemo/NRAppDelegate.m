@@ -13,7 +13,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-	[NRLogger sharedLogger].redirectStderr = YES;
+	[NRLogger sharedLogger].redirectStderr = ! [NRLogger sharedLogger].debuggerAttatchedToConsole;
 	[NRLogger sharedLogger].logfileRotationCheckInterval = 60;
 	[[NRLogger sharedLogger] logAppInfo];
 

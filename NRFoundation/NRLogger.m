@@ -11,6 +11,7 @@
 #import "NRDevice.h"
 #import <unistd.h>
 #import <sys/ioctl.h>
+#import <sys/param.h>
 
 #if TARGET_IPHONE_SIMULATOR
 	#import <sys/conf.h>
@@ -398,6 +399,36 @@
 	return YES;
 }
 
+- (BOOL)isDebuggerAttatchedToConsole
+{
+	// We use the type of the original stderr file descriptor
+	// to guess if a debugger is attached.
+
+	int fd = self.redirectStderr ? _stderrFileDescriptor : STDERR_FILENO;
+
+	// is the file handle open?
+	if (fcntl(fd, F_GETFD, 0) < 0) {
+		return NO;
+	}
+
+	// get the path of stderr's file handle
+	char buf[MAXPATHLEN + 1];
+	if (fcntl(fd, F_GETPATH, buf ) >= 0) {
+		if (strcmp(buf, "/dev/null") == 0)
+			return NO;
+		if (strncmp(buf, "/dev/tty", 8) == 0)
+			return YES;
+	}
+
+	// On the device, without attached Xcode, the type is D_DISK (otherwise it's D_TTY)
+	int type;
+	if (ioctl(fd, FIODTYPE, &type) < 0) {
+		return NO;
+	}
+
+	return type != D_DISK;
+}
+
 @end
 
 
@@ -405,12 +436,7 @@
 static void autostart(void) __attribute__((constructor));
 static void autostart(void)
 {
-	// We use the type of the original stderr file descriptor to guess if a debugger is attached.
-	// On the device, without attached Xcode, the type is D_DISK (otherwise it's D_TTY)
-	int type;
-	BOOL stdErrIsDisk = ioctl(STDERR_FILENO, FIODTYPE, &type) != -1 && type == D_DISK;
-
-	if (stdErrIsDisk) {
+	if ([NRLogger sharedLogger].debuggerAttatchedToConsole) {
 		[NRLogger sharedLogger].redirectStderr = YES;
 	}
 

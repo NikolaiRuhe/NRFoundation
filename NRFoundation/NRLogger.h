@@ -21,6 +21,9 @@
 // Defaults to 0.
 @property (nonatomic) NSTimeInterval logfileRotationCheckInterval;
 
+// Try to guess if a debugger is attached and reading the output to stderr.
+@property (nonatomic, readonly, getter=isDebuggerAttatchedToConsole) BOOL debuggerAttatchedToConsole;
+
 // Check for logfile rotation once.
 // This is called automatically if logfileRotationCheckInterval > 0.
 - (void)checkLogfileRotation;
