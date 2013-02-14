@@ -13,6 +13,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+	[NRLogger sharedLogger].redirectStderr = YES;
+	[NRLogger sharedLogger].logfileRotationCheckInterval = 60;
 	[[NRLogger sharedLogger] logAppInfo];
 
     return YES;

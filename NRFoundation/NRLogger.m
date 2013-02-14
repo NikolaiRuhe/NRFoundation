@@ -27,6 +27,7 @@
 {
 	int _stderrFileDescriptor;
 	NSTimer *_logfileRotationTimer;
+	NSTimeInterval _logfileRotationCheckInterval;
 }
 
 + (instancetype)sharedLogger
@@ -35,6 +36,21 @@
 	if (sharedLogger == nil)
 		sharedLogger = [[self alloc] init];
 	return sharedLogger;
+}
+
+- (id)init
+{
+	self = [super init];
+	if (self) {
+		_stderrFileDescriptor = -1;
+	}
+	return self;
+}
+
+- (void)dealloc
+{
+	self.logfileRotationCheckInterval = 0;
+	self.redirectStderr = NO;
 }
 
 - (NSString *)logfileDirectory
@@ -69,42 +85,54 @@
 	return 100;
 }
 
-- (unsigned long long)maxCombinedLogfileSize
+- (unsigned long long)maximumIndividualLogfileSize
+{
+	// try to keep logfiles under around 1 MB
+	return 1024LU * 1024LU * 1LU;
+}
+
+- (unsigned long long)maximumCombinedLogfileSize
 {
 	// keep a maximum of 2 MB
 	return 1024LU * 1024LU * 2LU;
 }
 
+- (NSTimeInterval)logfileRotationCheckInterval
+{
+	@synchronized (self) {
+		return _logfileRotationCheckInterval;
+	}
+}
+
 - (void)setLogfileRotationCheckInterval:(NSTimeInterval)logfileRotationCheckInterval
 {
-	if (_logfileRotationCheckInterval == logfileRotationCheckInterval)
-		return;
+	NSAssert([NSThread isMainThread], @"logfileRotationCheckInterval can only be modified from the main thread.");
 
-	_logfileRotationCheckInterval = logfileRotationCheckInterval;
+	@synchronized (self) {
 
-	if (_logfileRotationCheckInterval <= 0) {
-		_logfileRotationCheckInterval = 0;
+		if (_logfileRotationCheckInterval == logfileRotationCheckInterval)
+			return;
+
+		_logfileRotationCheckInterval = logfileRotationCheckInterval;
+
+		if (_logfileRotationCheckInterval <= 0) {
+			_logfileRotationCheckInterval = 0;
+			[_logfileRotationTimer invalidate];
+			_logfileRotationTimer = nil;
+		}
+
 		[_logfileRotationTimer invalidate];
-		_logfileRotationTimer = nil;
+		_logfileRotationTimer = [NSTimer scheduledTimerWithTimeInterval:_logfileRotationCheckInterval
+																 target:self
+															   selector:@selector(logfileRotationTimerFired:)
+															   userInfo:nil
+																repeats:YES];
 	}
-
-	[_logfileRotationTimer invalidate];
-	_logfileRotationTimer = [NSTimer scheduledTimerWithTimeInterval:_logfileRotationCheckInterval
-															 target:self
-														   selector:@selector(logfileRotationTimerFired:)
-														   userInfo:nil
-															repeats:YES];
 }
 
 - (void)logfileRotationTimerFired:(NSTimer *)timer
 {
 	[self checkLogfileRotation];
-}
-
-- (unsigned long long)maximumIndividualLogfileSize
-{
-	// try to keep logfiles under around 1 MB
-	return 1024LU * 1024LU * 1LU;
 }
 
 - (NSArray *)allLogFileURLsOrderedByModificationDateReverse:(BOOL)reverse
@@ -158,7 +186,7 @@
 		logfileCount += 1;
 
 		BOOL canRemoveLogfiles    = logfileCount > [self minumNumberOfLogfilesToKeep];
-		BOOL shouldRemoveLogfiles = combinedSize > [self maxCombinedLogfileSize];
+		BOOL shouldRemoveLogfiles = combinedSize > [self maximumCombinedLogfileSize];
 		BOOL mustRemoveLogfiles   = logfileCount > [self maximumNumberOfLogfilesToKeep];
 
 		if ((canRemoveLogfiles && shouldRemoveLogfiles) || mustRemoveLogfiles) {
@@ -193,29 +221,23 @@
 
 - (void)checkLogfileRotation
 {
-	// de we redirect at the moment?
-	if (_stderrFileDescriptor < 0)
-		return;
+	@synchronized (self) {
 
-	// STDERR_FILENO is the file descriptor of our logfile
-	off_t offset = lseek(STDERR_FILENO, 0, SEEK_CUR);
-	if (offset < 0)
-		return;
+		// do we redirect at the moment?
+		if (! self.redirectStderr)
+			return;
 
-	if (offset < (off_t)[self maximumIndividualLogfileSize])
-		return;
+		// STDERR_FILENO is the file descriptor of our logfile
+		off_t offset = lseek(STDERR_FILENO, 0, SEEK_CUR);
+		if (offset < 0)
+			return;
 
-	// create new logfile and remove old files
-	[self redirectStderrIntoNewLogfile];
-}
+		if (offset < (off_t)[self maximumIndividualLogfileSize])
+			return;
 
-- (id)init
-{
-	self = [super init];
-	if (self) {
-		_stderrFileDescriptor = -1;
+		// create new logfile and remove old files
+		[self redirectStderrIntoNewLogfile];
 	}
-	return self;
 }
 
 - (void)logAppInfo
@@ -247,7 +269,9 @@
 
 - (BOOL)redirectStderr
 {
-	return _stderrFileDescriptor >= 0;
+	@synchronized (self) {
+		return _stderrFileDescriptor >= 0;
+	}
 }
 
 - (void)setRedirectStderr:(BOOL)redirectStderr
@@ -264,69 +288,85 @@
 
 - (void)startRedirectingStderr
 {
-	if (_stderrFileDescriptor >= 0)
-		return;
+	@synchronized (self) {
 
-	// make a copy of stderr
-	_stderrFileDescriptor = dup(STDERR_FILENO);
-	if (_stderrFileDescriptor < 0) {
-		NSLog(@"could not dup stderr: %d", errno);
-		return;
-	}
+		if (self.redirectStderr)
+			return;
 
-	if (! [self redirectStderrIntoNewLogfile]) {
-		close(_stderrFileDescriptor);
-		_stderrFileDescriptor = -1;
+		// make a copy of stderr
+		_stderrFileDescriptor = dup(STDERR_FILENO);
+		if (_stderrFileDescriptor < 0) {
+			NSLog(@"could not dup stderr: %d", errno);
+			return;
+		}
+
+		if (! [self redirectStderrIntoNewLogfile]) {
+			close(_stderrFileDescriptor);
+			_stderrFileDescriptor = -1;
+		}
+		//asl_add_log_file
 	}
 }
 
 - (BOOL)redirectStderrIntoNewLogfile
 {
-	NSString *path = [self newLogFilename];
-	const char *logfilename = [[NSFileManager defaultManager] fileSystemRepresentationWithPath:path];
+	@synchronized (self) {
 
-	int fd = open(logfilename, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	if (fd < 0) {
-		NSLog(@"could not open logfile: %d", errno);
-		return NO;
-	}
+		NSString *path = [self newLogFilename];
+		const char *logfilename = [[NSFileManager defaultManager] fileSystemRepresentationWithPath:path];
 
-	// duplicate the logfile's descriptor over stderr
-	int result = dup2(fd, STDERR_FILENO);
-	if (result < 0) {
-		NSLog(@"could not duplicate logfile descriptor over stderr: %d", errno);
+		int fd = open(logfilename, O_RDWR | O_CREAT | O_TRUNC, 0666);
+		if (fd < 0) {
+			NSLog(@"could not open logfile: %d", errno);
+			return NO;
+		}
+
+		// duplicate the logfile's descriptor over stderr
+		int result = dup2(fd, STDERR_FILENO);
+		if (result < 0) {
+			NSLog(@"could not duplicate logfile descriptor over stderr: %d", errno);
+			close(fd);
+			return NO;
+		}
+
+		// we don't need the original fd of the logfile any more.
+		// It's now named stderr
 		close(fd);
-		return NO;
+
+		// print message to original stderr
+		dprintf(_stderrFileDescriptor, "redirecting stderr to \"%s\"\n", logfilename);
+
+		dprintf(STDERR_FILENO,
+				"--------------------------------------------------------------------------------\n"
+				"%s\n"
+				"--------------------------------------------------------------------------------\n",
+				logfilename);
+
+		[self removeOldLogfiles];
+
+		return YES;
 	}
-
-	// we don't need the original fd of the logfile any more.
-	// It's now named stderr
-	close(fd);
-
-	// print message to original stderr
-	dprintf(_stderrFileDescriptor, "redirecting stderr to \"%s\"\n", logfilename);
-
-	[self removeOldLogfiles];
-
-	return YES;
 }
 
 - (void)stopRedirectingStderr
 {
-	if (_stderrFileDescriptor < 0)
-		return;
+	@synchronized (self) {
 
-	int result = dup2(_stderrFileDescriptor, STDERR_FILENO);
-	if (result < 0) {
-		NSLog(@"could not duplicate original stderr descriptor over stderr: %d", errno);
-		return;
+		if (! self.redirectStderr)
+			return;
+
+		int result = dup2(_stderrFileDescriptor, STDERR_FILENO);
+		if (result < 0) {
+			NSLog(@"could not duplicate original stderr descriptor over stderr: %d", errno);
+			return;
+		}
+
+		close(_stderrFileDescriptor);
+		_stderrFileDescriptor = -1;
+
+		// print message to original stderr
+		dprintf(_stderrFileDescriptor, "stopped redirecting stderr\n");
 	}
-
-	close(_stderrFileDescriptor);
-	_stderrFileDescriptor = -1;
-
-	// print message to original stderr
-	dprintf(_stderrFileDescriptor, "stopped redirecting stderr\n");
 }
 
 - (BOOL)writeLogFilesToPath:(NSString *)path
@@ -344,19 +384,14 @@
 
 	for (NSURL *fileURL in [self allLogFileURLsOrderedByModificationDateReverse:NO]) {
 		@autoreleasepool {
-			NSString *message = [NSString stringWithFormat:
-								 @"--------------------------------------------------------------------------------\n"
-								 @"%@\n"
-								 @"--------------------------------------------------------------------------------\n",
-								 [fileURL lastPathComponent]];
-			NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
-			[outFile writeData:data];
-
 			NSData *inData = [NSData dataWithContentsOfURL:fileURL
 												   options:NSDataReadingMappedIfSafe
 													 error:NULL];
-			[outFile writeData:inData];
-			[outFile writeData:[NSData dataWithBytes:"\n\n\n" length:3]];
+			if (inData != nil) {
+				[outFile writeData:inData];
+				char message[] = "\n--- end of file ---\n\n";
+				[outFile writeData:[NSData dataWithBytes:message length:sizeof(message) - 1]];
+			}
 		}
 	}
 
