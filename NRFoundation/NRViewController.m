@@ -40,6 +40,7 @@ static int coverViewAssociatedObjectKey;
 	if (! [self isViewLoaded])
 		return;
 
+	[self.view endEditing:YES];
 	self.view.userInteractionEnabled = NO;
 
 	UIView *coverView = objc_getAssociatedObject(self, &coverViewAssociatedObjectKey);
