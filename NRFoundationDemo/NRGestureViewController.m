@@ -7,7 +7,6 @@
 //
 
 #import "NRGestureViewController.h"
-#import "NRFoundation.h"
 #import <QuartzCore/QuartzCore.h>
 
 

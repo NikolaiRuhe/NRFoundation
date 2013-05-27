@@ -8,7 +8,6 @@
 
 #import "NRMasterViewController.h"
 #import "NRGestureViewController.h"
-#import "NRFoundation.h"
 
 
 @implementation NRMasterViewController

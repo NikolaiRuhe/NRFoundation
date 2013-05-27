@@ -7,11 +7,3 @@
 //
 
 #import <Foundation/Foundation.h>
-
-// NR_CAST dynamically checks the type of the operand and returns the operand
-// if it decends from type, nil otherwise.
-
-#define NR_CAST(operand, type) (type *)([(type) isKindOfClass:[type class]] ? (type) : nil)
-
-#define NR_WEAK(variable)       typeof(variable) __weak              weak_       ## variable = (variable)
-#define NR_UNRETAINED(variable) typeof(variable) __unsafe_unretained unretained_ ## variable = (variable)

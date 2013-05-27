@@ -6,6 +6,14 @@
 //  Copyright (c) 2012 Nikolai Ruhe. All rights reserved.
 //
 
+#ifndef NR_FOUNDATION_H_INCLUDED
+#define NR_FOUNDATION_H_INCLUDED
+
+// we use an include guard here to be able to import this header
+// using #import <NRFoundation/NRFoundation.h> and then
+// #import "NRFoundation.h" without problems.
+
+#import "NRPrefix.h"
 #import "NRUtilities.h"
 #import "NRBundle.h"
 #import "NRObject.h"
@@ -18,3 +26,5 @@
 #import "NRViewController.h"
 #import "NRNotificationCenter.h"
 #import "NRLogger.h"
+
+#endif // NR_FOUNDATION_H_INCLUDED

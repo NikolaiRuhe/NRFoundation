@@ -12,6 +12,7 @@
 		9109CC2716B9B33B00492321 /* NRDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9109CC2016B9A8D600492321 /* NRDevice.h */; };
 		9109CC2816B9B34100492321 /* NRBundle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9109CC2416B9B32D00492321 /* NRBundle.h */; };
 		9120BD9D161AEDC200C64339 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9120BD9C161AEDC200C64339 /* QuartzCore.framework */; };
+		912294CF1753D16A00995308 /* NRPrefix.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 912294B61753BEFA00995308 /* NRPrefix.h */; };
 		9142A558166DFF150089094A /* NRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9142A557166DFF150089094A /* NRViewController.m */; };
 		9158298C16C534D600674002 /* NRNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9158298B16C534D600674002 /* NRNotificationCenter.m */; };
 		916BFBD416A5DCFD002DF3FA /* NRTimer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91ABC2E815F66C4300405885 /* NRTimer.h */; };
@@ -60,6 +61,7 @@
 			dstPath = "include/${PRODUCT_NAME}";
 			dstSubfolderSpec = 16;
 			files = (
+				912294CF1753D16A00995308 /* NRPrefix.h in CopyFiles */,
 				91C791EF15EBC7E000D01DD0 /* NRActionSheet.h in CopyFiles */,
 				9109CC2716B9B33B00492321 /* NRDevice.h in CopyFiles */,
 				9109CC2816B9B34100492321 /* NRBundle.h in CopyFiles */,
@@ -82,6 +84,7 @@
 		9109CC2416B9B32D00492321 /* NRBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRBundle.h; sourceTree = "<group>"; };
 		9109CC2516B9B32D00492321 /* NRBundle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRBundle.m; sourceTree = "<group>"; };
 		9120BD9C161AEDC200C64339 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		912294B61753BEFA00995308 /* NRPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRPrefix.h; sourceTree = "<group>"; };
 		9142A556166DFF150089094A /* NRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRViewController.h; sourceTree = "<group>"; };
 		9142A557166DFF150089094A /* NRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRViewController.m; sourceTree = "<group>"; };
 		9158298A16C534D600674002 /* NRNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRNotificationCenter.h; sourceTree = "<group>"; };
@@ -179,6 +182,7 @@
 		919C2EA315EB6C1E00C834A6 /* NRFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				912294B61753BEFA00995308 /* NRPrefix.h */,
 				919C2EA615EB6C1E00C834A6 /* NRFoundation.h */,
 				91C791E315EBA5E700D01DD0 /* NRActionSheet.h */,
 				91C791E415EBA5E700D01DD0 /* NRActionSheet.m */,
@@ -431,6 +435,7 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NRFoundation/NRPrefix.h;
 				INFOPLIST_FILE = "NRFoundationDemo/NRFoundationDemo-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = NRFoundationDemo;
@@ -443,6 +448,7 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NRFoundation/NRPrefix.h;
 				INFOPLIST_FILE = "NRFoundationDemo/NRFoundationDemo-Info.plist";
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-ObjC";

@@ -7,7 +7,6 @@
 //
 
 #import "NRAppDelegate.h"
-#import "NRFoundation.h"
 
 @implementation NRAppDelegate
 
