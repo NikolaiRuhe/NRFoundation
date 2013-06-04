@@ -6,14 +6,17 @@
 //  Copyright (c) 2013 Nikolai Ruhe. All rights reserved.
 //
 
-#ifndef NR_PREFIX_H_INCLUDED
-#define NR_PREFIX_H_INCLUDED
-
 // we use an include guard here to be able to import this header
 // using #import <NRFoundation/NRPrefix.h> and then
-// #import "Prefix.h" without problems.
+// #import "NRPrefix.h" without problems.
+
+#ifndef NR_PREFIX_H_INCLUDE_GUARD
+#define NR_PREFIX_H_INCLUDE_GUARD
+
+
 
 #include <Availability.h>
+
 #include <CoreFoundation/CoreFoundation.h>
 
 #ifdef __OBJC__
@@ -27,22 +30,17 @@
 	#import <SenTestingKit/SenTestingKit.h>
 #endif
 
-#if defined(__has_include)
-	#if __OBJC__
-		#if __has_include(<NRFoundation/NRFoundation.h>)
-			#import <NRFoundation/NRFoundation.h>
-		#elif __has_include("NRFoundation.h")
-			#import "NRFoundation.h"
-		#endif
-		#if __has_include("project.h")
-			#import "project.h"
-		#endif
-		#if __has_include("project-config.h")
-			#import "project-config.h"
-		#endif
+
+// try to include NRFoundation.h
+#if defined(__has_include) && __OBJC__
+	#if __has_include(<NRFoundation/NRFoundation.h>)
+		#import <NRFoundation/NRFoundation.h>
+	#elif __has_include("NRFoundation.h")
+		#import "NRFoundation.h"
 	#endif
 #endif
 
+// make sure either DEBUG or NDEBUG ist set
 #ifdef NDEBUG
 	#ifdef DEBUG
 		#error "Both DEBUG and NDEBUG are defined"
@@ -53,6 +51,25 @@
 	#endif
 #endif
 
+// make #warnings normal warnings in case the compiler treats warnings as errors.
+#pragma clang diagnostic warning "-W#warnings"
+
+#define NR_STR(X) #X
+
+// These macros can be used to mark locations in code that need review.
+// They can be switched on by setting NR_SHOW_MARKERS=1 which will make the
+// compiler emit warnings.
+#if defined(NR_SHOW_MARKERS) && NR_SHOW_MARKERS
+	#define NR_TODO(...)  _Pragma(NR_STR(message "TODO: "  #__VA_ARGS__))
+	#define NR_FIXME(...) _Pragma(NR_STR(message "FIXME: " #__VA_ARGS__))
+	#define NR_NOTE(...)  _Pragma(NR_STR(message "NOTE: "  #__VA_ARGS__))
+#else
+	#define NR_TODO(...)
+	#define NR_FIXME(...)
+	#define NR_NOTE(...)
+#endif
+
+// some Objective-C helper macros
 #if __OBJC__
 
 // checks for equal objects or both parameters nil.
@@ -103,4 +120,4 @@ static inline id NRAssertedCastHelper(id object, Class objcClass, const char *fi
 
 #endif
 
-#endif // NR_PREFIX_H_INCLUDED
+#endif // NR_PREFIX_H_INCLUDE_GUARD
