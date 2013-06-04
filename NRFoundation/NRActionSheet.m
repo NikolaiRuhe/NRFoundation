@@ -41,7 +41,7 @@ static NSString *NRActionSheetCompletionBlocksKey = @"NRActionSheetCompletionBlo
 
 @implementation UIActionSheet (NRActionSheet)
 
-- (id)nr_initWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelButtonTitle action:(NRActionSheetAction)cancelAction destructiveButtonTitle:(NSString *)destructiveButtonTitle action:(NRActionSheetAction)destructiveAction otherButtonTitle:(NSString *)otherButtonTitle action:(NRActionSheetAction)otherAction;
+- (id)nr_initWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelButtonTitle action:(NRActionSheetAction)cancelAction destructiveButtonTitle:(NSString *)destructiveButtonTitle action:(NRActionSheetAction)destructiveAction otherButtonTitle:(NSString *)otherButtonTitle action:(NRActionSheetAction)otherAction
 {
 	self = [self initWithTitle:title delegate:nil cancelButtonTitle:cancelButtonTitle destructiveButtonTitle:destructiveButtonTitle otherButtonTitles:otherButtonTitle, nil];
 	if (cancelAction != nil)
