@@ -27,7 +27,10 @@
 #endif
 
 #ifdef UNIT_TESTS
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
 	#import <SenTestingKit/SenTestingKit.h>
+	#pragma clang diagnostic pop
 #endif
 
 
