@@ -13,6 +13,8 @@
 
 @implementation NRGestureViewController
 
+@synthesize blockView = _blockView;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

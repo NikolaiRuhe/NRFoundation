@@ -19,6 +19,8 @@ static void NRSwizzleObject(id object);
 @end
 
 @implementation NRSegueTrampoline
+@synthesize sender = _sender;
+@synthesize preparationBlock = _preparationBlock;
 @end
 
 

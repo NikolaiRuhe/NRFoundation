@@ -10,6 +10,8 @@
 
 @implementation NRAppDelegate
 
+@synthesize window = _window;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
 	[NRLogger sharedLogger].redirectStderr = ! [NRLogger sharedLogger].debuggerAttatchedToConsole;

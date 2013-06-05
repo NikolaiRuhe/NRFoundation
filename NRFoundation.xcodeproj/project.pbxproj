@@ -99,6 +99,7 @@
 		919C2EB115EB6CA300C834A6 /* NRAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRAlertView.m; sourceTree = "<group>"; wrapsLines = 0; };
 		919C2EB315EB709000C834A6 /* NRObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRObject.h; sourceTree = "<group>"; };
 		919C2EB415EB709000C834A6 /* NRObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRObject.m; sourceTree = "<group>"; wrapsLines = 0; };
+		91A26FA6175F7754006A69C5 /* NRFoundation.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NRFoundation.xcconfig; sourceTree = "<group>"; };
 		91ABC2E815F66C4300405885 /* NRTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRTimer.h; sourceTree = "<group>"; };
 		91ABC2E915F66C4300405885 /* NRTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRTimer.m; sourceTree = "<group>"; };
 		91C7919B15EB893E00D01DD0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -151,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				91F92D3215F0D02F008CA16C /* README.md */,
+				91A26FA6175F7754006A69C5 /* NRFoundation.xcconfig */,
 				919C2EA315EB6C1E00C834A6 /* NRFoundation */,
 				91C791C415EB925E00D01DD0 /* NRFoundationDemo */,
 				919C2EA015EB6C1E00C834A6 /* Frameworks */,
@@ -356,17 +358,9 @@
 /* Begin XCBuildConfiguration section */
 		919C2EAA15EB6C1E00C834A6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91A26FA6175F7754006A69C5 /* NRFoundation.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -374,37 +368,19 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
-				WARNING_LDFLAGS = "-Weverything";
 			};
 			name = Debug;
 		};
 		919C2EAB15EB6C1E00C834A6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91A26FA6175F7754006A69C5 /* NRFoundation.xcconfig */;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
-				WARNING_LDFLAGS = "-Weverything";
 			};
 			name = Release;
 		};

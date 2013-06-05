@@ -51,7 +51,7 @@
 	#endif
 #endif
 
-// make #warnings normal warnings in case the compiler treats warnings as errors.
+// if warnings are treated as errors by the compiler, make #warnings normal warnings again
 #pragma clang diagnostic warning "-W#warnings"
 
 #define NR_STR(X) #X
