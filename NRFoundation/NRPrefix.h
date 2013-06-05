@@ -91,7 +91,7 @@ static inline id NRDynamicCastHelper(id object, Class objcClass) __attribute__ (
 static inline id NRDynamicCastHelper(id object, Class objcClass)
 {
 	if ([object isKindOfClass:objcClass])
-		return objcClass;
+		return object;
 	return nil;
 }
 
@@ -102,7 +102,7 @@ static inline id NRAssertedCastHelper(id object, Class objcClass, const char *fi
 static inline id NRAssertedCastHelper(id object, Class objcClass, const char *file, const char *function, NSInteger line, const char *argumentName, const char *typeName)
 {
 	if ([object isKindOfClass:objcClass])
-		return objcClass;
+		return object;
 	[[NSAssertionHandler currentHandler] handleFailureInFunction:[NSString stringWithUTF8String:function]
 															file:[NSString stringWithUTF8String:file]
 													  lineNumber:line
