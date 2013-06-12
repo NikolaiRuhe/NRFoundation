@@ -28,7 +28,7 @@ NR_EXPLICIT_WARNING_CFLAGS         = -Wenum-conversion
 NR_ADDITIONAL_WARNING_CFLAGS       =
 
 // here we assemble the list of unwanted warnings:
-NR_DISABLED_WARNING_CFLAGS         = $(NR_NO_READONLY_SETTER_ATTRS) $(NR_NO_DIRECT_IVAR_ACCESS) $(NR_NO_UNUSED_MACROS) $(NR_NO_FLOAT_EQUAL) $(NR_NO_ARC_REPEATED_USE_OF_WEAK) $(NR_NO_MISSING_NORETURN) $(NR_NO_LANGUAGE_EXTENSION_TOKEN) $(NR_NO_GNU)
+NR_DISABLED_WARNING_CFLAGS         = $(NR_NO_READONLY_SETTER_ATTRS) $(NR_NO_DIRECT_IVAR_ACCESS) $(NR_NO_UNUSED_MACROS) $(NR_NO_FLOAT_EQUAL) $(NR_NO_ARC_REPEATED_USE_OF_WEAK) $(NR_NO_MISSING_NORETURN) $(NR_NO_LANGUAGE_EXTENSION_TOKEN) $(NR_NO_GNU) $(NR_NO_VARIADIC_MACROS)
 
 // unwanted warnings:
 NR_NO_READONLY_SETTER_ATTRS        = -Wno-readonly-setter-attrs
@@ -39,6 +39,7 @@ NR_NO_ARC_REPEATED_USE_OF_WEAK     = -Wno-arc-repeated-use-of-weak
 NR_NO_MISSING_NORETURN             = -Wno-missing-noreturn
 NR_NO_LANGUAGE_EXTENSION_TOKEN     = -Wno-language-extension-token
 NR_NO_GNU                          = -Wno-gnu
+NR_NO_VARIADIC_MACROS              = -Wno-variadic-macros
 
 // enable some warnings as predefined build settings to stop Xcode from suggesting to update the project.
 CLANG_WARN_BOOL_CONVERSION         = YES
