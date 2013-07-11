@@ -24,6 +24,8 @@
 		919C2EB215EB6CA400C834A6 /* NRAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 919C2EB115EB6CA300C834A6 /* NRAlertView.m */; };
 		919C2EB515EB709000C834A6 /* NRObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 919C2EB415EB709000C834A6 /* NRObject.m */; };
 		91ABC2EA15F66C4300405885 /* NRTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2E915F66C4300405885 /* NRTimer.m */; };
+		91B6B418178EC2D1008637C4 /* NRUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B6B417178EC2D1008637C4 /* NRUtilities.m */; };
+		91B6B419178EC2D1008637C4 /* NRUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B6B417178EC2D1008637C4 /* NRUtilities.m */; };
 		91C7919315EB84DE00D01DD0 /* NRAlertView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EB015EB6CA300C834A6 /* NRAlertView.h */; };
 		91C7919415EB84DE00D01DD0 /* NRObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EB315EB709000C834A6 /* NRObject.h */; };
 		91C791C115EB925E00D01DD0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91C7919B15EB893E00D01DD0 /* UIKit.framework */; };
@@ -102,6 +104,7 @@
 		91A26FA6175F7754006A69C5 /* NRFoundation.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = NRFoundation.xcconfig; sourceTree = "<group>"; };
 		91ABC2E815F66C4300405885 /* NRTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRTimer.h; sourceTree = "<group>"; };
 		91ABC2E915F66C4300405885 /* NRTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRTimer.m; sourceTree = "<group>"; };
+		91B6B417178EC2D1008637C4 /* NRUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRUtilities.m; sourceTree = "<group>"; };
 		91C7919B15EB893E00D01DD0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		91C7919E15EB893E00D01DD0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		91C791BF15EB925E00D01DD0 /* NRFoundationDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NRFoundationDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -207,6 +210,7 @@
 				91ABC2E815F66C4300405885 /* NRTimer.h */,
 				91ABC2E915F66C4300405885 /* NRTimer.m */,
 				91F92D2C15F0CC1E008CA16C /* NRUtilities.h */,
+				91B6B417178EC2D1008637C4 /* NRUtilities.m */,
 				9142A556166DFF150089094A /* NRViewController.h */,
 				9142A557166DFF150089094A /* NRViewController.m */,
 			);
@@ -328,6 +332,7 @@
 				91ABC2EA15F66C4300405885 /* NRTimer.m in Sources */,
 				9142A558166DFF150089094A /* NRViewController.m in Sources */,
 				9109CC2216B9A8D600492321 /* NRDevice.m in Sources */,
+				91B6B418178EC2D1008637C4 /* NRUtilities.m in Sources */,
 				9109CC2616B9B32D00492321 /* NRBundle.m in Sources */,
 				91948CAE16C41A1B00257586 /* NRLogger.m in Sources */,
 				9158298C16C534D600674002 /* NRNotificationCenter.m in Sources */,
@@ -342,6 +347,7 @@
 				91C791CF15EB925E00D01DD0 /* NRAppDelegate.m in Sources */,
 				91C791D515EB925E00D01DD0 /* NRMasterViewController.m in Sources */,
 				91C791D815EB925E00D01DD0 /* NRGestureViewController.m in Sources */,
+				91B6B419178EC2D1008637C4 /* NRUtilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
