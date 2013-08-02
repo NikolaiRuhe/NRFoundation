@@ -43,6 +43,8 @@
 		91C791EE15EBC7D600D01DD0 /* NRGestureRecognizer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91C791E715EBB5D100D01DD0 /* NRGestureRecognizer.h */; };
 		91C791EF15EBC7E000D01DD0 /* NRActionSheet.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91C791E315EBA5E700D01DD0 /* NRActionSheet.h */; };
 		91C791F615EBC8C600D01DD0 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91C791F515EBC8C600D01DD0 /* MainStoryboard.storyboard */; };
+		91F80EBE17AA87BE00B1EB01 /* NRCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = 91F80EBD17AA87BE00B1EB01 /* NRCollections.m */; };
+		91F80EBF17AA87BE00B1EB01 /* NRCollections.m in Sources */ = {isa = PBXBuildFile; fileRef = 91F80EBD17AA87BE00B1EB01 /* NRCollections.m */; };
 		91F92D2D15F0CC61008CA16C /* NRUtilities.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91F92D2C15F0CC1E008CA16C /* NRUtilities.h */; };
 /* End PBXBuildFile section */
 
@@ -123,6 +125,8 @@
 		91C791EA15EBC29800D01DD0 /* NRControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRControl.h; sourceTree = "<group>"; };
 		91C791EB15EBC29800D01DD0 /* NRControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRControl.m; sourceTree = "<group>"; };
 		91C791F515EBC8C600D01DD0 /* MainStoryboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard.storyboard; sourceTree = "<group>"; };
+		91F80EBC17AA87BE00B1EB01 /* NRCollections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRCollections.h; sourceTree = "<group>"; };
+		91F80EBD17AA87BE00B1EB01 /* NRCollections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRCollections.m; sourceTree = "<group>"; };
 		91F92D2C15F0CC1E008CA16C /* NRUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRUtilities.h; sourceTree = "<group>"; };
 		91F92D3215F0D02F008CA16C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -195,6 +199,8 @@
 				919C2EB115EB6CA300C834A6 /* NRAlertView.m */,
 				9109CC2416B9B32D00492321 /* NRBundle.h */,
 				9109CC2516B9B32D00492321 /* NRBundle.m */,
+				91F80EBC17AA87BE00B1EB01 /* NRCollections.h */,
+				91F80EBD17AA87BE00B1EB01 /* NRCollections.m */,
 				91C791EA15EBC29800D01DD0 /* NRControl.h */,
 				91C791EB15EBC29800D01DD0 /* NRControl.m */,
 				9109CC2016B9A8D600492321 /* NRDevice.h */,
@@ -326,6 +332,7 @@
 			files = (
 				919C2EB215EB6CA400C834A6 /* NRAlertView.m in Sources */,
 				919C2EB515EB709000C834A6 /* NRObject.m in Sources */,
+				91F80EBE17AA87BE00B1EB01 /* NRCollections.m in Sources */,
 				91C791E515EBA5E700D01DD0 /* NRActionSheet.m in Sources */,
 				91C791E915EBB5D100D01DD0 /* NRGestureRecognizer.m in Sources */,
 				91C791EC15EBC29800D01DD0 /* NRControl.m in Sources */,
@@ -344,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				91C791CB15EB925E00D01DD0 /* main.m in Sources */,
+				91F80EBF17AA87BE00B1EB01 /* NRCollections.m in Sources */,
 				91C791CF15EB925E00D01DD0 /* NRAppDelegate.m in Sources */,
 				91C791D515EB925E00D01DD0 /* NRMasterViewController.m in Sources */,
 				91C791D815EB925E00D01DD0 /* NRGestureViewController.m in Sources */,
