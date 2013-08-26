@@ -243,11 +243,30 @@
 
 - (void)logAppInfo
 {
+	NSString* documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+	NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:documentsPath error:NULL];
+	unsigned long long freeDiskBytes = [attributes[NSFileSystemFreeSize] unsignedLongLongValue];
+
+	NSUInteger wired;
+	NSUInteger active;
+	NSUInteger inactive;
+	NSUInteger freeBytes;
+	NSUInteger physicalMemory;
+	[[UIDevice currentDevice] getMemorySizesForWired:&wired active:&active inactive:&inactive free:&freeBytes physicalMemory:&physicalMemory];
+	unsigned long availableMemoryBytes = inactive + freeBytes;
+	unsigned long totalMemoryBytes = wired + active + availableMemoryBytes;
+
 	NSLog(@"\n"
 		  @"name=\"%@\"\n"
 		  @"version=\"%@\"\n"
 		  @"bundleIdentifier=\"%@\"\n"
-		  @"path=\"%@\"\nUUID=\"%@\"\n"
+		  @"UUID=\"%@\"\n"
+		  @"path=\"%@\"\n"
+		  @"documentsPath=\"%@\"\n"
+		  @"freeDiskBytes=\"%.1f GB\"\n"
+		  @"physicalMemory=\"%.1f MB\"\n"
+		  @"totalMemory=\"%.1f MB\"\n"
+		  @"availableMemory=\"%.1f MB\"\n"
 		  @"device=\"%@\"\n"
 		  @"model=\"%@\"\n"
 		  @"modelID=\"%@\"\n"
@@ -256,16 +275,20 @@
 		  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
 		  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
 		  [[NSBundle mainBundle] bundleIdentifier],
-		  [[NSBundle mainBundle] executablePath],
 		  [NSBundle executableLinkEditorUUID],
+		  [[NSBundle mainBundle] executablePath],
+		  documentsPath,
+		  freeDiskBytes        / (double)(1024 * 1024 * 1024),
+		  physicalMemory       / (double)(1024 * 1024),
+		  totalMemoryBytes     / (double)(1024 * 1024),
+		  availableMemoryBytes / (double)(1024 * 1024),
 		  [UIDevice currentDevice].name,
 		  [UIDevice currentDevice].model,
 		  [UIDevice currentDevice].modelID,
 		  [UIDevice currentDevice].MACAddress,
 		  [UIDevice currentDevice].systemName,
 		  [UIDevice currentDevice].systemVersion
-		  );
-
+	);
 }
 
 - (BOOL)redirectStderr
@@ -366,7 +389,7 @@
 		_stderrFileDescriptor = -1;
 
 		// print message to original stderr
-		dprintf(_stderrFileDescriptor, "stopped redirecting stderr\n");
+		dprintf(STDERR_FILENO, "stopped redirecting stderr\n");
 	}
 }
 

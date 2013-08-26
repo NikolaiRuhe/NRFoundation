@@ -12,6 +12,8 @@
 #include <sys/socket.h>
 #include <net/if.h>
 #include <net/if_dl.h>
+#import <mach/mach.h>
+#import <mach/mach_host.h>
 
 
 @implementation UIDevice (NRDevice)
@@ -72,6 +74,43 @@
 			(int)macAddress[3],
 			(int)macAddress[4],
 			(int)macAddress[5]];
+}
+
+- (void)getMemorySizesForWired:(NSUInteger *)wired active:(NSUInteger *)active inactive:(NSUInteger *)inactive free:(NSUInteger *)freeBytes physicalMemory:(NSUInteger *)physicalMemory
+{
+	mach_port_t hostPort = mach_host_self();
+
+	vm_size_t pageSize;
+	host_page_size(hostPort, &pageSize);
+
+	vm_statistics_data_t statistics;
+	mach_msg_type_number_t hostSize = sizeof(statistics) / sizeof(integer_t);
+	kern_return_t status = host_statistics(hostPort, HOST_VM_INFO, (host_info_t)&statistics, &hostSize);
+	if (status != KERN_SUCCESS) {
+		NSLog(@"error in host_statistics");
+		pageSize = 0;
+	}
+
+	int mib[2] = { CTL_HW, HW_MEMSIZE };
+	uint64_t physicalMemoryValue;
+	size_t length = sizeof(physicalMemoryValue);
+	if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), &physicalMemoryValue, &length, NULL, 0) != 0)
+		perror("sysctl CTL_HW, HW_MEMSIZE");
+
+	if (wired != NULL)
+		*wired = statistics.wire_count * pageSize;
+
+	if (active != NULL)
+		*active = statistics.active_count * pageSize;
+
+	if (inactive != NULL)
+		*inactive = statistics.inactive_count * pageSize;
+
+	if (freeBytes != NULL)
+		*freeBytes = statistics.free_count * pageSize;
+
+	if (physicalMemory != NULL)
+		*physicalMemory = physicalMemoryValue;
 }
 
 @end

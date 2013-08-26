@@ -20,4 +20,6 @@
 
 - (NSString *)MACAddressForInterface:(NSString *)interface;
 
+- (void)getMemorySizesForWired:(NSUInteger *)wired active:(NSUInteger *)active inactive:(NSUInteger *)inactive free:(NSUInteger *)freeBytes physicalMemory:(NSUInteger *)physicalMemory;
+
 @end
