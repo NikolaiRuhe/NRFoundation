@@ -260,7 +260,7 @@
 		  @"name=\"%@\"\n"
 		  @"version=\"%@\"\n"
 		  @"bundleIdentifier=\"%@\"\n"
-		  @"UUID=\"%@\"\n"
+		  @"LC_UUID=\"%@\"\n"
 		  @"path=\"%@\"\n"
 		  @"documentsPath=\"%@\"\n"
 		  @"freeDiskBytes=\"%.1f GB\"\n"
@@ -271,7 +271,9 @@
 		  @"model=\"%@\"\n"
 		  @"modelID=\"%@\"\n"
 		  @"MACAddress=\"%@\"\n"
-		  @"OS=\"%@ %@\"\n\n",
+		  @"OS=\"%@ %@\"\n"
+		  @"locale=\"%@\"\n"
+		  @"timezone=\"%@: %+ld\"\n\n",
 		  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
 		  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
 		  [[NSBundle mainBundle] bundleIdentifier],
@@ -287,7 +289,9 @@
 		  [UIDevice currentDevice].modelID,
 		  [UIDevice currentDevice].MACAddress,
 		  [UIDevice currentDevice].systemName,
-		  [UIDevice currentDevice].systemVersion
+		  [UIDevice currentDevice].systemVersion,
+		  [[NSLocale currentLocale] identifier],
+		  [[[NSCalendar currentCalendar] timeZone] name], (long)([[[NSCalendar currentCalendar] timeZone] secondsFromGMT] / 60)
 	);
 }
 
