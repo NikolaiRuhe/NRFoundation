@@ -16,10 +16,10 @@
 + (BOOL)isIPhone;
 
 @property (nonatomic, readonly) NSString *modelID;
-@property (nonatomic, readonly) NSString *MACAddress;
-
-- (NSString *)MACAddressForInterface:(NSString *)interface;
 
 - (void)getMemorySizesForWired:(NSUInteger *)wired active:(NSUInteger *)active inactive:(NSUInteger *)inactive free:(NSUInteger *)freeBytes physicalMemory:(NSUInteger *)physicalMemory;
+
+- (NSString *)nr_uniqueIdentifier;
+- (NSString *)nr_uniqueIdentifierWithAccessGroup:(NSString *)accessGroup;
 
 @end

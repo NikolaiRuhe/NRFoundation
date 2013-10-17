@@ -23,6 +23,7 @@
 #import "NRControl.h"
 #import "NRDevice.h"
 #import "NRGestureRecognizer.h"
+#import "NRString.h"
 #import "NRTimer.h"
 #import "NRViewController.h"
 #import "NRNotificationCenter.h"

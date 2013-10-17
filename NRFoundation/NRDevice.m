@@ -1,5 +1,5 @@
 //
-//  NDDevice.m
+//  NRDevice.m
 //  NRFoundation
 //
 //  Created by Nikolai Ruhe on 2012-01-30.
@@ -7,6 +7,7 @@
 //
 
 #import "NRDevice.h"
+#import "NRString.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
 #include <sys/socket.h>
@@ -40,40 +41,6 @@
 		[data setLength:size - 1];
 
 	return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-}
-
-- (NSString *)MACAddress
-{
-	return [self MACAddressForInterface:@"en0"];
-}
-
-- (NSString *)MACAddressForInterface:(NSString *)interface
-{
-	int interfaceIndex = if_nametoindex([interface UTF8String]);
-	if (interfaceIndex < 1)
-		return nil;
-
-	int mib[] = { CTL_NET, AF_ROUTE, 0, AF_LINK, NET_RT_IFLIST, interfaceIndex };
-
-	size_t size;
-	if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), NULL, &size, NULL, 0) != 0)
-		return nil;
-
-	NSMutableData *buffer = [NSMutableData dataWithLength:size];
-	struct if_msghdr *if_msghdr = [buffer mutableBytes];
-	if (sysctl(mib, sizeof(mib) / sizeof(mib[0]), if_msghdr, &size, NULL, 0) != 0)
-		return nil;
-
-	const struct sockaddr_dl *sockaddr = (const struct sockaddr_dl *)(if_msghdr + 1);
-	const uint8_t *macAddress = (const uint8_t *)(sockaddr->sdl_data + sockaddr->sdl_nlen);
-
-	return [NSString stringWithFormat:@"%02X:%02X:%02X:%02X:%02X:%02X",
-			(int)macAddress[0],
-			(int)macAddress[1],
-			(int)macAddress[2],
-			(int)macAddress[3],
-			(int)macAddress[4],
-			(int)macAddress[5]];
 }
 
 - (void)getMemorySizesForWired:(NSUInteger *)wired active:(NSUInteger *)active inactive:(NSUInteger *)inactive free:(NSUInteger *)freeBytes physicalMemory:(NSUInteger *)physicalMemory
@@ -111,6 +78,72 @@
 
 	if (physicalMemory != NULL)
 		*physicalMemory = physicalMemoryValue;
+}
+
+- (NSString *)nr_uniqueIdentifier
+{
+	return [self nr_uniqueIdentifierWithAccessGroup:nil];
+}
+
+- (NSString *)nr_uniqueIdentifierWithAccessGroup:(NSString *)accessGroup
+{
+	NSMutableDictionary *query = [NSMutableDictionary dictionary];
+
+	// we are creating a generic password item in the keychain
+	query[(__bridge id)kSecClass] = (__bridge id)kSecClassGenericPassword;
+
+	// use the security class of the item to bind the id to this device:
+	query[(__bridge id)kSecAttrAccessible] = (__bridge id)kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly;
+
+	// identify the item uniquely
+	query[(__bridge id)kSecAttrGeneric] = [@"com.savoysoftware.UniqueIdentifier" dataUsingEncoding:NSUTF8StringEncoding];
+	query[(__bridge id)kSecAttrAccount] = @"com.savoysoftware.UniqueIdentifier";
+	query[(__bridge id)kSecAttrService] = @"com.savoysoftware.UniqueIdentifier";
+
+	// set the keychain access group, if any
+	if (accessGroup != nil)
+		query[(__bridge id)kSecAttrAccessGroup] = accessGroup;
+
+	// restrict matches to one at most:
+	query[(__bridge id)kSecMatchLimit] = (__bridge id)kSecMatchLimitOne;
+
+	// we want the actual, decrypted data
+	query[(__bridge id)kSecReturnData] = (__bridge id)kCFBooleanTrue;
+
+	CFTypeRef result = NULL;
+	OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, &result);
+	NSData *uniqueIDData = (__bridge_transfer NSData *)result;
+
+	// If everything is good, return the uniqueID
+	if (status == noErr)
+		return [[NSString alloc] initWithData:uniqueIDData encoding:NSUTF8StringEncoding];
+
+	// Report errors and exit.
+	if (status != errSecItemNotFound) {
+		NSLog(@"error while requesting unique id from keychain: code %d", (int)status);
+		return nil;
+	}
+
+	// We did not find the item. Create a new one.
+	NSString *uniqueIdentifier = [NSString nr_makeUUID];
+	uniqueIDData = [uniqueIdentifier dataUsingEncoding:NSUTF8StringEncoding];
+
+	// add the new identifier to the query
+	query[(__bridge id)kSecValueData] = uniqueIDData;
+
+	// remove query keys not needed to add a new item.
+	[query removeObjectForKey:(__bridge id)kSecMatchLimit];
+	[query removeObjectForKey:(__bridge id)kSecReturnData];
+
+	// Now save the new identifier it in the keychain.
+	status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
+
+	// If everything is good, return the new identifier.
+	if (status == noErr)
+		return uniqueIdentifier;
+
+	NSLog(@"error while adding new unique id to keychain: code %d", (int)status);
+	return nil;
 }
 
 @end

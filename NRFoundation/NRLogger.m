@@ -270,7 +270,7 @@
 		  @"device=\"%@\"\n"
 		  @"model=\"%@\"\n"
 		  @"modelID=\"%@\"\n"
-		  @"MACAddress=\"%@\"\n"
+		  @"uniqueIdentifier=\"%@\"\n"
 		  @"OS=\"%@ %@\"\n"
 		  @"locale=\"%@\"\n"
 		  @"timezone=\"%@: %+ld\"\n\n",
@@ -287,7 +287,7 @@
 		  [UIDevice currentDevice].name,
 		  [UIDevice currentDevice].model,
 		  [UIDevice currentDevice].modelID,
-		  [UIDevice currentDevice].MACAddress,
+		  [[UIDevice currentDevice] nr_uniqueIdentifier],
 		  [UIDevice currentDevice].systemName,
 		  [UIDevice currentDevice].systemVersion,
 		  [[NSLocale currentLocale] identifier],

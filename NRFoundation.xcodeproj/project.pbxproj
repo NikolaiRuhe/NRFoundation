@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		91067F291810569700FF621B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91067F281810569700FF621B /* Security.framework */; };
+		91067F2C1810576A00FF621B /* NRString.m in Sources */ = {isa = PBXBuildFile; fileRef = 91067F2B1810576A00FF621B /* NRString.m */; };
 		9109CC2216B9A8D600492321 /* NRDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 9109CC2116B9A8D600492321 /* NRDevice.m */; };
 		9109CC2616B9B32D00492321 /* NRBundle.m in Sources */ = {isa = PBXBuildFile; fileRef = 9109CC2516B9B32D00492321 /* NRBundle.m */; };
 		9109CC2716B9B33B00492321 /* NRDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9109CC2016B9A8D600492321 /* NRDevice.h */; };
@@ -83,6 +85,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		91067F281810569700FF621B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		91067F2A1810576A00FF621B /* NRString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRString.h; sourceTree = "<group>"; };
+		91067F2B1810576A00FF621B /* NRString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRString.m; sourceTree = "<group>"; };
 		9109CC2016B9A8D600492321 /* NRDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRDevice.h; sourceTree = "<group>"; };
 		9109CC2116B9A8D600492321 /* NRDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRDevice.m; sourceTree = "<group>"; };
 		9109CC2416B9B32D00492321 /* NRBundle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRBundle.h; sourceTree = "<group>"; };
@@ -144,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91067F291810569700FF621B /* Security.framework in Frameworks */,
 				9120BD9D161AEDC200C64339 /* QuartzCore.framework in Frameworks */,
 				91C791DC15EB973700D01DD0 /* libNRFoundation.a in Frameworks */,
 				91C791C115EB925E00D01DD0 /* UIKit.framework in Frameworks */,
@@ -180,6 +186,7 @@
 		919C2EA015EB6C1E00C834A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				91067F281810569700FF621B /* Security.framework */,
 				919C2EA115EB6C1E00C834A6 /* Foundation.framework */,
 				91C7919B15EB893E00D01DD0 /* UIKit.framework */,
 				91C7919E15EB893E00D01DD0 /* CoreGraphics.framework */,
@@ -213,6 +220,8 @@
 				9158298B16C534D600674002 /* NRNotificationCenter.m */,
 				919C2EB315EB709000C834A6 /* NRObject.h */,
 				919C2EB415EB709000C834A6 /* NRObject.m */,
+				91067F2A1810576A00FF621B /* NRString.h */,
+				91067F2B1810576A00FF621B /* NRString.m */,
 				91ABC2E815F66C4300405885 /* NRTimer.h */,
 				91ABC2E915F66C4300405885 /* NRTimer.m */,
 				91F92D2C15F0CC1E008CA16C /* NRUtilities.h */,
@@ -334,6 +343,7 @@
 				919C2EB515EB709000C834A6 /* NRObject.m in Sources */,
 				91F80EBE17AA87BE00B1EB01 /* NRCollections.m in Sources */,
 				91C791E515EBA5E700D01DD0 /* NRActionSheet.m in Sources */,
+				91067F2C1810576A00FF621B /* NRString.m in Sources */,
 				91C791E915EBB5D100D01DD0 /* NRGestureRecognizer.m in Sources */,
 				91C791EC15EBC29800D01DD0 /* NRControl.m in Sources */,
 				91ABC2EA15F66C4300405885 /* NRTimer.m in Sources */,

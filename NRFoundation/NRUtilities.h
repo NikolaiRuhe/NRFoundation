@@ -7,9 +7,3 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface NSString (NRString)
-
-- (NSString *)nr_stringByAddingAllRequiredPercentEscapesUsingEncoding:(NSStringEncoding)encoding;
-
-@end
