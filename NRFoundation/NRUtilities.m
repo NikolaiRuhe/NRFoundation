@@ -6,4 +6,18 @@
 //  Copyright (c) 2012 Nikolai Ruhe. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "NRUtilities.h"
+
+@implementation NSLocale (NRLocale)
+
++ (NSString *)nr_POSIXLocaleIdentifier
+{
+	return @"en_US_POSIX";
+}
+
++ (instancetype)nr_POSIXLocale
+{
+	return [[self alloc] initWithLocaleIdentifier:[self nr_POSIXLocaleIdentifier]];
+}
+
+@end

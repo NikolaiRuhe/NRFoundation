@@ -7,3 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+
+@interface NSLocale (NRLocale)
+
++ (NSString *)nr_POSIXLocaleIdentifier;
++ (instancetype)nr_POSIXLocale;
+
+@end
