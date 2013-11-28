@@ -17,6 +17,7 @@
 		912294CF1753D16A00995308 /* NRPrefix.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 912294B61753BEFA00995308 /* NRPrefix.h */; };
 		9142A558166DFF150089094A /* NRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9142A557166DFF150089094A /* NRViewController.m */; };
 		9158298C16C534D600674002 /* NRNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9158298B16C534D600674002 /* NRNotificationCenter.m */; };
+		916609C21847B2FE00C4115E /* NRDigest.m in Sources */ = {isa = PBXBuildFile; fileRef = 916609C11847B2FE00C4115E /* NRDigest.m */; };
 		916BFBD416A5DCFD002DF3FA /* NRTimer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91ABC2E815F66C4300405885 /* NRTimer.h */; };
 		91948CAE16C41A1B00257586 /* NRLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 91948CAD16C41A1B00257586 /* NRLogger.m */; };
 		91948CAF16C41A3300257586 /* NRLogger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91948CAC16C41A1B00257586 /* NRLogger.h */; };
@@ -27,7 +28,6 @@
 		919C2EB515EB709000C834A6 /* NRObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 919C2EB415EB709000C834A6 /* NRObject.m */; };
 		91ABC2EA15F66C4300405885 /* NRTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 91ABC2E915F66C4300405885 /* NRTimer.m */; };
 		91B6B418178EC2D1008637C4 /* NRUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B6B417178EC2D1008637C4 /* NRUtilities.m */; };
-		91B6B419178EC2D1008637C4 /* NRUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B6B417178EC2D1008637C4 /* NRUtilities.m */; };
 		91C7919315EB84DE00D01DD0 /* NRAlertView.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EB015EB6CA300C834A6 /* NRAlertView.h */; };
 		91C7919415EB84DE00D01DD0 /* NRObject.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 919C2EB315EB709000C834A6 /* NRObject.h */; };
 		91C791C115EB925E00D01DD0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91C7919B15EB893E00D01DD0 /* UIKit.framework */; };
@@ -98,6 +98,8 @@
 		9142A557166DFF150089094A /* NRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRViewController.m; sourceTree = "<group>"; };
 		9158298A16C534D600674002 /* NRNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRNotificationCenter.h; sourceTree = "<group>"; };
 		9158298B16C534D600674002 /* NRNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRNotificationCenter.m; sourceTree = "<group>"; };
+		916609C01847B2FE00C4115E /* NRDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRDigest.h; sourceTree = "<group>"; };
+		916609C11847B2FE00C4115E /* NRDigest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRDigest.m; sourceTree = "<group>"; };
 		91948CAC16C41A1B00257586 /* NRLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRLogger.h; sourceTree = "<group>"; };
 		91948CAD16C41A1B00257586 /* NRLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRLogger.m; sourceTree = "<group>"; };
 		91948CB016C4306600257586 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -214,6 +216,8 @@
 				9109CC2116B9A8D600492321 /* NRDevice.m */,
 				91C791E715EBB5D100D01DD0 /* NRGestureRecognizer.h */,
 				91C791E815EBB5D100D01DD0 /* NRGestureRecognizer.m */,
+				916609C01847B2FE00C4115E /* NRDigest.h */,
+				916609C11847B2FE00C4115E /* NRDigest.m */,
 				91948CAC16C41A1B00257586 /* NRLogger.h */,
 				91948CAD16C41A1B00257586 /* NRLogger.m */,
 				9158298A16C534D600674002 /* NRNotificationCenter.h */,
@@ -352,6 +356,7 @@
 				91B6B418178EC2D1008637C4 /* NRUtilities.m in Sources */,
 				9109CC2616B9B32D00492321 /* NRBundle.m in Sources */,
 				91948CAE16C41A1B00257586 /* NRLogger.m in Sources */,
+				916609C21847B2FE00C4115E /* NRDigest.m in Sources */,
 				9158298C16C534D600674002 /* NRNotificationCenter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,7 +370,7 @@
 				91C791CF15EB925E00D01DD0 /* NRAppDelegate.m in Sources */,
 				91C791D515EB925E00D01DD0 /* NRMasterViewController.m in Sources */,
 				91C791D815EB925E00D01DD0 /* NRGestureViewController.m in Sources */,
-				91B6B419178EC2D1008637C4 /* NRUtilities.m in Sources */,
+				916609C31847B2FE00C4115E /* NRDigest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

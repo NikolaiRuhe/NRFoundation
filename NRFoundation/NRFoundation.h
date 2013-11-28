@@ -16,6 +16,7 @@
 #import "NRPrefix.h"
 #import "NRUtilities.h"
 #import "NRBundle.h"
+#import "NRDigest.h"
 #import "NRObject.h"
 #import "NRAlertView.h"
 #import "NRActionSheet.h"
