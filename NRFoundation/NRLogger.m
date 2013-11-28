@@ -273,6 +273,7 @@
 		  @"uniqueIdentifier=\"%@\"\n"
 		  @"OS=\"%@ %@\"\n"
 		  @"locale=\"%@\"\n"
+		  @"preferredLocalizations=\"%@\"\n"
 		  @"timezone=\"%@: %+ld\"\n\n",
 		  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"],
 		  [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
@@ -291,6 +292,7 @@
 		  [UIDevice currentDevice].systemName,
 		  [UIDevice currentDevice].systemVersion,
 		  [[NSLocale currentLocale] identifier],
+		  [[[NSBundle mainBundle] preferredLocalizations] componentsJoinedByString:@", "],
 		  [[[NSCalendar currentCalendar] timeZone] name], (long)([[[NSCalendar currentCalendar] timeZone] secondsFromGMT] / 60)
 	);
 }
