@@ -84,7 +84,7 @@ static inline BOOL NRObjectEqualObject(id a, id b)
 // checks for equal strings, considers nil == empty string.
 static inline BOOL NRStringEqualString(NSString *a, NSString *b)
 {
-	return a == b || [a length] + [b length] == 0 || [a isEqualToString:b];
+	return a == b || ([a length] == 0 && [b length] == 0) || [a isEqualToString:b];
 }
 
 #define NR_WEAK(variable)       typeof(variable) __weak              weak_       ## variable = (variable)
