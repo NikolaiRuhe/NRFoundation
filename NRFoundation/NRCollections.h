@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSArray (NRCollections)
+@interface NSArray (NROlderSDKCompatibility)
 
 #if    (defined(__MAC_OS_X_VERSION_MIN_REQUIRED)  && __MAC_OS_X_VERSION_MIN_REQUIRED  >= 1060)  \
 	|| (defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && __IPHONE_OS_VERSION_MIN_REQUIRED >= 40000)
@@ -20,6 +20,11 @@
 - (id)firstObject;
 #endif
 #endif
+
+@end
+
+
+@interface NSArray (NRCollections)
 
 - (NSArray *)nr_map:(id (^)(id element))mapping;
 

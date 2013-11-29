@@ -120,6 +120,10 @@
 
 	// Report errors and exit.
 	if (status != errSecItemNotFound) {
+		if (status == errSecNotAvailable) {
+			// this seems to happen on ios simulator in unit tests.
+			return @"0-0-0-0";
+		}
 		NSLog(@"error while requesting unique id from keychain: code %d", (int)status);
 		return nil;
 	}
