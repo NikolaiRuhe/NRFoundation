@@ -135,6 +135,9 @@
 
 - (void)updateWithBytes:(const void *)bytes length:(NSUInteger)length
 {
+	if (length == 0)
+		return;
+
 	_currentDigest = nil;
 	CC_MD5_Update(&_md5State, bytes, length);
 }
@@ -151,6 +154,9 @@
 
 - (void)updateWithString:(NSString *)string normalize:(BOOL)normalize
 {
+	if (string == nil)
+		return;
+
 	if (normalize)
 		string = [string decomposedStringWithCanonicalMapping];
 
