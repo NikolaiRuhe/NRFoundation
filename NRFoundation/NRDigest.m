@@ -9,6 +9,13 @@
 #import "NRDigest.h"
 #import <CommonCrypto/CommonDigest.h>
 
+// NOTE: consider support of more digest algorithms:
+// - other md* and sha* variants.
+// - CityHash http://en.wikipedia.org/wiki/CityHash
+// - MurmurHash http://en.wikipedia.org/wiki/MurmurHash
+// - SpookyHash http://www.burtleburtle.net/bob/hash/spooky.html
+// we should evaluate some more algorithms regarding performance
+
 
 @implementation NRDigest
 
@@ -18,7 +25,7 @@
 	return nil;
 }
 
-- (id)initPrivately
+- (id)initForSubclasses
 {
 	return [super init];
 }
@@ -33,9 +40,9 @@
 	return otherDigest == self;
 }
 
-- (void)updateDigest:(NRMutableDigest *)digest
+- (void)updateMutableDigest:(NRMutableDigest *)digest
 {
-	[[self copy] updateDigest:digest];
+	[[self copy] updateMutableDigest:digest];
 }
 
 - (NSString *)description
@@ -57,7 +64,7 @@
 
 - (id)initWithState:(CC_MD5_CTX)md5State
 {
-	self = [self initPrivately];
+	self = [self initForSubclasses];
 	if (self != nil) {
 		CC_MD5_Final(_md5, &md5State);
 	}
@@ -90,7 +97,7 @@
 	return [self isEqualToDigest:other];
 }
 
-- (void)updateDigest:(NRMutableDigest *)digest
+- (void)updateMutableDigest:(NRMutableDigest *)digest
 {
 	[digest updateWithBytes:_md5 length:sizeof(_md5)];
 }
@@ -126,7 +133,7 @@
 
 - (id)init
 {
-	self = [self initPrivately];
+	self = [self initForSubclasses];
 	if (self != nil) {
 		CC_MD5_Init(&_md5State);
 	}
@@ -171,7 +178,7 @@
 
 - (void)updateWithDigest:(NRDigest *)digest
 {
-	[digest updateDigest:self];
+	[digest updateMutableDigest:self];
 }
 
 - (id)copyWithZone:(NSZone *)zone
