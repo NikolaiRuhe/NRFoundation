@@ -146,7 +146,7 @@
 		return;
 
 	_currentDigest = nil;
-	CC_MD5_Update(&_md5State, bytes, length);
+	CC_MD5_Update(&_md5State, bytes, (CC_LONG)length);
 }
 
 - (void)updateWithData:(NSData *)data
