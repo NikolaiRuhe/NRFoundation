@@ -107,14 +107,6 @@
 	}];
 }
 
-- (void)presentNRDigest
-{
-	NRMutableDigest *digest = [NRMutableDigest digest];
-	[digest updateWithData:[@"abc\n" dataUsingEncoding:NSUTF8StringEncoding]];
-
-	[self logMessage:[NSString stringWithFormat:@"digest: %@", digest]];
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	NSString *title = [[tableView cellForRowAtIndexPath:indexPath] textLabel].text;
