@@ -77,7 +77,7 @@
 		*freeBytes = statistics.free_count * pageSize;
 
 	if (physicalMemory != NULL)
-		*physicalMemory = physicalMemoryValue;
+		*physicalMemory = (NSUInteger)physicalMemoryValue;
 }
 
 - (NSString *)nr_uniqueIdentifier
