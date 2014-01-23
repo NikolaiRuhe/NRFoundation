@@ -18,6 +18,8 @@
 		9142A558166DFF150089094A /* NRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9142A557166DFF150089094A /* NRViewController.m */; };
 		9158298C16C534D600674002 /* NRNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9158298B16C534D600674002 /* NRNotificationCenter.m */; };
 		916BFBD416A5DCFD002DF3FA /* NRTimer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91ABC2E815F66C4300405885 /* NRTimer.h */; };
+		91829D60189111370053627B /* NRDistanceFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 91829D5F189111370053627B /* NRDistanceFormatter.m */; };
+		91829D62189116990053627B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91829D61189116990053627B /* CoreLocation.framework */; };
 		91948CAE16C41A1B00257586 /* NRLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 91948CAD16C41A1B00257586 /* NRLogger.m */; };
 		91948CAF16C41A3300257586 /* NRLogger.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91948CAC16C41A1B00257586 /* NRLogger.h */; };
 		91948CB116C4306600257586 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91948CB016C4306600257586 /* Default-568h@2x.png */; };
@@ -97,6 +99,9 @@
 		9142A557166DFF150089094A /* NRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRViewController.m; sourceTree = "<group>"; };
 		9158298A16C534D600674002 /* NRNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRNotificationCenter.h; sourceTree = "<group>"; };
 		9158298B16C534D600674002 /* NRNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRNotificationCenter.m; sourceTree = "<group>"; };
+		91829D5E189111370053627B /* NRDistanceFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRDistanceFormatter.h; sourceTree = "<group>"; };
+		91829D5F189111370053627B /* NRDistanceFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRDistanceFormatter.m; sourceTree = "<group>"; };
+		91829D61189116990053627B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		91948CAC16C41A1B00257586 /* NRLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRLogger.h; sourceTree = "<group>"; };
 		91948CAD16C41A1B00257586 /* NRLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRLogger.m; sourceTree = "<group>"; };
 		91948CB016C4306600257586 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -148,6 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91829D62189116990053627B /* CoreLocation.framework in Frameworks */,
 				91067F291810569700FF621B /* Security.framework in Frameworks */,
 				9120BD9D161AEDC200C64339 /* QuartzCore.framework in Frameworks */,
 				91C791DC15EB973700D01DD0 /* libNRFoundation.a in Frameworks */,
@@ -185,6 +191,7 @@
 		919C2EA015EB6C1E00C834A6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				91829D61189116990053627B /* CoreLocation.framework */,
 				91067F281810569700FF621B /* Security.framework */,
 				919C2EA115EB6C1E00C834A6 /* Foundation.framework */,
 				91C7919B15EB893E00D01DD0 /* UIKit.framework */,
@@ -211,6 +218,8 @@
 				91C791EB15EBC29800D01DD0 /* NRControl.m */,
 				9109CC2016B9A8D600492321 /* NRDevice.h */,
 				9109CC2116B9A8D600492321 /* NRDevice.m */,
+				91829D5E189111370053627B /* NRDistanceFormatter.h */,
+				91829D5F189111370053627B /* NRDistanceFormatter.m */,
 				91C791E715EBB5D100D01DD0 /* NRGestureRecognizer.h */,
 				91C791E815EBB5D100D01DD0 /* NRGestureRecognizer.m */,
 				91948CAC16C41A1B00257586 /* NRLogger.h */,
@@ -300,7 +309,7 @@
 		919C2E9515EB6C1E00C834A6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0460;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Nikolai Ruhe";
 			};
 			buildConfigurationList = 919C2E9815EB6C1E00C834A6 /* Build configuration list for PBXProject "NRFoundation" */;
@@ -340,6 +349,7 @@
 			files = (
 				919C2EB215EB6CA400C834A6 /* NRAlertView.m in Sources */,
 				919C2EB515EB709000C834A6 /* NRObject.m in Sources */,
+				91829D60189111370053627B /* NRDistanceFormatter.m in Sources */,
 				91F80EBE17AA87BE00B1EB01 /* NRCollections.m in Sources */,
 				91C791E515EBA5E700D01DD0 /* NRActionSheet.m in Sources */,
 				91067F2C1810576A00FF621B /* NRString.m in Sources */,
@@ -391,6 +401,7 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;

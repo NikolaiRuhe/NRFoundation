@@ -8,15 +8,32 @@
 
 #import "NRMasterViewController.h"
 #import "NRGestureViewController.h"
+#import <CoreLocation/CoreLocation.h>
+
+
+@interface NRMasterViewController () <CLLocationManagerDelegate>
+@property (weak, nonatomic) IBOutlet UISlider *controlSlider;
+@property (weak, nonatomic) IBOutlet UILabel *distanceLabel;
+@end
+
 
 
 @implementation NRMasterViewController
+{
+	CLLocationManager *_locationManager;
+}
 
 @synthesize controlSlider = _controlSlider;
+@synthesize distanceLabel = _distanceLabel;
 
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
+
+	_locationManager = [[CLLocationManager alloc] init];
+	_locationManager.delegate = self;
+	[_locationManager startUpdatingLocation];
+
 	[self.controlSlider nr_addAction:^(id sender) {
 		UISlider *slider = sender;
 		slider.thumbTintColor = [UIColor colorWithHue:((UISlider *)sender).value saturation:1 brightness:1 alpha:1];
@@ -105,6 +122,19 @@
 		}
 		[self logMessage:[NSString stringWithFormat:@"--- %d ---", count++]];
 	}];
+}
+
+- (void)presentNRDistanceFormatter
+{
+	NRDistanceFormatter *formatter = [[NRDistanceFormatter alloc] init];
+	CLLocation *umbilicusUrbis = [[CLLocation alloc] initWithLatitude:41.892744 longitude:12.484598];
+	CLLocationDistance distance = [_locationManager.location distanceFromLocation:umbilicusUrbis];
+	_distanceLabel.text = [NSString stringWithFormat:@"Distance from center: %@", [formatter stringForObjectValue:@(distance)]];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+{
+	[self presentNRDistanceFormatter];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

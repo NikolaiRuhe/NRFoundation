@@ -22,6 +22,7 @@
 #import "NRCollections.h"
 #import "NRControl.h"
 #import "NRDevice.h"
+#import "NRDistanceFormatter.h"
 #import "NRGestureRecognizer.h"
 #import "NRString.h"
 #import "NRTimer.h"

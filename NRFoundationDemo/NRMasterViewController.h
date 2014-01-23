@@ -10,6 +10,4 @@
 
 @interface NRMasterViewController : UITableViewController
 
-@property (weak, nonatomic) IBOutlet UISlider *controlSlider;
-
 @end

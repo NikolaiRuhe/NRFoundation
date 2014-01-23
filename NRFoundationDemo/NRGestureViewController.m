@@ -37,7 +37,7 @@
 		dot.backgroundColor = [UIColor colorWithHue:hue saturation:.3 brightness:1 alpha:1];
 		dot.layer.borderWidth = 2;
 		dot.layer.borderColor = [UIColor colorWithHue:hue saturation:.5 brightness:1 alpha:1].CGColor;
-		dot.text = [NSString stringWithFormat:@"%d", [self.view.subviews count]];
+		dot.text = [NSString stringWithFormat:@"%lu", (unsigned long)[self.view.subviews count]];
 		dot.textColor = [UIColor colorWithHue:hue saturation:1 brightness:.5 alpha:1];
 		dot.textAlignment = UITextAlignmentCenter;
 		[gestureRecognizer.view insertSubview:dot belowSubview:self.blockView];
