@@ -28,8 +28,7 @@
 
 #ifdef UNIT_TESTS
 	#pragma clang diagnostic push
-	#pragma clang diagnostic ignored "-Wobjc-interface-ivars"
-	#import <SenTestingKit/SenTestingKit.h>
+	#import <XCTest/XCTest.h>
 	#pragma clang diagnostic pop
 #endif
 
