@@ -13,6 +13,8 @@
 #ifndef NR_PREFIX_H_INCLUDE_GUARD
 #define NR_PREFIX_H_INCLUDE_GUARD
 
+#pragma clang diagnostic ignored "-Wauto-import"
+
 
 
 #include <Availability.h>
@@ -27,9 +29,7 @@
 #endif
 
 #ifdef UNIT_TESTS
-	#pragma clang diagnostic push
 	#import <XCTest/XCTest.h>
-	#pragma clang diagnostic pop
 #endif
 
 
