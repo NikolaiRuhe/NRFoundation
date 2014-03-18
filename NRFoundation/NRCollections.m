@@ -42,4 +42,14 @@
 	return [self nr_reduce:reducer initialValue:nil];
 }
 
+- (id)nr_find:(id (^)(id element))predicate
+{
+	for (id element in self) {
+		id value = predicate(element);
+		if (value != nil)
+			return value;
+	}
+	return nil;
+}
+
 @end

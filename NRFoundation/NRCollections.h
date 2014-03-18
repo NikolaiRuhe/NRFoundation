@@ -30,6 +30,8 @@
 
 - (NSArray *)nr_filter:(BOOL (^)(id element))filter;
 
+- (id)nr_find:(id (^)(id element))predicate;
+
 - (id)nr_reduce:(id (^)(id element, id value))reducer;
 - (id)nr_reduce:(id (^)(id element, id value))reducer initialValue:(id)initialValue;
 
