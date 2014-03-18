@@ -99,6 +99,7 @@
 		9142A557166DFF150089094A /* NRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRViewController.m; sourceTree = "<group>"; };
 		9158298A16C534D600674002 /* NRNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRNotificationCenter.h; sourceTree = "<group>"; };
 		9158298B16C534D600674002 /* NRNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRNotificationCenter.m; sourceTree = "<group>"; };
+		917724C118D83325005BDF9B /* NRMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRMath.h; sourceTree = "<group>"; };
 		91829D5E189111370053627B /* NRDistanceFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRDistanceFormatter.h; sourceTree = "<group>"; };
 		91829D5F189111370053627B /* NRDistanceFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRDistanceFormatter.m; sourceTree = "<group>"; };
 		91829D61189116990053627B /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -205,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				912294B61753BEFA00995308 /* NRPrefix.h */,
+				917724C118D83325005BDF9B /* NRMath.h */,
 				919C2EA615EB6C1E00C834A6 /* NRFoundation.h */,
 				91C791E315EBA5E700D01DD0 /* NRActionSheet.h */,
 				91C791E415EBA5E700D01DD0 /* NRActionSheet.m */,

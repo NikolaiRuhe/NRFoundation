@@ -20,6 +20,7 @@
 #include <Availability.h>
 
 #include <CoreFoundation/CoreFoundation.h>
+#include <CoreGraphics/CoreGraphics.h>
 
 #ifdef __OBJC__
 	#import <Foundation/Foundation.h>
@@ -30,6 +31,13 @@
 
 #ifdef UNIT_TESTS
 	#import <XCTest/XCTest.h>
+#endif
+
+
+#if defined(CGFLOAT_IS_DOUBLE) && CGFLOAT_IS_DOUBLE
+	#define CGFloatValue doubleValue
+#else
+	#define CGFloatValue floatValue
 #endif
 
 

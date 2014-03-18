@@ -14,6 +14,7 @@
 // #import "NRFoundation.h" without problems.
 
 #import "NRPrefix.h"
+#import "NRMath.h"
 #import "NRUtilities.h"
 #import "NRBundle.h"
 #import "NRObject.h"
