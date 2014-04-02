@@ -21,4 +21,6 @@ typedef id NRKVObserverID;
 - (NRKVObserverID)nr_addObserverForKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(void(^)(id observee))block;
 + (void)nr_removeObservance:(NRKVObserverID)KVObserverID;
 
+- (void)nr_performSelectorDelayedOnMainThread:(SEL)selector;
+
 @end

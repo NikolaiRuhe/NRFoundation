@@ -7,6 +7,7 @@
 //
 
 #import <objc/runtime.h>
+#import <objc/message.h>
 #import "NRObject.h"
 
 
@@ -79,6 +80,79 @@ static const char NRObjectTrampolineAsscociatedObjectKey[] = "NRObjectTrampoline
 	// TODO: implement
 	[self doesNotRecognizeSelector:_cmd];
 	__builtin_unreachable();
+}
+
+
+static CFMutableDictionaryRef _delayedTargets;
+
+static void NRPerformOnDelayedTargetsQueue(void(^block)())
+{
+	static dispatch_queue_t delayedTargetQueue;
+
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		delayedTargetQueue = dispatch_queue_create("NRDelayedTargetQueue", DISPATCH_QUEUE_SERIAL);
+	});
+
+	dispatch_sync(delayedTargetQueue, block);
+}
+
+static void NRDelayedTargetsSetApplierFunction(const void *target, void *selector)
+{
+	objc_msgSend((__bridge id)target, selector);
+}
+
+static void NRDelayedTargetsDictionaryApplierFunction(const void *key, const void *value, void *context)
+{
+	CFSetApplyFunction((CFSetRef)value, NRDelayedTargetsSetApplierFunction, (void *)key);
+}
+
+static void NRPerformDelayedSelectors(void)
+{
+	__block CFDictionaryRef delayedTargets;
+
+	NRPerformOnDelayedTargetsQueue(^{
+		delayedTargets = CFDictionaryCreateCopy(kCFAllocatorDefault, _delayedTargets);
+		CFRelease(_delayedTargets);
+		_delayedTargets = NULL;
+	});
+
+	CFDictionaryApplyFunction(delayedTargets, NRDelayedTargetsDictionaryApplierFunction, NULL);
+	CFRelease(delayedTargets);
+}
+
+- (void)nr_performSelectorDelayedOnMainThread:(SEL)selector
+{
+	NRPerformOnDelayedTargetsQueue(^{
+		if (_delayedTargets == NULL) {
+			_delayedTargets = CFDictionaryCreateMutable(kCFAllocatorDefault,
+														0,
+														NULL, // suitable for C strings
+														&kCFTypeDictionaryValueCallBacks);
+			dispatch_async(dispatch_get_main_queue(), ^{
+				NRPerformDelayedSelectors();
+			});
+		}
+
+		CFMutableSetRef targets = (CFMutableSetRef)CFDictionaryGetValue(_delayedTargets, selector);
+
+		if (targets == NULL) {
+			CFSetCallBacks setCallbacks = {
+				.version         = 0,
+				.retain          = kCFTypeSetCallBacks.retain,
+				.release         = kCFTypeSetCallBacks.release,
+				.copyDescription = NULL,
+				.equal           = NULL,
+				.hash            = NULL,
+			};
+			targets = CFSetCreateMutable(kCFAllocatorDefault, 0, &setCallbacks);
+
+			CFDictionarySetValue(_delayedTargets, selector, targets);
+			CFRelease(targets);
+		}
+
+		CFSetAddValue(targets, (__bridge void *)self);
+	});
 }
 
 @end
