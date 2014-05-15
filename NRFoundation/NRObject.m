@@ -43,6 +43,41 @@
 @end
 
 
+@interface NRDelayedPerformProxy : NSProxy
+- (id)initWithTarget:(id)target;
+@end
+
+@implementation NRDelayedPerformProxy
+{
+	id _target;
+}
+
+- (id)initWithTarget:(id)target
+{
+	NSParameterAssert(target != nil);
+
+	// no init in NSProxy
+
+	_target = target;
+	return self;
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
+{
+    return [_target methodSignatureForSelector:selector];
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
+	NSParameterAssert([[invocation methodSignature] numberOfArguments] == 2);
+	NSAssert(_target != nil, @"NRDelayedPerformProxy: charged proxy twice");
+	[_target nr_performSelectorDelayedOnMainThread:[invocation selector]];
+	_target = nil;
+}
+
+@end
+
+
 @implementation NSObject (NRObject)
 
 static const char NRObjectTrampolineAsscociatedObjectKey[] = "NRObjectTrampolineAsscociatedObjectKey";
@@ -153,6 +188,11 @@ static void NRPerformDelayedSelectors(void)
 
 		CFSetAddValue(targets, (__bridge void *)self);
 	});
+}
+
+- (id)nr_performDelayedOnMainThread
+{
+	return [[NRDelayedPerformProxy alloc] initWithTarget:self];
 }
 
 @end

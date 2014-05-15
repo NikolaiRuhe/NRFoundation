@@ -22,5 +22,6 @@ typedef id NRKVObserverID;
 + (void)nr_removeObservance:(NRKVObserverID)KVObserverID;
 
 - (void)nr_performSelectorDelayedOnMainThread:(SEL)selector;
+- (id)nr_performDelayedOnMainThread;
 
 @end
