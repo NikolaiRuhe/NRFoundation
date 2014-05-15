@@ -12,8 +12,10 @@ typedef void (^NRTimerBlock)(NSTimer *timer);
 
 @interface NSTimer (NRTimer)
 
++ (NSTimer *)nr_scheduledTimerWithTimeInterval:(NSTimeInterval)timeInterval weakTarget:(id)weakTarget selector:(SEL)selector userInfo:(id)userInfo repeats:(BOOL)repeats;
 + (NSTimer *)nr_scheduledTimerWithTimeInterval:(NSTimeInterval)timeInterval userInfo:(id)userInfo repeats:(BOOL)repeats block:(NRTimerBlock)block;
 
+- (id)nr_initWithFireDate:(NSDate *)date interval:(NSTimeInterval)interval weakTarget:(id)weakTarget selector:(SEL)selector userInfo:(id)userInfo repeats:(BOOL)repeats;
 - (id)nr_initWithFireDate:(NSDate *)date interval:(NSTimeInterval)timeInterval userInfo:(id)userInfo repeats:(BOOL)repeats block:(NRTimerBlock)block __attribute__((objc_method_family(init)));
 
 @end
