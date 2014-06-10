@@ -291,7 +291,7 @@
 		  [[UIDevice currentDevice] nr_uniqueIdentifier],
 		  [UIDevice currentDevice].systemName,
 		  [UIDevice currentDevice].systemVersion,
-		  [[NSLocale currentLocale] identifier],
+		  [[NSLocale currentLocale] localeIdentifier],
 		  [[[NSBundle mainBundle] preferredLocalizations] componentsJoinedByString:@", "],
 		  [[[NSCalendar currentCalendar] timeZone] name], (long)([[[NSCalendar currentCalendar] timeZone] secondsFromGMT] / 60)
 	);
