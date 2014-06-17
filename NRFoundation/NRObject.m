@@ -134,8 +134,8 @@ static void NRPerformOnDelayedTargetsQueue(void(^block)())
 
 static void NRDelayedTargetsSetApplierFunction(const void *target, void *selector)
 {
-	typedef id (*plainMessageSendNoArgs)(id, SEL);
-	((plainMessageSendNoArgs)objc_msgSend)((__bridge id)target, selector);
+	typedef void (* plainMessageSendNoArgs)(const void *target, void *selector);
+	((plainMessageSendNoArgs)objc_msgSend)(target, selector);
 }
 
 static void NRDelayedTargetsDictionaryApplierFunction(const void *key, const void *value, void *context)
