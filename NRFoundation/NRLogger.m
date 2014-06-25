@@ -136,7 +136,7 @@
 	[self checkLogfileRotation];
 }
 
-- (NSArray *)allLogFileURLsOrderedByModificationDateReverse:(BOOL)reverse
+- (NSArray *)logFileURLsOrderedByModificationDateReverse:(BOOL)reverse
 {
 	NSString *directory = [self logfileDirectory];
 	NSArray *fileURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:directory isDirectory:YES]
@@ -182,7 +182,7 @@
 	NSUInteger logfileCount = 0;
 
 	// iterate over existing logfiles, newest first
-	for (NSURL *fileURL in [self allLogFileURLsOrderedByModificationDateReverse:YES]) {
+	for (NSURL *fileURL in [self logFileURLsOrderedByModificationDateReverse:YES]) {
 
 		logfileCount += 1;
 
@@ -412,7 +412,7 @@
 		return NO;
 	}
 
-	for (NSURL *fileURL in [self allLogFileURLsOrderedByModificationDateReverse:NO]) {
+	for (NSURL *fileURL in [self logFileURLsOrderedByModificationDateReverse:NO]) {
 		@autoreleasepool {
 			NSData *inData = [NSData dataWithContentsOfURL:fileURL
 												   options:NSDataReadingMappedIfSafe

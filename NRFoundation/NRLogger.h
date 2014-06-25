@@ -34,4 +34,6 @@
 // create a long concatenated file of all log files in the log directory
 - (BOOL)writeLogFilesToPath:(NSString *)path;
 
+- (NSArray *)logFileURLsOrderedByModificationDateReverse:(BOOL)reverse;
+
 @end
