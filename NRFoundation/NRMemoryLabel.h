@@ -14,6 +14,7 @@
 @property (nonatomic) NSTimeInterval updateInterval;
 @property (nonatomic, readonly) NSUInteger residentSize;
 
-- (void)presentInOverlayWindow;
++ (BOOL)overlayWindowVisible;
++ (void)setOverlayWindowVisible:(BOOL)overlayWindowVisible;
 
 @end

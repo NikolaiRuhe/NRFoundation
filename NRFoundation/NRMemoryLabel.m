@@ -36,46 +36,12 @@
 
 static void setup(NRMemoryLabel *self)
 {
-	self.backgroundColor = [UIColor blackColor];
+	self.backgroundColor = [UIColor colorWithWhite:0 alpha:.7];
 	self.textColor       = [UIColor whiteColor];
-	self.textAlignment   = NSTextAlignmentRight;
+	self.textAlignment   = NSTextAlignmentCenter;
 	self.lineBreakMode   = NSLineBreakByClipping;
 	self.font            = [UIFont systemFontOfSize:12];
 	self.updateInterval  = 1;
-
-	[[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(applicationDidReceiveMemoryWarning:)
-												 name:UIApplicationDidReceiveMemoryWarningNotification
-											   object:nil];
-}
-
-- (void)applicationDidReceiveMemoryWarning:(NSNotification *)notification
-{
-	CGRect frame = [UIScreen mainScreen].bounds;
-	frame = CGRectInset(frame, 20, 20);
-
-	UIWindow *window = [[UIWindow alloc] initWithFrame:frame];
-	window.windowLevel = 20000;
-	window.hidden = NO;
-	window.backgroundColor = [UIColor colorWithRed:.8 green:0 blue:0 alpha:.8];
-
-	UILabel *label = [[UILabel alloc] initWithFrame:window.bounds];
-	label.text = @"Memory Warning";
-	label.textColor = [UIColor whiteColor];
-	label.font = [UIFont boldSystemFontOfSize:32];
-	label.textAlignment = NSTextAlignmentCenter;
-	label.adjustsFontSizeToFitWidth = YES;
-	[window addSubview:label];
-	window.userInteractionEnabled = NO;
-
-	[UIView animateWithDuration:.25
-						  delay:1
-						options:UIViewAnimationOptionCurveEaseOut
-					 animations:^{
-						 window.alpha = 0;
-					 } completion:^(BOOL finished) {
-						 window.hidden = YES;
-					 }];
 }
 
 - (void)setUpdateInterval:(NSTimeInterval)updateInterval
@@ -114,32 +80,80 @@ static void setup(NRMemoryLabel *self)
 	return preferredSize;
 }
 
-- (void)presentInOverlayWindow
+static UIWindow *overlayWindow;
+
++ (BOOL)overlayWindowVisible
 {
+	return overlayWindow != nil;
+}
+
++ (void)setOverlayWindowVisible:(BOOL)overlayWindowVisible
+{
+	if (! overlayWindowVisible) {
+		if (overlayWindow != nil) {
+			overlayWindow.hidden = YES;
+			overlayWindow = nil;
+		}
+		return;
+	}
+
+	if (overlayWindow != nil)
+		return;
+
 	CGRect frame = [UIScreen mainScreen].bounds;
 
-	[self sizeToFit];
-	CGRect bounds = self.bounds;
+	NRMemoryLabel *memoryLabel = [[self alloc] init];
+	[memoryLabel sizeToFit];
+	CGRect bounds = memoryLabel.bounds;
 
 	bounds.origin = frame.origin;
 	bounds.origin.x += round(0.5 * (frame.size.width - bounds.size.width));
 	bounds.origin.y += frame.size.height - bounds.size.height;
 
-	static UIWindow *window;
+	overlayWindow = [[UIWindow alloc] initWithFrame:bounds];
+	overlayWindow.windowLevel = 10000;
+	overlayWindow.userInteractionEnabled = NO;
 
-	window = [[UIWindow alloc] initWithFrame:bounds];
-	window.windowLevel = 10000;
+	memoryLabel.frame = (CGRect) { .size = bounds.size };
+	[overlayWindow addSubview:memoryLabel];
+
+	overlayWindow.hidden = NO;
+
+	[[NSNotificationCenter defaultCenter] nr_addObserverForName:UIApplicationDidReceiveMemoryWarningNotification
+														 object:nil
+														  owner:overlayWindow
+													 usingBlock:^(id owner, NSNotification *notification) {
+														 [self flashMemoryWarningIndicator];
+													 }];
+}
+
++ (void)flashMemoryWarningIndicator
+{
+	CGRect frame = [UIScreen mainScreen].bounds;
+	frame = CGRectInset(frame, 20, 20);
+
+	UIWindow *window = [[UIWindow alloc] initWithFrame:frame];
+	window.windowLevel = 20000;
+	window.hidden = NO;
+	window.backgroundColor = [UIColor colorWithRed:.8 green:0 blue:0 alpha:.8];
+
+	UILabel *label = [[UILabel alloc] initWithFrame:window.bounds];
+	label.text = @"Memory Warning";
+	label.textColor = [UIColor whiteColor];
+	label.font = [UIFont boldSystemFontOfSize:32];
+	label.textAlignment = NSTextAlignmentCenter;
+	label.adjustsFontSizeToFitWidth = YES;
+	[window addSubview:label];
 	window.userInteractionEnabled = NO;
 
-	UIViewController *viewController = [[UIViewController alloc] init];
-	viewController.view.backgroundColor = [UIColor clearColor];
-	viewController.view.opaque = NO;
-	window.rootViewController = viewController;
-
-	self.frame = (CGRect) { .size = bounds.size };
-	[window addSubview:self];
-
-	window.hidden = NO;
+	[UIView animateWithDuration:.25
+						  delay:1
+						options:UIViewAnimationOptionCurveEaseOut
+					 animations:^{
+						 window.alpha = 0;
+					 } completion:^(BOOL finished) {
+						 window.hidden = YES;
+					 }];
 }
 
 @end
