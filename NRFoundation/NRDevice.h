@@ -18,6 +18,7 @@
 @property (nonatomic, readonly) NSString *modelID;
 
 - (void)getMemorySizesForWired:(NSUInteger *)wired active:(NSUInteger *)active inactive:(NSUInteger *)inactive free:(NSUInteger *)freeBytes physicalMemory:(NSUInteger *)physicalMemory;
+- (uint64_t)nr_residentSize;
 
 - (NSString *)nr_uniqueIdentifier;
 - (NSString *)nr_uniqueIdentifierWithAccessGroup:(NSString *)accessGroup;

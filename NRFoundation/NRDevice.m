@@ -80,6 +80,15 @@
 		*physicalMemory = (NSUInteger)physicalMemoryValue;
 }
 
+- (uint64_t)nr_residentSize
+{
+	task_basic_info_64_data_t info;
+	mach_msg_type_number_t size = sizeof (info);
+	task_info(mach_task_self(), TASK_BASIC_INFO_64, (task_info_t)&info, &size);
+
+	return info.resident_size;
+}
+
 - (NSString *)nr_uniqueIdentifier
 {
 	return [self nr_uniqueIdentifierWithAccessGroup:nil];
