@@ -30,5 +30,6 @@
 #import "NRViewController.h"
 #import "NRNotificationCenter.h"
 #import "NRLogger.h"
+#import "NRMemoryLabel.h"
 
 #endif // NR_FOUNDATION_H_INCLUDED

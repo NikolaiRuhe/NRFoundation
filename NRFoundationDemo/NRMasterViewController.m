@@ -38,6 +38,8 @@
 		UISlider *slider = sender;
 		slider.thumbTintColor = [UIColor colorWithHue:((UISlider *)sender).value saturation:1 brightness:1 alpha:1];
 	} forControlEvents:UIControlEventValueChanged];
+
+	[[[NRMemoryLabel alloc] init] presentInOverlayWindow];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
