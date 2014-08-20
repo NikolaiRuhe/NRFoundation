@@ -29,7 +29,12 @@
 	int _stderrFileDescriptor;
 	NSTimer *_logfileRotationTimer;
 	NSTimeInterval _logfileRotationCheckInterval;
+	NSTimer *_memoryLoggingTimer;
+	NSTimeInterval _memoryLoggingInterval;
+	uint64_t _memoryLoggingResidentSize;
 }
+
+@synthesize memoryLoggingInterval = _memoryLoggingInterval;
 
 + (instancetype)sharedLogger
 {
@@ -120,6 +125,7 @@
 			_logfileRotationCheckInterval = 0;
 			[_logfileRotationTimer invalidate];
 			_logfileRotationTimer = nil;
+			return;
 		}
 
 		[_logfileRotationTimer invalidate];
@@ -128,6 +134,7 @@
 															   selector:@selector(logfileRotationTimerFired:)
 															   userInfo:nil
 																repeats:YES];
+		_logfileRotationTimer.tolerance = _logfileRotationCheckInterval / 3.0;
 	}
 }
 
@@ -267,6 +274,7 @@
 		  @"physicalMemory=\"%.1f MB\"\n"
 		  @"totalMemory=\"%.1f MB\"\n"
 		  @"availableMemory=\"%.1f MB\"\n"
+		  @"residentSize=\"%.1f MB\"\n"
 		  @"device=\"%@\"\n"
 		  @"model=\"%@\"\n"
 		  @"modelID=\"%@\"\n"
@@ -285,6 +293,7 @@
 		  physicalMemory       / (double)(1024 * 1024),
 		  totalMemoryBytes     / (double)(1024 * 1024),
 		  availableMemoryBytes / (double)(1024 * 1024),
+		  [[UIDevice currentDevice] nr_residentSize] / (double)(1024 * 1024),
 		  [UIDevice currentDevice].name,
 		  [UIDevice currentDevice].model,
 		  [UIDevice currentDevice].modelID,
@@ -456,6 +465,57 @@
 	}
 
 	return type != D_DISK;
+}
+
+- (void)setMemoryLoggingInterval:(NSTimeInterval)memoryLoggingInterval
+{
+	NSAssert([NSThread isMainThread], @"memoryLoggingInterval can only be modified from the main thread.");
+
+	if (_memoryLoggingInterval == memoryLoggingInterval)
+		return;
+
+	_memoryLoggingInterval = memoryLoggingInterval;
+
+	[_memoryLoggingTimer invalidate];
+	_memoryLoggingTimer = nil;
+
+	if (_memoryLoggingInterval <= 0) {
+		_memoryLoggingInterval = 0;
+	} else {
+		_memoryLoggingTimer = [NSTimer scheduledTimerWithTimeInterval:_memoryLoggingInterval
+															   target:self
+															 selector:@selector(memoryLoggingTimerFired:)
+															 userInfo:nil
+															  repeats:YES];
+		_memoryLoggingTimer.tolerance = _memoryLoggingInterval / 3.0;
+		[self memoryLoggingTimerFired:nil];
+	}
+}
+
+static const double kMemoryLoggingThreshold = 0.1;
+
+- (void)memoryLoggingTimerFired:(NSTimer *)timer
+{
+	uint64_t residentSize = [[UIDevice currentDevice] nr_residentSize];
+	double change = (residentSize - _memoryLoggingResidentSize) / (double)_memoryLoggingResidentSize;
+
+	if (_memoryLoggingResidentSize != 0 && kMemoryLoggingThreshold > 0) {
+		if (change < kMemoryLoggingThreshold)
+			return;
+	}
+
+	[self logResidentSize:residentSize];
+}
+
+- (void)logResidentSize
+{
+	[self logResidentSize:[[UIDevice currentDevice] nr_residentSize]];
+}
+
+- (void)logResidentSize:(uint64_t)residentSize
+{
+	_memoryLoggingResidentSize = residentSize;
+	NSLog(@"resident size: %.1f MB", _memoryLoggingResidentSize / (1024.0 * 1024.0));
 }
 
 @end

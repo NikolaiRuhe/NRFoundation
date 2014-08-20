@@ -36,4 +36,7 @@
 
 - (NSArray *)logFileURLsOrderedByModificationDateReverse:(BOOL)reverse;
 
+@property (nonatomic) NSTimeInterval memoryLoggingInterval;
+- (void)logResidentSize;
+
 @end
