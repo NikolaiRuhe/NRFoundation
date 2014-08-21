@@ -19,6 +19,17 @@
 
 #include <Availability.h>
 
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
+	#define NR_DEPLOYMENT_TARGET __IPHONE_OS_VERSION_MIN_REQUIRED
+#elif defined(__MAC_OS_X_VERSION_MIN_REQUIRED)
+	#define NR_DEPLOYMENT_TARGET __MAC_OS_X_VERSION_MIN_REQUIRED
+#endif
+
+#if defined(__IPHONE_OS_VERSION_MAX_ALLOWED)
+	#define NR_SDK_VERSION __IPHONE_OS_VERSION_MAX_ALLOWED
+#endif
+
+
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreGraphics/CoreGraphics.h>
 
