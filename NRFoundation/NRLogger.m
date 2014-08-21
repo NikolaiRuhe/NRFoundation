@@ -32,9 +32,11 @@
 	NSTimer *_memoryLoggingTimer;
 	NSTimeInterval _memoryLoggingInterval;
 	uint64_t _memoryLoggingResidentSize;
+	id <NSObject> _notificationObserver;
 }
 
 @synthesize memoryLoggingInterval = _memoryLoggingInterval;
+@synthesize excludedNotificationPrefixes = _excludedNotificationPrefixes;
 
 + (instancetype)sharedLogger
 {
@@ -55,7 +57,9 @@
 
 - (void)dealloc
 {
+	self.notificationLoggingEnabled = NO;
 	self.logfileRotationCheckInterval = 0;
+	self.memoryLoggingInterval = 0;
 	self.redirectStderr = NO;
 }
 
@@ -143,7 +147,7 @@
 	[self checkLogfileRotation];
 }
 
-- (NSArray *)logFileURLsOrderedByModificationDateReverse:(BOOL)reverse
+- (NSArray *)logFileURLsOrderedByModificationDate
 {
 	NSString *directory = [self logfileDirectory];
 	NSArray *fileURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:directory isDirectory:YES]
@@ -177,7 +181,7 @@
 		[file2 getResourceValue:&date2
 						 forKey:NSURLContentModificationDateKey
 						  error:NULL];
-		return reverse ? [date2 compare:date1] : [date1 compare:date2];
+		return [date1 compare:date2];
 	}];
 
 	return files;
@@ -189,7 +193,7 @@
 	NSUInteger logfileCount = 0;
 
 	// iterate over existing logfiles, newest first
-	for (NSURL *fileURL in [self logFileURLsOrderedByModificationDateReverse:YES]) {
+	for (NSURL *fileURL in [[self logFileURLsOrderedByModificationDate] reverseObjectEnumerator]) {
 
 		logfileCount += 1;
 
@@ -421,7 +425,7 @@
 		return NO;
 	}
 
-	for (NSURL *fileURL in [self logFileURLsOrderedByModificationDateReverse:NO]) {
+	for (NSURL *fileURL in [self logFileURLsOrderedByModificationDate]) {
 		@autoreleasepool {
 			NSData *inData = [NSData dataWithContentsOfURL:fileURL
 												   options:NSDataReadingMappedIfSafe
@@ -492,7 +496,7 @@
 	}
 }
 
-static const double kMemoryLoggingThreshold = 0.1;
+static const double kMemoryLoggingThreshold = 0.05;
 
 - (void)memoryLoggingTimerFired:(NSTimer *)timer
 {
@@ -517,6 +521,32 @@ static const double kMemoryLoggingThreshold = 0.1;
 	_memoryLoggingResidentSize = residentSize;
 	NSLog(@"resident size: %.1f MB", _memoryLoggingResidentSize / (1024.0 * 1024.0));
 }
+
+- (BOOL)notificationLoggingEnabled
+{
+	return _notificationObserver != nil;
+}
+
+- (void)setNotificationLoggingEnabled:(BOOL)notificationLoggingEnabled
+{
+	notificationLoggingEnabled = (_Bool)notificationLoggingEnabled;
+	if (self.notificationLoggingEnabled == notificationLoggingEnabled)
+		return;
+
+	if (_notificationObserver == nil) {
+		_notificationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:nil
+																				  object:nil
+																				   queue:nil
+																			  usingBlock:^(NSNotification *notification) {
+																				  if ([self.excludedNotificationPrefixes member:[notification name]] == nil)
+																					  NSLog(@"notification: %@", notification.name);
+																			  }];
+	} else {
+		[[NSNotificationCenter defaultCenter] removeObserver:_notificationObserver];
+		_notificationObserver = nil;
+	}
+}
+
 
 @end
 
