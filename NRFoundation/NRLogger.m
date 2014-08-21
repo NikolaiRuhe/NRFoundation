@@ -501,12 +501,10 @@ static const double kMemoryLoggingThreshold = 0.05;
 - (void)memoryLoggingTimerFired:(NSTimer *)timer
 {
 	uint64_t residentSize = [[UIDevice currentDevice] nr_residentSize];
-	double change = (residentSize - _memoryLoggingResidentSize) / (double)_memoryLoggingResidentSize;
+	double change = fabs(((int64_t)residentSize - (int64_t)_memoryLoggingResidentSize) / (double)_memoryLoggingResidentSize);
 
-	if (_memoryLoggingResidentSize != 0 && kMemoryLoggingThreshold > 0) {
-		if (change < kMemoryLoggingThreshold)
-			return;
-	}
+	if (_memoryLoggingResidentSize != 0 && change < kMemoryLoggingThreshold)
+		return;
 
 	[self logResidentSize:residentSize];
 }
