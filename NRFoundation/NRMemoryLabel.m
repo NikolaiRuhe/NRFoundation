@@ -106,11 +106,6 @@ static UIWindow *overlayWindow;
 	if ([screen respondsToSelector:NSSelectorFromString(@"fixedCoordinateSpace")]) {
 #if defined(__IPHONE_8_0) && __IPHONE_OS_VERSION_MIN_REQUIRED >= __IPHONE_8_0
 		frame = [screen.coordinateSpace convertRect:frame toCoordinateSpace:screen.fixedCoordinateSpace];
-#else
-		if (UIInterfaceOrientationIsLandscape([UIApplication sharedApplication].keyWindow.rootViewController.interfaceOrientation))
-			frame.size = (CGSize){ frame.size.height, frame.size.width };
-
-//		frame = [UIApplication sharedApplication].keyWindow.frame;
 #endif
 	}
 
