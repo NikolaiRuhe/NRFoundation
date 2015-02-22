@@ -7,6 +7,7 @@
 //
 
 #import "NRMemoryLabel.h"
+#import "NRNotificationCenter.h"
 #import "NRTimer.h"
 #import "NRDevice.h"
 
