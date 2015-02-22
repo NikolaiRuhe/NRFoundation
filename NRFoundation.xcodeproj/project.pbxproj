@@ -18,6 +18,7 @@
 		9129E181199CB6B300184A96 /* NRMemoryLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9129E180199CB6B300184A96 /* NRMemoryLabel.m */; };
 		9142A558166DFF150089094A /* NRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9142A557166DFF150089094A /* NRViewController.m */; };
 		9158298C16C534D600674002 /* NRNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 9158298B16C534D600674002 /* NRNotificationCenter.m */; };
+		915949941A99F70300512A3E /* NRFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 915949931A99F70300512A3E /* NRFileManager.m */; };
 		916BFBD416A5DCFD002DF3FA /* NRTimer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 91ABC2E815F66C4300405885 /* NRTimer.h */; };
 		91829D60189111370053627B /* NRDistanceFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 91829D5F189111370053627B /* NRDistanceFormatter.m */; };
 		91829D62189116990053627B /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91829D61189116990053627B /* CoreLocation.framework */; };
@@ -102,6 +103,8 @@
 		9142A557166DFF150089094A /* NRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRViewController.m; sourceTree = "<group>"; };
 		9158298A16C534D600674002 /* NRNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRNotificationCenter.h; sourceTree = "<group>"; };
 		9158298B16C534D600674002 /* NRNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRNotificationCenter.m; sourceTree = "<group>"; };
+		915949921A99F6FB00512A3E /* NRFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRFileManager.h; sourceTree = "<group>"; };
+		915949931A99F70300512A3E /* NRFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRFileManager.m; sourceTree = "<group>"; };
 		917724C118D83325005BDF9B /* NRMath.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NRMath.h; sourceTree = "<group>"; };
 		91829D5E189111370053627B /* NRDistanceFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRDistanceFormatter.h; sourceTree = "<group>"; };
 		91829D5F189111370053627B /* NRDistanceFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NRDistanceFormatter.m; sourceTree = "<group>"; };
@@ -231,6 +234,8 @@
 				91948CAD16C41A1B00257586 /* NRLogger.m */,
 				9158298A16C534D600674002 /* NRNotificationCenter.h */,
 				9158298B16C534D600674002 /* NRNotificationCenter.m */,
+				915949921A99F6FB00512A3E /* NRFileManager.h */,
+				915949931A99F70300512A3E /* NRFileManager.m */,
 				919C2EB315EB709000C834A6 /* NRObject.h */,
 				919C2EB415EB709000C834A6 /* NRObject.m */,
 				91067F2A1810576A00FF621B /* NRString.h */,
@@ -361,6 +366,7 @@
 				91C791E515EBA5E700D01DD0 /* NRActionSheet.m in Sources */,
 				91067F2C1810576A00FF621B /* NRString.m in Sources */,
 				91C791E915EBB5D100D01DD0 /* NRGestureRecognizer.m in Sources */,
+				915949941A99F70300512A3E /* NRFileManager.m in Sources */,
 				91C791EC15EBC29800D01DD0 /* NRControl.m in Sources */,
 				91ABC2EA15F66C4300405885 /* NRTimer.m in Sources */,
 				9142A558166DFF150089094A /* NRViewController.m in Sources */,
