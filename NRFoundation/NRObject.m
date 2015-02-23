@@ -71,7 +71,7 @@
 {
 	NSParameterAssert([[invocation methodSignature] numberOfArguments] == 2);
 	NSAssert(_target != nil, @"NRDelayedPerformProxy: charged proxy twice");
-	[_target nr_performSelectorDelayedOnMainThread:[invocation selector]];
+	[_target nr_performSelectorCoalescedOnMainThread:[invocation selector]];
 	_target = nil;
 }
 
@@ -96,40 +96,20 @@ static const char NRObjectTrampolineAsscociatedObjectKey[] = "NRObjectTrampoline
 	}
 }
 
-- (NRKVObserverID)nr_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(void(^)(id observee, id observer))block
+
+static void NRSynchronizedAccessToDelayedTargetsSet(void(^block)(CFMutableDictionaryRef *delayedTargetsPtr))
 {
-	// TODO: implement
-	[self doesNotRecognizeSelector:_cmd];
-	__builtin_unreachable();
-}
+	static CFMutableDictionaryRef delayedTargets;
 
-- (NRKVObserverID)nr_addObserverForKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(void(^)(id observee))block
-{
-	// TODO: implement
-	[self doesNotRecognizeSelector:_cmd];
-	__builtin_unreachable();
-}
-
-+ (void)nr_removeObservance:(NRKVObserverID)KVObserverID
-{
-	// TODO: implement
-	[self doesNotRecognizeSelector:_cmd];
-	__builtin_unreachable();
-}
-
-
-static CFMutableDictionaryRef _delayedTargets;
-
-static void NRPerformOnDelayedTargetsQueue(void(^block)())
-{
 	static dispatch_queue_t delayedTargetQueue;
-
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		delayedTargetQueue = dispatch_queue_create("NRDelayedTargetQueue", DISPATCH_QUEUE_SERIAL);
 	});
 
-	dispatch_sync(delayedTargetQueue, block);
+	dispatch_sync(delayedTargetQueue, ^{
+		block(&delayedTargets);
+	});
 }
 
 static void NRDelayedTargetsSetApplierFunction(const void *target, void *selector)
@@ -145,32 +125,32 @@ static void NRDelayedTargetsDictionaryApplierFunction(const void *key, const voi
 
 static void NRPerformDelayedSelectors(void)
 {
-	__block CFDictionaryRef delayedTargets;
+	__block CFDictionaryRef delayedTargetsCopy;
 
-	NRPerformOnDelayedTargetsQueue(^{
-		delayedTargets = CFDictionaryCreateCopy(kCFAllocatorDefault, _delayedTargets);
-		CFRelease(_delayedTargets);
-		_delayedTargets = NULL;
+	NRSynchronizedAccessToDelayedTargetsSet(^(CFMutableDictionaryRef *delayedTargetsPtr){
+		delayedTargetsCopy = CFDictionaryCreateCopy(kCFAllocatorDefault, *delayedTargetsPtr);
+		CFRelease(*delayedTargetsPtr);
+		*delayedTargetsPtr = NULL;
 	});
 
-	CFDictionaryApplyFunction(delayedTargets, NRDelayedTargetsDictionaryApplierFunction, NULL);
-	CFRelease(delayedTargets);
+	CFDictionaryApplyFunction(delayedTargetsCopy, NRDelayedTargetsDictionaryApplierFunction, NULL);
+	CFRelease(delayedTargetsCopy);
 }
 
-- (void)nr_performSelectorDelayedOnMainThread:(SEL)selector
+- (void)nr_performSelectorCoalescedOnMainThread:(SEL)selector
 {
-	NRPerformOnDelayedTargetsQueue(^{
-		if (_delayedTargets == NULL) {
-			_delayedTargets = CFDictionaryCreateMutable(kCFAllocatorDefault,
-														0,
-														NULL, // suitable for C strings
-														&kCFTypeDictionaryValueCallBacks);
+	NRSynchronizedAccessToDelayedTargetsSet(^(CFMutableDictionaryRef *delayedTargetsPtr){
+		if (*delayedTargetsPtr == NULL) {
+			*delayedTargetsPtr = CFDictionaryCreateMutable(kCFAllocatorDefault,
+														   0,
+														   NULL, // suitable for C strings
+														   &kCFTypeDictionaryValueCallBacks);
 			dispatch_async(dispatch_get_main_queue(), ^{
 				NRPerformDelayedSelectors();
 			});
 		}
 
-		CFMutableSetRef targets = (CFMutableSetRef)CFDictionaryGetValue(_delayedTargets, selector);
+		CFMutableSetRef targets = (CFMutableSetRef)CFDictionaryGetValue(*delayedTargetsPtr, selector);
 
 		if (targets == NULL) {
 			CFSetCallBacks setCallbacks = {
@@ -183,7 +163,7 @@ static void NRPerformDelayedSelectors(void)
 			};
 			targets = CFSetCreateMutable(kCFAllocatorDefault, 0, &setCallbacks);
 
-			CFDictionarySetValue(_delayedTargets, selector, targets);
+			CFDictionarySetValue(*delayedTargetsPtr, selector, targets);
 			CFRelease(targets);
 		}
 
@@ -191,7 +171,7 @@ static void NRPerformDelayedSelectors(void)
 	});
 }
 
-- (id)nr_performDelayedOnMainThread
+- (id)nr_performCoalescedOnMainThread
 {
 	return [[NRDelayedPerformProxy alloc] initWithTarget:self];
 }

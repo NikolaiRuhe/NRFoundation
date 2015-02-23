@@ -188,7 +188,7 @@ static long long fileSystemFreeSize(NSString *path)
 
 	NSString *cachesDirectory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES)[0];
 	NSString *testDirectory = [cachesDirectory stringByAppendingPathComponent:@"Test"];
-	NSLog(@"    preparing %ld test files...", fileCount);
+	NSLog(@"    preparing %ld test files...", (long)fileCount);
 
 	createTestDirectoryAtPath(testDirectory, fileCount / 2);
 	createTestDirectoryAtPath([testDirectory stringByAppendingPathComponent:@"SubDirectory"], fileCount / 2);

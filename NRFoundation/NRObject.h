@@ -16,12 +16,8 @@ typedef id NRKVObserverID;
 // Lifetime observation
 - (void)nr_performAfterDealloc:(void (^)(__unsafe_unretained id object))block;
 
-// KVO
-- (NRKVObserverID)nr_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(void(^)(id observee, id observer))block;
-- (NRKVObserverID)nr_addObserverForKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options block:(void(^)(id observee))block;
-+ (void)nr_removeObservance:(NRKVObserverID)KVObserverID;
-
-- (void)nr_performSelectorDelayedOnMainThread:(SEL)selector;
-- (id)nr_performDelayedOnMainThread;
+// Coalsecing selectors and delayed perform on main thread
+- (void)nr_performSelectorCoalescedOnMainThread:(SEL)selector;
+- (id)nr_performCoalescedOnMainThread;
 
 @end
