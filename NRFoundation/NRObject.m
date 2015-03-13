@@ -97,7 +97,7 @@ static const char NRObjectTrampolineAsscociatedObjectKey[] = "NRObjectTrampoline
 }
 
 
-static void NRSynchronizedAccessToDelayedTargetsSet(void(^block)(CFMutableDictionaryRef *delayedTargetsPtr))
+static void NRSynchronizedAccessToDelayedTargets(void(^block)(CFMutableDictionaryRef *delayedTargetsPtr))
 {
 	static CFMutableDictionaryRef delayedTargets;
 
@@ -127,7 +127,8 @@ static void NRPerformDelayedSelectors(void)
 {
 	__block CFDictionaryRef delayedTargetsCopy;
 
-	NRSynchronizedAccessToDelayedTargetsSet(^(CFMutableDictionaryRef *delayedTargetsPtr){
+	NRSynchronizedAccessToDelayedTargets(^(CFMutableDictionaryRef *delayedTargetsPtr){
+		assert(*delayedTargetsPtr != NULL);
 		delayedTargetsCopy = CFDictionaryCreateCopy(kCFAllocatorDefault, *delayedTargetsPtr);
 		CFRelease(*delayedTargetsPtr);
 		*delayedTargetsPtr = NULL;
@@ -139,7 +140,7 @@ static void NRPerformDelayedSelectors(void)
 
 - (void)nr_performSelectorCoalescedOnMainThread:(SEL)selector
 {
-	NRSynchronizedAccessToDelayedTargetsSet(^(CFMutableDictionaryRef *delayedTargetsPtr){
+	NRSynchronizedAccessToDelayedTargets(^(CFMutableDictionaryRef *delayedTargetsPtr){
 		if (*delayedTargetsPtr == NULL) {
 			*delayedTargetsPtr = CFDictionaryCreateMutable(kCFAllocatorDefault,
 														   0,
