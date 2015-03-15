@@ -18,7 +18,7 @@
 - (NSLocale *)locale
 {
 	if (_locale == nil)
-		_locale = [NSLocale currentLocale];
+		_locale = [NSLocale autoupdatingCurrentLocale];
 	return _locale;
 }
 
