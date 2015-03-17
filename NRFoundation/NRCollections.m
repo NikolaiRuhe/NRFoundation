@@ -14,8 +14,12 @@
 - (NSArray *)nr_map:(id (^)(id element))mapping
 {
 	NSMutableArray *result = [[NSMutableArray alloc] initWithCapacity:[self count]];
-	for (id element in self)
-		[result addObject:mapping(element)];
+	for (id element in self) {
+		id mappedElement = mapping(element);
+		if (mappedElement != nil) {
+			[result addObject:mappedElement];
+		}
+	}
 	return result;
 }
 
