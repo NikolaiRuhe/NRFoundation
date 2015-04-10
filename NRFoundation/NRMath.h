@@ -10,6 +10,7 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunreachable-code"
+#pragma clang diagnostic ignored "-Wabsolute-value"
 
 static inline CGFloat acosCG(CGFloat value)            { return sizeof(CGFloat) == 4 ? acosf(value)   : acos(value);   }
 static inline CGFloat asinCG(CGFloat value)            { return sizeof(CGFloat) == 4 ? asinf(value)   : asin(value);   }
