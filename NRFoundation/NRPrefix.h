@@ -126,8 +126,8 @@ static inline id NRAssertedCastHelper(id object, Class objcClass, const char *fi
 		return object;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wcstring-format-directive"
-	[[NSAssertionHandler currentHandler] handleFailureInFunction:[NSString stringWithUTF8String:function]
-															file:[NSString stringWithUTF8String:file]
+	[[NSAssertionHandler currentHandler] handleFailureInFunction:(NSString *)[NSString stringWithUTF8String:function]
+															file:(NSString *)[NSString stringWithUTF8String:file]
 													  lineNumber:line
 													 description:@"NR_ASSERTED_CAST: \"%s\" not of expected type \"%s\"", argumentName, typeName];
 #pragma clang diagnostic pop
