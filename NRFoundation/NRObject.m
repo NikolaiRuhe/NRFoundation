@@ -120,7 +120,7 @@ static void NRDelayedTargetsSetApplierFunction(const void *target, void *selecto
 
 static void NRDelayedTargetsDictionaryApplierFunction(const void *key, const void *value, void *context)
 {
-	CFSetApplyFunction((CFSetRef)value, NRDelayedTargetsSetApplierFunction, (void *)key);
+	CFSetApplyFunction((CFSetRef)value, NRDelayedTargetsSetApplierFunction, __DECONST(void *, key));
 }
 
 static void NRPerformDelayedSelectors(void)
@@ -151,7 +151,7 @@ static void NRPerformDelayedSelectors(void)
 			});
 		}
 
-		CFMutableSetRef targets = (CFMutableSetRef)CFDictionaryGetValue(*delayedTargetsPtr, selector);
+		CFMutableSetRef targets = __DECONST(void *, CFDictionaryGetValue(*delayedTargetsPtr, selector));
 
 		if (targets == NULL) {
 			CFSetCallBacks setCallbacks = {
