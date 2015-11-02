@@ -147,7 +147,7 @@
 	[self checkLogfileRotation];
 }
 
-- (NSArray *)logFileURLsOrderedByModificationDate
+- (NSArray *)logFileURLsSortNewestFirst:(BOOL)newestFirst notOlderThan:(NSDate *)dateThreshold
 {
 	NSString *directory = [self logfileDirectory];
 	NSArray *fileURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:directory isDirectory:YES]
@@ -160,14 +160,18 @@
 	for (NSURL *fileURL in fileURLs) {
 		if (! [[fileURL lastPathComponent] hasPrefix:[self filenamePrefix]])
 			continue;
-
 		NSNumber *isFile;
-		[fileURL getResourceValue:&isFile
-						   forKey:NSURLIsRegularFileKey
-							error:NULL];
+		if (! [fileURL getResourceValue:&isFile forKey:NSURLIsRegularFileKey error:NULL])
+			continue;
 		if (! [isFile boolValue])
 			continue;
+		[files addObject:fileURL];
 
+		NSDate *date;
+		if (! [fileURL getResourceValue:&date forKey:NSURLContentModificationDateKey error:NULL])
+			continue;
+		if ([date compare:dateThreshold] == NSOrderedAscending)
+			continue;
 		[files addObject:fileURL];
 	}
 
@@ -181,7 +185,7 @@
 		[file2 getResourceValue:&date2
 						 forKey:NSURLContentModificationDateKey
 						  error:NULL];
-		return [date1 compare:date2];
+		return newestFirst ? [date2 compare:date1] : [date1 compare:date2];
 	}];
 
 	return files;
@@ -193,7 +197,7 @@
 	NSUInteger logfileCount = 0;
 
 	// iterate over existing logfiles, newest first
-	for (NSURL *fileURL in [[self logFileURLsOrderedByModificationDate] reverseObjectEnumerator]) {
+	for (NSURL *fileURL in [self logFileURLsSortNewestFirst:YES notOlderThan:nil]) {
 
 		logfileCount += 1;
 
@@ -414,6 +418,11 @@
 
 - (BOOL)writeLogFilesToPath:(NSString *)path
 {
+	return [self copyLogToPath:path limitToLength:0 notBefore:nil];
+}
+
+- (BOOL)copyLogToPath:(NSString *)path limitToLength:(unsigned long long)maximumSize notBefore:(NSDate *)dateThreshold
+{
 	if (! [[NSFileManager defaultManager] createFileAtPath:path contents:[NSData data] attributes:nil]) {
 		NSLog(@"could not create archive at path: %@", path);
 		return NO;
@@ -424,21 +433,67 @@
 		NSLog(@"could not create file handle for writing at path: %@", path);
 		return NO;
 	}
+	[self enumerateLogContentsAfterDate:nil
+					   maximumFileCount:0
+						  maximumLength:maximumSize
+							  withBlock:^(NSURL *fileURL, NSData *contents) {
+								  [outFile writeData:contents];
+								  char message[] = "\n--- end of file ---\n\n";
+								  [outFile writeData:[NSData dataWithBytes:message length:sizeof(message) - 1]];
+							  }];
+	return YES;
+}
 
-	for (NSURL *fileURL in [self logFileURLsOrderedByModificationDate]) {
+- (void)enumerateLogContentsAfterDate:(NSDate *)dateThreshold maximumFileCount:(NSInteger)maximumFileCount maximumLength:(unsigned long long)maximumSize withBlock:(void(^)(NSURL *fileURL, NSData *contents))block
+{
+	NSArray *logFiles = [self logFileURLsSortNewestFirst:YES notOlderThan:dateThreshold];
+
+	// skip files to meet the maximumFileCount constraint if necessary
+	if (maximumFileCount != 0 && (NSInteger)logFiles.count > maximumFileCount) {
+		NSRange range = (NSRange){ maximumFileCount, logFiles.count - maximumFileCount };
+		logFiles = [logFiles subarrayWithRange:range];
+	}
+
+	// skip files that overflow the maximumLength constraint if necessary
+	unsigned long long accumulatedSize = 0;
+	if (maximumSize != 0) {
+		NSMutableArray *filteredLogFiles = [NSMutableArray array];
+		for (NSURL *fileURL in logFiles) {
+			[filteredLogFiles insertObject:fileURL atIndex:0];
+			NSNumber *fileSize;
+			if (! [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:NULL])
+				continue;
+			accumulatedSize += fileSize.unsignedLongLongValue;
+			if (accumulatedSize >= maximumSize)
+				break;
+		}
+		logFiles = filteredLogFiles;
+	}
+
+	for (NSURL *fileURL in logFiles) {
 		@autoreleasepool {
 			NSData *inData = [NSData dataWithContentsOfURL:fileURL
 												   options:NSDataReadingMappedIfSafe
 													 error:NULL];
-			if (inData != nil) {
-				[outFile writeData:inData];
-				char message[] = "\n--- end of file ---\n\n";
-				[outFile writeData:[NSData dataWithBytes:message length:sizeof(message) - 1]];
+			if (inData == nil)
+				continue;
+
+			if (maximumSize != 0 && maximumSize < accumulatedSize) {
+				// we have to skip bytes to match the maximum length constraint
+				unsigned long long overflowBytes = accumulatedSize - maximumSize;
+				unsigned long long fileBytes = inData.length;
+				if (overflowBytes >= fileBytes) {
+					accumulatedSize -= fileBytes;
+					continue;
+				}
+				inData = [inData subdataWithRange:(NSRange){ (NSInteger)overflowBytes, (NSInteger)(fileBytes - overflowBytes)}];
+				accumulatedSize = maximumSize;
 			}
+
+			if ([inData length] != 0)
+				block(fileURL, inData);
 		}
 	}
-
-	return YES;
 }
 
 - (BOOL)isDebuggerAttatchedToConsole

@@ -66,7 +66,7 @@
 // create a long concatenated file of all log files in the log directory
 - (BOOL)writeLogFilesToPath:(NSString *)path;
 
-// Scan the log file directory for old log files and return them sorted by modification date.
-- (NSArray *)logFileURLsOrderedByModificationDate;
+// Enumerate the log file contents, oldest first
+- (void)enumerateLogContentsAfterDate:(NSDate *)dateThreshold maximumFileCount:(NSInteger)maximumFileCount maximumLength:(unsigned long long)maximumSize withBlock:(void(^)(NSURL *fileURL, NSData *contents))block;
 
 @end
