@@ -151,7 +151,7 @@
 {
 	NSString *directory = [self logfileDirectory];
 	NSArray *fileURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:[NSURL fileURLWithPath:directory isDirectory:YES]
-													  includingPropertiesForKeys:@[NSURLIsRegularFileKey, NSURLContentModificationDateKey]
+													  includingPropertiesForKeys:@[NSURLIsRegularFileKey, NSURLFileSizeKey, NSURLContentModificationDateKey]
 																		 options:NSDirectoryEnumerationSkipsHiddenFiles
 																		   error:NULL];
 
@@ -165,13 +165,14 @@
 			continue;
 		if (! [isFile boolValue])
 			continue;
-		[files addObject:fileURL];
 
-		NSDate *date;
-		if (! [fileURL getResourceValue:&date forKey:NSURLContentModificationDateKey error:NULL])
-			continue;
-		if ([date compare:dateThreshold] == NSOrderedAscending)
-			continue;
+		if (dateThreshold != nil) {
+			NSDate *date;
+			if (! [fileURL getResourceValue:&date forKey:NSURLContentModificationDateKey error:NULL])
+				continue;
+			if ([date compare:dateThreshold] == NSOrderedAscending)
+				continue;
+		}
 		[files addObject:fileURL];
 	}
 
@@ -197,7 +198,8 @@
 	NSUInteger logfileCount = 0;
 
 	// iterate over existing logfiles, newest first
-	for (NSURL *fileURL in [self logFileURLsSortNewestFirst:YES notOlderThan:nil]) {
+	NSArray *fileURLs = [self logFileURLsSortNewestFirst:YES notOlderThan:nil];
+	for (NSURL *fileURL in fileURLs) {
 
 		logfileCount += 1;
 
@@ -418,11 +420,6 @@
 
 - (BOOL)writeLogFilesToPath:(NSString *)path
 {
-	return [self copyLogToPath:path limitToLength:0 notBefore:nil];
-}
-
-- (BOOL)copyLogToPath:(NSString *)path limitToLength:(unsigned long long)maximumSize notBefore:(NSDate *)dateThreshold
-{
 	if (! [[NSFileManager defaultManager] createFileAtPath:path contents:[NSData data] attributes:nil]) {
 		NSLog(@"could not create archive at path: %@", path);
 		return NO;
@@ -435,7 +432,7 @@
 	}
 	[self enumerateLogContentsAfterDate:nil
 					   maximumFileCount:0
-						  maximumLength:maximumSize
+						  maximumLength:0
 							  withBlock:^(NSURL *fileURL, NSData *contents) {
 								  [outFile writeData:contents];
 								  char message[] = "\n--- end of file ---\n\n";
@@ -449,10 +446,8 @@
 	NSArray *logFiles = [self logFileURLsSortNewestFirst:YES notOlderThan:dateThreshold];
 
 	// skip files to meet the maximumFileCount constraint if necessary
-	if (maximumFileCount != 0 && (NSInteger)logFiles.count > maximumFileCount) {
-		NSRange range = (NSRange){ maximumFileCount, logFiles.count - maximumFileCount };
-		logFiles = [logFiles subarrayWithRange:range];
-	}
+	if (maximumFileCount != 0 && (NSInteger)logFiles.count > maximumFileCount)
+		logFiles = [logFiles subarrayWithRange:(NSRange){ 0, maximumFileCount }];
 
 	// skip files that overflow the maximumLength constraint if necessary
 	unsigned long long accumulatedSize = 0;
@@ -470,7 +465,7 @@
 		logFiles = filteredLogFiles;
 	}
 
-	for (NSURL *fileURL in logFiles) {
+	for (NSURL *fileURL in logFiles.reverseObjectEnumerator) {
 		@autoreleasepool {
 			NSData *inData = [NSData dataWithContentsOfURL:fileURL
 												   options:NSDataReadingMappedIfSafe
