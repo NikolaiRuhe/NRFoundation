@@ -454,7 +454,7 @@
 	if (maximumSize != 0) {
 		NSMutableArray *filteredLogFiles = [NSMutableArray array];
 		for (NSURL *fileURL in logFiles) {
-			[filteredLogFiles insertObject:fileURL atIndex:0];
+			[filteredLogFiles addObject:fileURL];
 			NSNumber *fileSize;
 			if (! [fileURL getResourceValue:&fileSize forKey:NSURLFileSizeKey error:NULL])
 				continue;
