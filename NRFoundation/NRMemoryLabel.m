@@ -75,8 +75,8 @@ static void setup(NRMemoryLabel *self)
 													  options:NSStringDrawingUsesLineFragmentOrigin
 												   attributes:@{ NSFontAttributeName : self.font }
 													  context:nil].size;
-	preferredSize.width = ceil(preferredSize.width);
-	preferredSize.height = ceil(preferredSize.height);
+	preferredSize.width = ceilCG(preferredSize.width);
+	preferredSize.height = ceilCG(preferredSize.height);
 
 	return preferredSize;
 }
@@ -115,7 +115,7 @@ static UIWindow *overlayWindow;
 	CGRect bounds = memoryLabel.bounds;
 
 	bounds.origin = frame.origin;
-	bounds.origin.x += round(0.5 * (frame.size.width - bounds.size.width));
+	bounds.origin.x += roundCG((CGFloat)0.5 * (frame.size.width - bounds.size.width));
 	bounds.origin.y += frame.size.height - bounds.size.height;
 
 	overlayWindow = [[UIWindow alloc] initWithFrame:bounds];
