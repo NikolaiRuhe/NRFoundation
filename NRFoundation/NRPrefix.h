@@ -41,7 +41,10 @@
 #endif
 
 #ifdef UNIT_TESTS
+	#pragma clang diagnostic push
+	#pragma clang diagnostic ignored "-Wpartial-availability"
 	#import <XCTest/XCTest.h>
+	#pragma clang diagnostic pop
 #endif
 
 
