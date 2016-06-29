@@ -17,6 +17,13 @@ CLANG_ENABLE_OBJC_ARC              = YES
 CODE_SIGN_IDENTITY[sdk=iphoneos*]  = iPhone Developer
 ENABLE_STRICT_OBJC_MSGSEND         = YES
 
+// ------------------- Static Analyzer warnings ------------------
+
+CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES
+CLANG_ANALYZER_NONNULL                     = YES
+CLANG_ANALYZER_SECURITY_FLOATLOOPCOUNTER   = YES
+CLANG_ANALYZER_SECURITY_INSECUREAPI_RAND   = YES
+CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES
 
 
 // ---------------------- Compiler warnings ----------------------
