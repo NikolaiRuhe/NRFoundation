@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 typedef void (^NRActionSheetAction)(UIActionSheet *actionSheet, NSUInteger buttonIndex);
+#pragma clang diagnostic push
 
 
 @interface UIActionSheet (NRActionSheet)
