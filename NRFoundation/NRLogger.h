@@ -69,4 +69,6 @@
 // Enumerate the log file contents, oldest first
 - (void)enumerateLogContentsAfterDate:(NSDate *)dateThreshold maximumFileCount:(NSInteger)maximumFileCount maximumLength:(unsigned long long)maximumSize withBlock:(void(^)(NSURL *fileURL, NSData *contents))block;
 
+@property (nonatomic, readonly) NSString *contents;
+
 @end

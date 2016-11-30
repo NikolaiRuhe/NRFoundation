@@ -27,6 +27,7 @@
 @implementation NRLogger
 {
 	int _stderrFileDescriptor;
+	NSString *_currentLogFilePath;
 	NSTimer *_logfileRotationTimer;
 	NSTimeInterval _logfileRotationCheckInterval;
 	NSTimer *_memoryLoggingTimer;
@@ -145,6 +146,15 @@
 - (void)logfileRotationTimerFired:(NSTimer *)timer
 {
 	[self checkLogfileRotation];
+}
+
+- (NSString *)contents
+{
+	NSData *data = [NSData dataWithContentsOfFile:_currentLogFilePath];
+	if (data == nil)
+		return @"";
+	NSString *contents = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	return contents ?: @"";
 }
 
 - (NSArray *)logFileURLsSortNewestFirst:(BOOL)newestFirst notOlderThan:(NSDate *)dateThreshold
@@ -362,6 +372,7 @@
 	@synchronized (self) {
 
 		NSString *path = [self newLogFilename];
+
 		const char *logfilename = [[NSFileManager defaultManager] fileSystemRepresentationWithPath:path];
 
 		int fd = open(logfilename, O_RDWR | O_CREAT | O_TRUNC, 0666);
@@ -393,6 +404,7 @@
 
 		[self removeOldLogfiles];
 
+		_currentLogFilePath = path;
 		return YES;
 	}
 }
@@ -412,6 +424,7 @@
 
 		close(_stderrFileDescriptor);
 		_stderrFileDescriptor = -1;
+		_currentLogFilePath = nil;
 
 		// print message to original stderr
 		dprintf(STDERR_FILENO, "stopped redirecting stderr\n");
