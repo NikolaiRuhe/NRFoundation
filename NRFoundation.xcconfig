@@ -31,7 +31,7 @@ CLANG_ANALYZER_SECURITY_INSECUREAPI_STRCPY = YES
 // We start by enabling all warnings using -Weverything and treating them as errors
 
 GCC_TREAT_WARNINGS_AS_ERRORS       = YES
-WARNING_CFLAGS                     = -Weverything $(NR_EXPLICIT_WARNING_CFLAGS) $(NR_DISABLED_WARNING_CFLAGS) $(NR_ADDITIONAL_WARNING_CFLAGS)
+WARNING_CFLAGS                     = -Weverything $(NR_NO_AUTO_IMPORT) $(NR_EXPLICIT_WARNING_CFLAGS) $(NR_DISABLED_WARNING_CFLAGS) $(NR_ADDITIONAL_WARNING_CFLAGS)
 
 // extra warnings that somehow seem to be excluded from -Weverything
 NR_EXPLICIT_WARNING_CFLAGS         = -Wenum-conversion
@@ -43,6 +43,7 @@ NR_ADDITIONAL_WARNING_CFLAGS       =
 NR_DISABLED_WARNING_CFLAGS         = $(NR_NO_DIRECT_IVAR_ACCESS) $(NR_NO_UNUSED_MACROS) $(NR_NO_FLOAT_EQUAL) $(NR_NO_ARC_REPEATED_USE_OF_WEAK) $(NR_NO_MISSING_NORETURN) $(NR_NO_LANGUAGE_EXTENSION_TOKEN) $(NR_NO_GNU) $(NR_NO_VARIADIC_MACROS) $(NR_NO_CSTRING_FORMAT_DIRECTIVE)
 
 // unwanted warnings:
+NR_NO_AUTO_IMPORT                  = -Wno-auto-import
 NR_NO_DIRECT_IVAR_ACCESS           = -Wno-direct-ivar-access
 NR_NO_UNUSED_MACROS                = -Wno-unused-macros
 NR_NO_FLOAT_EQUAL                  = -Wno-float-equal
