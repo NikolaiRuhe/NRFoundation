@@ -13,14 +13,10 @@
 #import <sys/ioctl.h>
 #import <sys/param.h>
 
-#if TARGET_IPHONE_SIMULATOR
-	#import <sys/conf.h>
-#else
-// I don't know why <sys/conf.h> is missing on the iPhoneOS.platform
-// It's there on iPhoneSimulator.platform, though. We need it for D_DISK, only:
-	#if ! defined(D_DISK)
-		#define	D_DISK	2
-	#endif
+// This used to be present in <sys/conf.h>. It's missing on the iPhoneOS.platform for a long time now
+// and since Xcode 9 also on iPhoneSimulator.platform.
+#if ! defined(D_DISK)
+#define	D_DISK	2
 #endif
 
 
