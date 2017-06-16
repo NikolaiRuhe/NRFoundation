@@ -10,6 +10,7 @@
 #import "NRNotificationCenter.h"
 #import "NRTimer.h"
 #import "NRDevice.h"
+#import "NRMath.h"
 
 @implementation NRMemoryLabel
 {

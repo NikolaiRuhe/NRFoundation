@@ -21,12 +21,15 @@
 
 - (NSString *)nr_stringByAddingAllRequiredPercentEscapesUsingEncoding:(NSStringEncoding)encoding
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	CFStringRef string = CFURLCreateStringByAddingPercentEscapes(NULL,
 																 (__bridge CFStringRef)self,
 																 NULL,
 																 CFSTR(":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"),
 																 CFStringConvertNSStringEncodingToEncoding(encoding));
 	return (__bridge_transfer NSString *)string;
+#pragma clang diagnostic pop
 }
 
 @end
